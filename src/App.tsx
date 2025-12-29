@@ -21,8 +21,8 @@ function App() {
       <HeroSection
         firstChild={
           <div className="flex items-center justify-center px-4 h-full w-full py-10 md:py-0">
-            <div className="w-full max-w-[350px] aspect-[9/19] border-[6px] border-gray-900 rounded-[2.5rem] shadow-xl overflow-hidden bg-white">
-              {/* Phone Content Goes Here */}
+            <div className="w-full max-w-[350px] aspect-[9/19] border-[6px] border-gray-900 rounded-[2.5rem] shadow-xl/30 overflow-hidden bg-white relative">
+              <div className="w-40 rounded-full h-8 absolute top-6 left-1/2 -translate-x-1/2 -translate-y-1/2 border"> </div>
             </div>
           </div>
         }
