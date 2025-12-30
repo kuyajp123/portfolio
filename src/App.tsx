@@ -1,4 +1,5 @@
 import Cards from '@/components/cards/Cards';
+import MobileDevice from '@/components/MobileDevice';
 import HeroSection from '@/layouts/HeroSection';
 import {
   ArrowPathRoundedSquareIcon,
@@ -7,23 +8,117 @@ import {
   EllipsisHorizontalIcon,
   HeartIcon as HeartOutlineIcon,
 } from '@heroicons/react/24/outline';
-import { CheckBadgeIcon, HeartIcon } from '@heroicons/react/24/solid';
+import { BookmarkIcon, CheckBadgeIcon, HeartIcon } from '@heroicons/react/24/solid';
 import { Avatar } from '@heroui/react';
 import { useTheme } from '@heroui/use-theme';
+import { EllipsisVertical, Search, Send, SquarePlay } from 'lucide-react';
 import { useState } from 'react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+import { Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import House from './assets/house-solid-full.svg?react';
 useTheme;
 
+const images = ['./me/museum.png', './me/coffee.png', './me/laguna.png', './me/ov.png', './me/tanza.png'];
+
 function App() {
-  const [likes, setLikes] = useState(false);
+  const [karinaLikes, setKarinaLikes] = useState(false);
+  const [postLikes, setPostLikes] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <div>
       <HeroSection
         firstChild={
           <div className="flex items-center justify-center px-4 h-full w-full py-10 md:py-0">
-            <div className="w-full max-w-[350px] aspect-[9/19] border-[6px] border-gray-900 rounded-[2.5rem] shadow-xl/30 overflow-hidden bg-white relative">
-              <div className="w-40 rounded-full h-8 absolute top-6 left-1/2 -translate-x-1/2 -translate-y-1/2 border"> </div>
-            </div>
+            <MobileDevice className="relative">
+              <div className="flex flex-row items-center gap-3 px-3">
+                <div className="rounded-full bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 p-[2px] cursor-pointer">
+                  <Avatar
+                    src="./me/profile.png"
+                    onClick={() => {}}
+                    className="border-2 border-white box-content size-7"
+                  />
+                </div>
+                <div className="mr-auto">
+                  <p className="font-bold text-xs cursor-pointer">jeyps.css</p>
+                  <p className="text-[10px]">Trece Martires, Cavite</p>
+                </div>
+                <EllipsisVertical size={20} className="cursor-pointer" />
+              </div>
+
+              <div className="h-[450px] w-full mt-2 relative">
+                {/* Slide Counter */}
+                <div className="absolute top-3 right-3 bg-black/50 text-gray-100 text-[10px] px-2 py-[2px] rounded-full z-50 font-bold">
+                  {activeIndex + 1}/{images.length}
+                </div>
+
+                <div className="w-full h-full">
+                  <Swiper
+                    modules={[Pagination]}
+                    pagination={{ clickable: true, dynamicBullets: true }}
+                    onSlideChange={swiper => setActiveIndex(swiper.activeIndex)}
+                  >
+                    {images.map((image, index) => (
+                      <SwiperSlide key={index}>
+                        <img src={image} alt="image" className="w-full h-full object-cover" />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </div>
+
+                <div className="w-full flex flex-row p-2">
+                  <div className="flex flex-row mr-auto gap-2">
+                    <div>
+                      {postLikes ? (
+                        <HeartIcon
+                          className="size-6 inline mr-1 cursor-pointer text-red-500"
+                          onClick={() => setPostLikes(false)}
+                        />
+                      ) : (
+                        <HeartOutlineIcon
+                          className="size-6 inline mr-1 cursor-pointer"
+                          onClick={() => setPostLikes(true)}
+                        />
+                      )}
+                      <p className="text-[10px] inline">12M</p>
+                    </div>
+                    <div>
+                      <ChatBubbleOvalLeftIcon className="size-6 inline mr-1" />
+                      <p className="text-[10px] inline">120,234</p>
+                    </div>
+                    <div>
+                      <ArrowPathRoundedSquareIcon className="size-6 inline mr-1" />
+                      <p className="text-[10px] inline">302,435</p>
+                    </div>
+                    <div>
+                      <Send className="size-6 inline mr-1" strokeWidth={1.25} stroke="black" />
+                      <p className="text-[10px] inline">11,673</p>
+                    </div>
+                  </div>
+                  <BookmarkIcon className="size-6" />
+                </div>
+
+                <div className="px-2">
+                  <p className="text-xs mb-1">
+                    <span className="font-bold">jeyps.css</span> Hello World
+                  </p>
+
+                  <p className="text-[10px] text-gray-500">Dec 30</p>
+                </div>
+
+                <div className="absolute h-18 pb-4 w-full items-center justify-around flex flex-row -bottom-45 border border-gray-300 gap-1 z-50 bg-white dark:bg-gray-800">
+                  <House className="size-6 " />
+                  <SquarePlay size={20} strokeWidth={1.5} stroke="black" />
+                  <Send size={20} strokeWidth={1.5} stroke="black" />
+                  <Search size={20} strokeWidth={1.5} stroke="black" />
+                  <Avatar src="./me/profile.png" className="size-6" />
+                </div>
+              </div>
+            </MobileDevice>
           </div>
         }
         secondChild={
@@ -51,13 +146,16 @@ function App() {
                 }
                 footer={
                   <div>
-                    {likes ? (
+                    {karinaLikes ? (
                       <HeartIcon
                         className="inline size-6 mb-1 cursor-pointer text-red-500"
-                        onClick={() => setLikes(false)}
+                        onClick={() => setKarinaLikes(false)}
                       />
                     ) : (
-                      <HeartOutlineIcon className="inline size-6 mb-1 cursor-pointer" onClick={() => setLikes(true)} />
+                      <HeartOutlineIcon
+                        className="inline size-6 mb-1 cursor-pointer"
+                        onClick={() => setKarinaLikes(true)}
+                      />
                     )}{' '}
                     <p className="inline">34.6 M likes</p>
                     &nbsp;&nbsp;&nbsp;

@@ -1,26 +1,25 @@
-.swiper {
-  width: 100%;
-  height: 100%;
-}
-
-.swiper-slide {
-  text-align: center;
-  font-size: 18px;
-  background: #444;
-
-  /* Center slide text vertically */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 @import 'tailwindcss';
 
-@config "../../tailwind.config.js";
+@plugin "@heroui/theme";
+
+@source "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
+
+/* Swiper Pagination Customization */
+.swiper-pagination-bullet {
+  width: 1px !important;
+  height: 1px !important;
+  background: #ffffff !important;
+  opacity: 0.5 !important;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1 !important;
+  background: #ffffff !important;
+}
+
+.swiper-pagination-fraction,
+.swiper-pagination-custom,
+.swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+  bottom: 25px !important;
+}
