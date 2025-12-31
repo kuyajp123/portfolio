@@ -1,5 +1,6 @@
 import Cards from '@/components/cards/Cards';
 import MobileDevice from '@/components/MobileDevice';
+import ThemeSwitch from '@/components/ThemeSwitch';
 import HeroSection from '@/layouts/HeroSection';
 import {
   ArrowPathRoundedSquareIcon,
@@ -10,7 +11,6 @@ import {
 } from '@heroicons/react/24/outline';
 import { BookmarkIcon, CheckBadgeIcon, HeartIcon } from '@heroicons/react/24/solid';
 import { Avatar } from '@heroui/react';
-import { useTheme } from '@heroui/use-theme';
 import { EllipsisVertical, Search, Send, SquarePlay } from 'lucide-react';
 import { useState } from 'react';
 import 'swiper/css';
@@ -20,7 +20,6 @@ import 'swiper/css/scrollbar';
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import House from './assets/house-solid-full.svg?react';
-useTheme;
 
 const images = ['./me/museum.png', './me/coffee.png', './me/laguna.png', './me/ov.png', './me/tanza.png'];
 
@@ -30,12 +29,26 @@ function App() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <div>
+    <div className="relative min-h-screen selection:bg-purple-500/30">
+      <div className="fixed inset-0 -z-10 h-full w-full bg-white dark:bg-zinc-950 transition-colors duration-500 overflow-hidden">
+        <div
+          className="absolute top-[-10%] right-[-5%] h-[500px] w-[500px] rounded-full bg-[#5f55fa]/20 blur-[120px] dark:bg-[#4f46e5]/20 pointer-events-none mix-blend-multiply dark:mix-blend-normal animate-pulse"
+          style={{ animationDuration: '4s' }}
+        />
+        <div
+          className="absolute top-[20%] left-[-10%] h-[400px] w-[400px] rounded-full bg-[#f72585]/20 blur-[100px] dark:bg-[#9333ea]/15 pointer-events-none mix-blend-multiply dark:mix-blend-normal animate-pulse"
+          style={{ animationDuration: '6s', animationDelay: '1s' }}
+        />
+        <div
+          className="absolute bottom-[-10%] right-[20%] h-[600px] w-[600px] rounded-full bg-[#4cc9f0]/20 blur-[120px] dark:bg-indigo-900/20 pointer-events-none mix-blend-multiply dark:mix-blend-normal animate-pulse"
+          style={{ animationDuration: '5s', animationDelay: '2s' }}
+        />
+      </div>
       <HeroSection
         firstChild={
           <div className="flex items-center justify-center px-4 h-full w-full py-10 md:py-0">
             <MobileDevice className="relative">
-              <div className="flex flex-row items-center gap-3 px-3">
+              <div className="flex flex-row items-center gap-3 px-3 dark:text-white">
                 <div className="rounded-full bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 p-[2px] cursor-pointer">
                   <Avatar
                     src="./me/profile.png"
@@ -71,7 +84,7 @@ function App() {
                   </Swiper>
                 </div>
 
-                <div className="w-full flex flex-row p-2">
+                <div className="w-full flex flex-row p-2 dark:text-white">
                   <div className="flex flex-row mr-auto gap-2">
                     <div>
                       {postLikes ? (
@@ -96,26 +109,26 @@ function App() {
                       <p className="text-[10px] inline">302,435</p>
                     </div>
                     <div>
-                      <Send className="size-5 inline mr-1" strokeWidth={1.25} stroke="black" />
+                      <Send className="size-5 inline mr-1 stroke-black dark:stroke-white" strokeWidth={1.25} />
                       <p className="text-[10px] inline">11,673</p>
                     </div>
                   </div>
                   <BookmarkIcon className="size-6" />
                 </div>
 
-                <div className="px-2">
+                <div className="px-2 dark:text-white">
                   <p className="text-xs mb-1">
                     <span className="font-bold">jeyps.css</span> Hello World
                   </p>
 
-                  <p className="text-[10px] text-gray-500">Dec 30</p>
+                  <p className="text-[10px] text-gray-500 dark:text-gray-400">Dec 30</p>
                 </div>
 
-                <div className="absolute h-18 pb-4 w-full items-center justify-around flex flex-row -bottom-45 border border-gray-300 gap-1 z-50 bg-white dark:bg-gray-800">
-                  <House className="size-6 " />
-                  <SquarePlay size={20} strokeWidth={1.5} stroke="black" />
-                  <Send size={20} strokeWidth={1.5} stroke="black" />
-                  <Search size={20} strokeWidth={1.5} stroke="black" />
+                <div className="absolute h-18 pb-4 w-full items-center justify-around flex flex-row -bottom-45 border border-l-gray-300 border-r-gray-300 gap-1 z-50 bg-white dark:bg-zinc-900 dark:border-zinc-800 dark:border-l-zinc-800 dark:border-r-zinc-800 dark:text-white">
+                  <House className="size-6 dark:fill-white" />
+                  <SquarePlay size={20} strokeWidth={1.5} className="stroke-black dark:stroke-white" />
+                  <Send size={20} strokeWidth={1.5} className="stroke-black dark:stroke-white" />
+                  <Search size={20} strokeWidth={1.5} className="stroke-black dark:stroke-white" />
                   <Avatar src="./me/profile.png" className="size-6" />
                 </div>
               </div>
@@ -125,10 +138,15 @@ function App() {
         secondChild={
           <div className="flex flex-col items-center justify-center relative gap-8 py-10 w-full px-4 md:px-0 md:grid md:grid-cols-2 md:grid-rows-3 md:h-full md:py-0 md:gap-0">
             <div className="relative z-10 text-center md:col-span-2 md:row-start-2 md:place-self-center">
-              <p className="text-4xl md:text-7xl font-bold text-indigo-900 text-shadow-lg/10">John Paul Naag</p>
-              <p className="text-sm md:text-lg mt-2 text-indigo-900">
+              <p className="text-4xl md:text-7xl font-bold text-indigo-900 text-shadow-lg/10 dark:text-indigo-500">
+                John Paul Naag
+              </p>
+              <p className="text-sm md:text-lg mt-2 text-indigo-900 dark:text-indigo-500">
                 The strongest of all time. Aspiring Full Stack Developer.
               </p>
+            </div>
+            <div className="absolute top-4 right-4 z-50">
+              <ThemeSwitch />
             </div>
             <div className="relative w-full flex justify-center md:block md:w-auto md:col-start-1 md:row-start-1 md:justify-self-start md:self-end md:ml-10 md:mb-5">
               <Cards
@@ -168,7 +186,7 @@ function App() {
                 }
               />
             </div>
-            <div className="relative w-full flex justify-center md:block md:w-auto md:col-start-2 md:row-start-1 md:justify-self-end md:self-end md:mr-10 md:mb-5">
+            <div className="relative w-full flex justify-center md:block md:w-auto md:col-start-2 md:row-start-1 md:justify-self-end md:self-end md:mr-20 -md:mb-10">
               <Cards
                 header={
                   <div className="flex flex-row items-center gap-2">
@@ -182,8 +200,7 @@ function App() {
                 }
                 body={
                   <p>
-                    I hope I can collaborate with you <br /> soon, <span className="text-sky-400">@Naag</span>
-                    😭😭🙏🙏
+                    Sana maka kulab ko si <span className="text-sky-400">@Naag</span> <br /> please 😭🙏
                   </p>
                 }
                 footer={

@@ -40,7 +40,7 @@ const MobileDevice = ({ children, className }: MobileDeviceProps) => {
           </div>
 
           {/* status bar */}
-          <div className="h-full w-full bg-gray-100">
+          <div className="h-full w-full bg-gray-100 dark:bg-zinc-900 dark:text-white">
             <div className="flex flex-row items-center justify-between p-2">
               <p className="ml-4 text-sm font-bold">{time}</p>
               <div className="flex flex-row items-center mr-2">
