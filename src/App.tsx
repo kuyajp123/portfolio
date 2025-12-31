@@ -61,6 +61,7 @@ function App() {
                     modules={[Pagination]}
                     pagination={{ clickable: true, dynamicBullets: true }}
                     onSlideChange={swiper => setActiveIndex(swiper.activeIndex)}
+                    className="h-full"
                   >
                     {images.map((image, index) => (
                       <SwiperSlide key={index}>
@@ -95,7 +96,7 @@ function App() {
                       <p className="text-[10px] inline">302,435</p>
                     </div>
                     <div>
-                      <Send className="size-6 inline mr-1" strokeWidth={1.25} stroke="black" />
+                      <Send className="size-5 inline mr-1" strokeWidth={1.25} stroke="black" />
                       <p className="text-[10px] inline">11,673</p>
                     </div>
                   </div>

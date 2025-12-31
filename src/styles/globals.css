@@ -1,13 +1,10 @@
 @import 'tailwindcss';
-
-@plugin "@heroui/theme";
-
-@source "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
+@config "../../tailwind.config.js";
 
 /* Swiper Pagination Customization */
 .swiper-pagination-bullet {
-  width: 1px !important;
-  height: 1px !important;
+  width: 6px !important;
+  height: 6px !important;
   background: #ffffff !important;
   opacity: 0.5 !important;
 }
