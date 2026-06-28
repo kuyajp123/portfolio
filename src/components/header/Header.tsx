@@ -3,6 +3,7 @@ import { ThemeToggle } from '@/components/button/Theme';
 import { GithubLink, LinkedinLink, SendEmail } from '@/constant/links';
 import { useState } from 'react';
 import { BsPhoneFlip } from 'react-icons/bs';
+import { FiDownload } from 'react-icons/fi';
 
 export const Header = () => {
   const [isFrontendActive, setIsFrontendActive] = useState(true);
@@ -19,6 +20,10 @@ export const Header = () => {
           <SendEmail />
           <GithubLink />
           <LinkedinLink />
+          <a href="/resume.pdf" download className="flex flex-row items-center px-2 bg-gray-300 dark:bg-gray-800 text-sm cursor-pointer rounded">
+            Download CV
+            <FiDownload className="inline ml-1" size={18} />
+          </a>
         </div>
       </div>
       <div className="flex flex-col justify-between self-stretch ml-auto py-4 ">
