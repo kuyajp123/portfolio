@@ -21,7 +21,7 @@ const projects: Project[] = [
     title: 'Rescuenect',
     subtitle:
       'A disaster risk management system that connects community members with emergency services during emergencies.',
-    label: 'Best thesis AY 2025-2026',
+    label: 'Best research paper AY 2025-2026',
     date: '2025 - 2026',
   },
   {

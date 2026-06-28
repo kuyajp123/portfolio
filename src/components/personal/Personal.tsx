@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/cards/Card';
+import { CardRowData } from '@/components/ui/cards/CardRowData';
 import { FaUser } from 'react-icons/fa6';
 import { GiGraduateCap } from 'react-icons/gi';
 import { GrLanguage } from 'react-icons/gr';
@@ -38,20 +38,5 @@ const objects = [
 ];
 
 export const PersonalDetails = () => {
-  return (
-    <Card>
-      <h1 className="mb-2">Personal Details</h1>
-      <div className="flex flex-col gap-4">
-        {objects.map((obj, index) => (
-          <div className="flex flex-row justify-between" key={obj.key + index}>
-            <div className="flex items-center">
-              {obj.icon}
-              <p className="text-sm font-semibold">{obj.label}</p>
-            </div>
-            <span className="text-sm mt-1 font-semibold">{obj.value}</span>
-          </div>
-        ))}
-      </div>
-    </Card>
-  );
+  return <CardRowData sectionTitle="Personal Details" objects={objects} />;
 };

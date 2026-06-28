@@ -1,5 +1,5 @@
 import { Card } from '@/components/ui/cards/Card';
-import { Chip } from '@/components/ui/cards/Chip';
+import { Chip } from '@/components/ui/chip/Chip';
 import { backendTechStack, devOpsAndCloudTechStack, frontendTechStack } from '@/pages/techStack/_components/constant';
 import { IoIosArrowForward } from 'react-icons/io';
 import { Link } from 'react-router-dom';
@@ -7,7 +7,10 @@ import { Link } from 'react-router-dom';
 export const TechStack = () => {
   return (
     <Card>
-      <Link to="/tech-stack" className="text-sm text-muted-foreground flex flex-row font-light justify-end items-center gap-1">
+      <Link
+        to="/tech-stack"
+        className="text-sm text-muted-foreground flex flex-row font-light justify-end items-center gap-1"
+      >
         View All <IoIosArrowForward />
       </Link>
       <div>
