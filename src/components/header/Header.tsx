@@ -3,7 +3,6 @@ import { ThemeToggle } from '@/components/button/Theme';
 import { GithubLink, LinkedinLink, SendEmail } from '@/constant/links';
 import { useState } from 'react';
 import { BsPhoneFlip } from 'react-icons/bs';
-import { MdOutlineLocationOn } from 'react-icons/md';
 
 export const Header = () => {
   const [isFrontendActive, setIsFrontendActive] = useState(true);
@@ -14,12 +13,8 @@ export const Header = () => {
       <div className="flex flex-col gap-2 w-full">
         <div>
           <h1 className="text-2xl font-bold">John Paul Naag</h1>
-          {/* <div className="flex items-center">
-            <MdOutlineLocationOn className="inline mr-1 " size={18} />
-            <p>Cavite, Philippines</p>
-          </div> */}
         </div>
-        <p>Developer</p>
+        <p className="font-semibold">Developer</p>
         <div className="flex flex-row gap-2 w-full">
           <SendEmail />
           <GithubLink />

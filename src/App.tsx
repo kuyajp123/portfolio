@@ -1,5 +1,5 @@
-import { About, PersonalDetails, Header } from '@/components';
-import { Card } from '@/components/ui/cards/Card';
+import { About, Experience, Header, PersonalDetails } from '@/components';
+import { Projects } from '@/pages/projects';
 
 const App = () => {
   return (
@@ -10,14 +10,10 @@ const App = () => {
         </header>
 
         <section className="grid grid-cols-1 gap-4 p-4 md:grid-cols-[2fr_1fr]">
-          <Card>
-            <About />
-          </Card>
-          <Card>
-            <PersonalDetails />
-          </Card>
-          <div>3</div>
-          <div>4</div>
+          <About />
+          <PersonalDetails />
+          <Projects />
+          <Experience />
         </section>
       </div>
     </main>
