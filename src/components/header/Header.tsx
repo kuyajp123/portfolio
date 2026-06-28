@@ -2,7 +2,6 @@ import profile from '@/assets/profile.jpg';
 import { ThemeToggle } from '@/components/button/Theme';
 import { GithubLink, LinkedinLink, SendEmail } from '@/constant/links';
 import type { DisplayMode } from '@/types/displayMode';
-import { BsPhoneFlip } from 'react-icons/bs';
 import { FiDownload } from 'react-icons/fi';
 
 interface HeaderProps {
@@ -57,7 +56,6 @@ export const Header = ({ displayMode, onDisplayModeChange }: HeaderProps) => {
               type="button"
             >
               Backend
-              <BsPhoneFlip className="inline ml-1" size={18} />
             </button>
           </div>
         </div>
