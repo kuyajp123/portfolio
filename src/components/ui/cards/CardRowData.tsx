@@ -17,8 +17,8 @@ export const CardRowData = ({ sectionTitle, objects }: CardRowDataProps) => {
     <Card>
       <h1 className="mb-2">{sectionTitle}</h1>
       <div className="flex flex-col gap-4">
-        {objects.map((obj, index) => (
-          <div className="flex flex-row justify-between" key={obj.key + index}>
+        {objects.map((obj) => (
+          <div className="flex flex-row justify-between" key={obj.key}>
             <div className="flex items-center">
               {obj.icon}
               <p className="text-sm font-semibold">{obj.label}</p>

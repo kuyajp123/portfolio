@@ -1,7 +1,9 @@
+import { BackendDataView } from '@/components/ui/cards/BackendDataView';
 import { Card } from '@/components/ui/cards/Card';
+import { FlipCard } from '@/components/ui/cards/FlipCard';
 import { IoIosArrowForward, IoMdTrophy } from 'react-icons/io';
 
-interface Project {
+interface ProjectItem {
   key: string;
   title: string;
   subtitle?: string;
@@ -9,35 +11,49 @@ interface Project {
   date: string;
 }
 
-const projects: Project[] = [
-  {
-    key: 'portfolio',
-    title: 'My Portfolio',
-    subtitle: 'A personal portfolio website showcasing my projects and skills.',
-    date: 'June 2026',
-  },
-  {
-    key: 'rescuenect',
-    title: 'Rescuenect',
-    subtitle:
-      'A disaster risk management system that connects community members with emergency services during emergencies.',
-    label: 'Best research paper AY 2025-2026',
-    date: '2025 - 2026',
-  },
-  {
-    key: 'narratechs',
-    title: 'Narratechs',
-    subtitle: 'AI based narrative report generation platform for students and professionals.',
-    date: 'March 2026',
-  },
-];
+interface ProjectsData {
+  sectionTitle: string;
+  viewAllHref: string;
+  items: ProjectItem[];
+}
 
-export const Project = () => {
-  return (
+const projectsData: ProjectsData = {
+  sectionTitle: 'Projects',
+  viewAllHref: '#',
+  items: [
+    {
+      key: 'portfolio',
+      title: 'My Portfolio',
+      subtitle: 'A personal portfolio website showcasing my projects and skills.',
+      date: 'June 2026',
+    },
+    {
+      key: 'rescuenect',
+      title: 'Rescuenect',
+      subtitle:
+        'A disaster risk management system that connects community members with emergency services during emergencies.',
+      label: 'Best research paper AY 2025-2026',
+      date: '2025 - 2026',
+    },
+    {
+      key: 'narratechs',
+      title: 'Narratechs',
+      subtitle: 'AI based narrative report generation platform for students and professionals.',
+      date: 'March 2026',
+    },
+  ],
+};
+
+interface ProjectProps {
+  isBackendMode?: boolean;
+}
+
+export const Project = ({ isBackendMode = false }: ProjectProps) => {
+  const frontendView = (
     <Card>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="mb-2">Projects</h2>
-        <a className="text-sm font-light" href="#">
+        <h2 className="mb-2">{projectsData.sectionTitle}</h2>
+        <a className="text-sm font-light" href={projectsData.viewAllHref}>
           <span className="flex items-center gap-1">
             View all
             <IoIosArrowForward />
@@ -45,7 +61,7 @@ export const Project = () => {
         </a>
       </div>
       <ul className="list-disc list-outside ml-5">
-        {projects.map(project => (
+        {projectsData.items.map((project) => (
           <li className="cursor-pointer" key={project.key}>
             <div className="flex justify-between w-full p-2 gap-4">
               <div className="flex flex-col w-0 flex-grow gap-1">
@@ -75,4 +91,8 @@ export const Project = () => {
       </ul>
     </Card>
   );
+
+  const backendView = <BackendDataView sectionTitle="Projects" objectName="projectsData" data={projectsData} />;
+
+  return <FlipCard isFlipped={isBackendMode} front={frontendView} back={backendView} />;
 };

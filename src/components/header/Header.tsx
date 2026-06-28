@@ -1,13 +1,16 @@
 import profile from '@/assets/profile.jpg';
 import { ThemeToggle } from '@/components/button/Theme';
 import { GithubLink, LinkedinLink, SendEmail } from '@/constant/links';
-import { useState } from 'react';
+import type { DisplayMode } from '@/types/displayMode';
 import { BsPhoneFlip } from 'react-icons/bs';
 import { FiDownload } from 'react-icons/fi';
 
-export const Header = () => {
-  const [isFrontendActive, setIsFrontendActive] = useState(true);
+interface HeaderProps {
+  displayMode: DisplayMode;
+  onDisplayModeChange: (mode: DisplayMode) => void;
+}
 
+export const Header = ({ displayMode, onDisplayModeChange }: HeaderProps) => {
   return (
     <main className="flex flex-col sm:flex-row items-center gap-4">
       <img src={profile} alt="Profile" className="w-40 h-40 rounded-full" />
@@ -28,13 +31,35 @@ export const Header = () => {
             Download CV
             <FiDownload className="inline ml-1" size={18} />
           </a>
-          <button
-            className="w-fit bg-black text-white dark:bg-gray-200 dark:text-gray-800 py-2 px-3 text-sm cursor-pointer rounded flex items-center md:ml-auto"
-            onClick={() => setIsFrontendActive(!isFrontendActive)}
-          >
-            {isFrontendActive ? 'Frontend' : 'Backend'}
-            <BsPhoneFlip className="inline ml-1" size={18} />
-          </button>
+          <div className="flex w-fit overflow-hidden rounded border border-gray-300 text-sm font-semibold dark:border-gray-700 md:ml-auto">
+            <button
+              className={`cursor-pointer px-3 py-2 ${
+                displayMode === 'frontend'
+                  ? 'bg-black text-white dark:bg-gray-200 dark:text-gray-800'
+                  : 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
+              }`}
+              onClick={() => {
+                onDisplayModeChange('frontend');
+              }}
+              type="button"
+            >
+              Frontend
+            </button>
+            <button
+              className={`flex cursor-pointer items-center px-3 py-2 ${
+                displayMode === 'backend'
+                  ? 'bg-black text-white dark:bg-gray-200 dark:text-gray-800'
+                  : 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
+              }`}
+              onClick={() => {
+                onDisplayModeChange('backend');
+              }}
+              type="button"
+            >
+              Backend
+              <BsPhoneFlip className="inline ml-1" size={18} />
+            </button>
+          </div>
         </div>
       </div>
       <div className="md:flex md:flex-col md:justify-between md:self-stretch py-4 absolute md:static md:w-auto md:py-0 right-4 top-4">

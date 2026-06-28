@@ -1,14 +1,25 @@
+import { BackendDataView } from '@/components/ui/cards/BackendDataView';
+import { FlipCard } from '@/components/ui/cards/FlipCard';
 import { certifications } from '@/pages/certifications/_components/constant';
 import { IoIosArrowForward } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import { Card } from '../ui/cards/Card';
 
-export const Certifications = () => {
-  return (
+const certificationsData = {
+  sectionTitle: 'Certifications',
+  items: certifications,
+};
+
+interface CertificationsProps {
+  isBackendMode?: boolean;
+}
+
+export const Certifications = ({ isBackendMode = false }: CertificationsProps) => {
+  const frontendView = (
     <Card>
-      <h1>Certifications</h1>
+      <h1>{certificationsData.sectionTitle}</h1>
       <ul className="list-disc list-outside ml-5">
-        {certifications.map(certificate => {
+        {certificationsData.items.map((certificate) => {
           const isExternal = certificate.link.startsWith('http');
 
           const innerContent = (
@@ -51,4 +62,10 @@ export const Certifications = () => {
       </ul>
     </Card>
   );
+
+  const backendView = (
+    <BackendDataView sectionTitle="Certifications" objectName="certificationsData" data={certificationsData} />
+  );
+
+  return <FlipCard isFlipped={isBackendMode} front={frontendView} back={backendView} />;
 };

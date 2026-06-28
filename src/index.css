@@ -1,3 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+.backend-code,
+.backend-code code,
+.backend-code span {
+  font-family: "JetBrains Mono", "Fira Code", Consolas, "Courier New", monospace;
+}
+
+.backend-code {
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #24292f;
+  line-height: 1.65;
+  tab-size: 2;
+}
+
+.backend-code__keyword,
+.backend-code__boolean,
+.backend-code__null {
+  color: #0000ff;
+}
+
+.backend-code__variable {
+  color: #001080;
+}
+
+.backend-code__key {
+  color: #001080;
+}
+
+.backend-code__string {
+  color: #a31515;
+}
+
+.backend-code__number {
+  color: #098658;
+}
+
+.backend-code__punctuation {
+  color: #795e26;
+}
+
+.backend-code__operator {
+  color: #24292f;
+}
+
+.dark .backend-code {
+  background: #020617;
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  color: #d4d4d4;
+}
+
+.dark .backend-code__keyword,
+.dark .backend-code__boolean,
+.dark .backend-code__null {
+  color: #569cd6;
+}
+
+.dark .backend-code__variable {
+  color: #4fc1ff;
+}
+
+.dark .backend-code__key {
+  color: #9cdcfe;
+}
+
+.dark .backend-code__string {
+  color: #ce9178;
+}
+
+.dark .backend-code__number {
+  color: #b5cea8;
+}
+
+.dark .backend-code__punctuation {
+  color: #ffd700;
+}
+
+.dark .backend-code__operator {
+  color: #d4d4d4;
+}
+
+.flip-card {
+  position: relative;
+  width: 100%;
+  perspective: 1200px;
+  transition: height 220ms ease;
+}
+
+.flip-card__inner {
+  height: 100%;
+  position: relative;
+  transform: rotateY(0deg);
+  transform-style: preserve-3d;
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.flip-card__inner--flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-card__face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  left: 0;
+  min-width: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.flip-card__face--back {
+  transform: rotateY(180deg);
+}
+
+.flip-card:not(.flip-card--flipped) .flip-card__face--back,
+.flip-card--flipped .flip-card__face:not(.flip-card__face--back) {
+  pointer-events: none;
+}

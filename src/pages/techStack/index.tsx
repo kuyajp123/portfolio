@@ -1,5 +1,9 @@
 import { TechStack as TechStackComponent } from '@/components';
 
-export const TechStack = () => {
-  return <TechStackComponent />;
+interface TechStackProps {
+  isBackendMode?: boolean;
+}
+
+export const TechStack = ({ isBackendMode = false }: TechStackProps) => {
+  return <TechStackComponent isBackendMode={isBackendMode} />;
 };

@@ -1,6 +1,9 @@
 import { Certifications } from '@/components/';
 
-export const Certificate = () => {
-  return <Certifications />;
-};
+interface CertificateProps {
+  isBackendMode?: boolean;
+}
 
+export const Certificate = ({ isBackendMode = false }: CertificateProps) => {
+  return <Certifications isBackendMode={isBackendMode} />;
+};
