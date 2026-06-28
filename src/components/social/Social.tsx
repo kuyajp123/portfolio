@@ -43,5 +43,5 @@ const socialObjects = [
 ];
 
 export const Social = () => {
-  return <CardRowData sectionTitle="Social" objects={socialObjects} />;
+  return <CardRowData sectionTitle="Socials" objects={socialObjects} />;
 };

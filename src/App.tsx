@@ -1,4 +1,4 @@
-import { About, Experience, Header, PersonalDetails, Social } from '@/components';
+import { About, CarouselGallery, Experience, GithubGraphs, Header, PersonalDetails, Social } from '@/components/';
 import { Certificate } from '@/pages/certifications/Certificate';
 import { Projects } from '@/pages/projects';
 import { TechStack } from '@/pages/techStack';
@@ -18,12 +18,20 @@ const App = () => {
           <Experience />
         </section>
         <section className="p-4 pt-0">
-          <h2 className="text-lg mb-2">Tech Stack</h2>
+          <h2 className="mb-2">Tech Stack</h2>
           <TechStack />
         </section>
         <section className="grid grid-cols-1 gap-4 p-4 pt-0 md:grid-cols-[1.5fr_1fr]">
           <Certificate />
           <Social />
+        </section>
+        <section className="p-4 pt-0">
+          <h2 className="mb-2">Gallery</h2>
+          <CarouselGallery />
+        </section>
+        <section className="p-4 pt-0">
+          <h2 className="mb-2">Developer's Activity</h2>
+          <GithubGraphs />
         </section>
       </div>
     </main>

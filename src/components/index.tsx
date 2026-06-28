@@ -6,5 +6,7 @@ import { PersonalDetails } from '@/components/personal/Personal';
 import { Project } from '@/components/projects/Project';
 import { TechStack } from '@/components/teckStack/TechStack';
 import { Social } from '@/components/social/Social';
+import { CarouselGallery } from '@/components/carousel/CarouselGallery';
+import { GithubGraphs } from '@/components/graphs/GithubGraphs';
 
-export { About, Certifications, Experience, Header, PersonalDetails, Project, TechStack, Social };
+export { About, Certifications, Experience, Header, PersonalDetails, Project, TechStack, Social, CarouselGallery, GithubGraphs };
