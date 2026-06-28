@@ -3,7 +3,7 @@ import { Card } from '@/components/ui/cards/Card';
 const steps = [
   {
     title: 'Startuplab',
-    description: 'Full stack web developer',
+    description: 'Full stack web developer.',
     date: '2026'
   },
   {

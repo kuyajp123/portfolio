@@ -1,6 +1,4 @@
 import { Card } from '@/components/ui/cards/Card';
-import { hoverThemeClass } from '@/utils/themeClasses';
-import { useTheme } from 'next-themes';
 import { IoIosArrowForward, IoMdTrophy } from 'react-icons/io';
 
 interface Project {
@@ -35,8 +33,6 @@ const projects: Project[] = [
 ];
 
 export const Project = () => {
-  const { resolvedTheme } = useTheme();
-
   return (
     <Card>
       <div className="flex items-center justify-between mb-4">
@@ -50,7 +46,7 @@ export const Project = () => {
       </div>
       <ul className="list-disc list-outside ml-5">
         {projects.map(project => (
-          <li className={`cursor-pointer ${hoverThemeClass(resolvedTheme as 'light' | 'dark')}`} key={project.key}>
+          <li className="cursor-pointer" key={project.key}>
             <div className="flex justify-between w-full p-2 gap-4">
               <div className="flex flex-col w-0 flex-grow gap-1">
                 <div className="flex flex-wrap items-center gap-2">

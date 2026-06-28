@@ -1,5 +1,6 @@
 import { About, Experience, Header, PersonalDetails } from '@/components';
 import { Projects } from '@/pages/projects';
+import { TechStack } from '@/pages/techStack';
 
 const App = () => {
   return (
@@ -14,6 +15,10 @@ const App = () => {
           <PersonalDetails />
           <Projects />
           <Experience />
+        </section>
+        <section className="p-4">
+          <h2 className="text-lg mb-2">Tech Stack</h2>
+          <TechStack />
         </section>
       </div>
     </main>
