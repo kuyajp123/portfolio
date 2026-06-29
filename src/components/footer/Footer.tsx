@@ -41,7 +41,7 @@ const commits = [
 
 export const Footer = () => {
   return (
-    <footer className="p-4 pt-0">
+    <footer className="p-4 pt-0 w-full">
       <section className="font-jetbrains overflow-hidden rounded-sm border border-gray-200 bg-white text-xs shadow-sm dark:border-white/10 dark:bg-gray-950">
         <div className="flex items-center gap-2 border-b border-gray-200 bg-gray-50 px-4 py-2 dark:border-white/10 dark:bg-gray-900">
           <span className="h-2.5 w-2.5 rounded-full bg-red-400" aria-hidden="true" />
@@ -68,8 +68,11 @@ export const Footer = () => {
           </p>
 
           <ol className="mt-2 space-y-1.5">
-            {commits.map((commit) => (
-              <li className="grid grid-cols-[4.75rem_minmax(0,1fr)] gap-3 text-gray-800 dark:text-gray-200" key={commit.hash}>
+            {commits.map(commit => (
+              <li
+                className="grid grid-cols-[4.75rem_minmax(0,1fr)] gap-3 text-gray-800 dark:text-gray-200"
+                key={commit.hash}
+              >
                 <span className="font-semibold text-purple-600 dark:text-purple-300">{commit.hash}</span>
                 <span className="min-w-0 break-words">
                   <span className={`font-semibold ${commit.typeClass}`}>{commit.type}:</span> {commit.message}

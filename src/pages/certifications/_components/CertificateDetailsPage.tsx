@@ -1,6 +1,7 @@
+import { Footer } from '@/components/footer/Footer';
 import { certifications } from '@/pages/certifications/_components/constant';
 import { FaFacebook } from 'react-icons/fa';
-import { HiAcademicCap, HiCalendar, HiDocumentText, HiExternalLink, HiOfficeBuilding } from 'react-icons/hi';
+import { HiAcademicCap, HiExternalLink } from 'react-icons/hi';
 import { IoIosArrowBack } from 'react-icons/io';
 import { Link, useParams } from 'react-router-dom';
 
@@ -32,10 +33,7 @@ export const CertificateDetailsPage = () => {
       {/* ── Top Navigation ── */}
       <div className="sticky top-0 z-20 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-200 dark:border-white/5 px-6 py-3 transition-colors duration-300">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors duration-200"
-          >
+          <Link to="/" className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
             <IoIosArrowBack className="text-base" />
             Back to Portfolio
           </Link>
@@ -105,9 +103,6 @@ export const CertificateDetailsPage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Issuer */}
           <div className="flex gap-4 items-start p-5 rounded-xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/8 shadow-sm dark:shadow-none transition-all duration-300">
-            <div className="shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400">
-              <HiOfficeBuilding className="text-lg" />
-            </div>
             <div className="space-y-0.5">
               <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-widest font-semibold">
                 Issued by
@@ -118,9 +113,6 @@ export const CertificateDetailsPage = () => {
 
           {/* Date */}
           <div className="flex gap-4 items-start p-5 rounded-xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/8 shadow-sm dark:shadow-none transition-all duration-300">
-            <div className="shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-purple-100 dark:bg-purple-500/15 text-purple-600 dark:text-purple-400">
-              <HiCalendar className="text-lg" />
-            </div>
             <div className="space-y-0.5">
               <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-widest font-semibold">
                 Date Awarded
@@ -132,9 +124,6 @@ export const CertificateDetailsPage = () => {
           {/* Paper Title */}
           {'paperTitle' in certificate && certificate.paperTitle && (
             <div className="sm:col-span-2 flex gap-4 items-start p-5 rounded-xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/8 shadow-sm dark:shadow-none transition-all duration-300">
-              <div className="shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400">
-                <HiDocumentText className="text-lg" />
-              </div>
               <div className="space-y-0.5">
                 <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-widest font-semibold">
                   Research Paper
@@ -162,11 +151,9 @@ export const CertificateDetailsPage = () => {
                   <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-widest font-semibold">
                     Facebook Post
                   </p>
-                  <p className="text-sm text-blue-600 dark:text-[#60a5fa] font-medium truncate">
-                    {certificate.url}
-                  </p>
+                  <p className="text-sm text-blue-600 dark:text-[#60a5fa] font-medium truncate">{certificate.url}</p>
                 </div>
-                <HiExternalLink className="shrink-0 text-[#81b7ff] text-lg opacity-50" />
+                <HiExternalLink className="shrink-0 text-[#156cdf] dark:text-[#81b7ff] text-lg opacity-50" />
               </a>
             </div>
           )}
@@ -189,6 +176,7 @@ export const CertificateDetailsPage = () => {
           </Link>
         </div>
       </section>
+      <Footer />
     </main>
   );
 };

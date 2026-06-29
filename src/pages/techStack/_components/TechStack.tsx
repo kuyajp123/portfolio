@@ -1,3 +1,4 @@
+import { Footer } from '@/components/footer/Footer';
 import { Chip } from '@/components/ui/chip/Chip';
 import {
   AITechStack,
@@ -15,7 +16,7 @@ export const TechStack = () => {
 
   return (
     <main className="flex min-h-screen flex-col items-center">
-      <div className="max-w-4xl">
+      <div className="max-w-4xl p-6">
         <button className="flex cursor-pointer items-center gap-2 mt-4" onClick={() => navigate(-1)}>
           <IoChevronBackOutline size={20} className="mt-1" />
           <h1 className="text-2xl font-bold">Tech Stack</h1>
@@ -69,6 +70,7 @@ export const TechStack = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </main>
   );
 };

@@ -58,8 +58,13 @@ const App = () => {
           <h2 className="mb-2">Developer's Activity</h2>
           <GithubGraphs />
         </section>
-        <Footer />
+        <div className="flex items-center m-4 mb-7">
+          <div className="grow border-t border-gray-200 dark:border-gray-700"></div>
+          <span className="px-4 text-gray-500 dark:text-gray-400 text-sm">Thanks for visiting!</span>
+          <div className="grow border-t border-gray-200 dark:border-gray-700"></div>
+        </div>
       </div>
+      <Footer />
     </main>
   );
 };
