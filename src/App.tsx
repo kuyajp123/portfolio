@@ -1,4 +1,13 @@
-import { About, CarouselGallery, Experience, GithubGraphs, Header, PersonalDetails, Social } from '@/components/';
+import {
+  About,
+  CarouselGallery,
+  Experience,
+  Footer,
+  GithubGraphs,
+  Header,
+  PersonalDetails,
+  Social,
+} from '@/components/';
 import { Certificate } from '@/pages/certifications/Certificate';
 import { Projects } from '@/pages/projects';
 import { TechStack } from '@/pages/techStack';
@@ -49,6 +58,7 @@ const App = () => {
           <h2 className="mb-2">Developer's Activity</h2>
           <GithubGraphs />
         </section>
+        <Footer />
       </div>
     </main>
   );

@@ -82,12 +82,16 @@ export const GithubGraphs = () => {
           <img
             src={`https://github-readme-activity-graph.vercel.app/graph?username=kuyajp123&${t.activityLight}`}
             alt="GitHub 31 Days Activity"
-            className="w-full block dark:hidden"
+            className="w-full block dark:hidden select-none no-drag"
+            draggable="false"
+            onDragStart={e => e.preventDefault()}
           />
           <img
             src={`https://github-readme-activity-graph.vercel.app/graph?username=kuyajp123&${t.activityDark}`}
             alt="GitHub 31 Days Activity"
-            className="w-full hidden dark:block"
+            className="w-full hidden dark:block select-none no-drag"
+            draggable="false"
+            onDragStart={e => e.preventDefault()}
           />
         </div>
 
@@ -96,12 +100,16 @@ export const GithubGraphs = () => {
           <img
             src={`https://github-readme-stats.vercel.app/api?username=kuyajp123&show_icons=true&${t.statsLight}`}
             alt="GitHub Stats"
-            className="w-full block dark:hidden"
+            className="w-full block dark:hidden select-none no-drag"
+            draggable="false"
+            onDragStart={e => e.preventDefault()}
           />
           <img
             src={`https://github-readme-stats.vercel.app/api?username=kuyajp123&show_icons=true&${t.statsDark}`}
             alt="GitHub Stats"
-            className="w-full hidden dark:block"
+            className="w-full hidden dark:block select-none no-drag"
+            draggable="false"
+            onDragStart={e => e.preventDefault()}
           />
         </div>
       </div>
