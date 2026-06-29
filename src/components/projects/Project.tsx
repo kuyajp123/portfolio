@@ -53,15 +53,15 @@ export const Project = ({ isBackendMode = false }: ProjectProps) => {
     <Card>
       <div className="flex items-center justify-between mb-4">
         <h2 className="mb-2">{projectsData.sectionTitle}</h2>
-        <a className="text-sm font-light" href={projectsData.viewAllHref}>
+        {/* <a className="text-sm font-light" href={projectsData.viewAllHref}>
           <span className="flex items-center gap-1">
             View all
             <IoIosArrowForward />
           </span>
-        </a>
+        </a> */}
       </div>
       <ul className="list-disc list-outside ml-5">
-        {projectsData.items.map((project) => (
+        {projectsData.items.map(project => (
           <li className="cursor-pointer" key={project.key}>
             <div className="flex justify-between w-full p-2 gap-4">
               <div className="flex flex-col w-0 flex-grow gap-1">

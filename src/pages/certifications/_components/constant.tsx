@@ -1,3 +1,6 @@
+import bestPaperImg from '@/assets/best-paper.png';
+import empireImg from '@/assets/empire-2026.png';
+
 interface Certification {
   id: string;
   name: string;
@@ -17,7 +20,7 @@ export const certifications: Certification[] = [
     name: 'Best Research Paper',
     issuer: 'Cavite State University – Trece Martires City Campus',
     date: 'May 19, 2026',
-    image: '@/assets/best-paper.png',
+    image: bestPaperImg,
     link: '/certificates/best-paper',
     award: 'Best Paper – Developmental Category',
     paperTitle: 'Rescuennect: A Disaster Risk Management System in Barangay Bancaan Naic, Cavite',
@@ -30,7 +33,7 @@ export const certifications: Certification[] = [
     name: 'EMPIRE 2026 Participation',
     issuer: 'Cavite State University – Trece Martires City Campus',
     date: 'May 19, 2026',
-    image: '@/assets/empire-2026.png',
+    image: empireImg,
     link: '/certificates/empire-2026',
     paperTitle: 'Rescuennect: A Disaster Risk Management System in Barangay Bancaan Naic, Cavite',
     description:
