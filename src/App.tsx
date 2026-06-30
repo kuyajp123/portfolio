@@ -1,18 +1,10 @@
-import {
-  About,
-  CarouselGallery,
-  Experience,
-  Footer,
-  GithubGraphs,
-  Header,
-  PersonalDetails,
-  Social,
-} from '@/components/';
+import { About, CarouselGallery, Experience, Footer, Header, PersonalDetails, Social } from '@/components/';
 import { Certificate } from '@/pages/certifications/Certificate';
 import { Projects } from '@/pages/projects';
 import { TechStack } from '@/pages/techStack';
 import type { DisplayMode } from '@/types/displayMode';
 import { useState } from 'react';
+import { GithubGraphs } from './pages/githubGraphs/GithubGraph';
 
 const App = () => {
   const [displayMode, setDisplayMode] = useState<DisplayMode>('frontend');
@@ -55,7 +47,6 @@ const App = () => {
           <CarouselGallery />
         </section>
         <section className="p-4 pt-0">
-          <h2 className="mb-2">Developer's Activity</h2>
           <GithubGraphs />
         </section>
         <div className="flex items-center m-4 mb-7">

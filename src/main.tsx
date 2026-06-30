@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 import './index.css'
 import { Router } from './routes.tsx'
+import { ScrollToTop } from './components/ScrollToTop.tsx'
 
 import { ThemeProvider } from './providers/ThemeProvider.tsx';
 
@@ -17,6 +18,7 @@ createRoot(rootElement).render(
   <StrictMode>
     <ThemeProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Router />
       </BrowserRouter>
     </ThemeProvider>

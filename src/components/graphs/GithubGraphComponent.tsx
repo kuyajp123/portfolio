@@ -1,7 +1,8 @@
 import { useTheme } from 'next-themes';
-import { useEffect, useRef } from 'react';
 import { GitHubCalendar } from 'react-github-calendar';
 import 'react-github-calendar/tooltips.css';
+import { IoIosArrowForward } from 'react-icons/io';
+import { Link } from 'react-router-dom';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 🎨 THEME SWITCH — set to `true` for green, `false` for black & white
@@ -34,37 +35,29 @@ const THEMES = {
 };
 
 const t = USE_GREEN_THEME ? THEMES.green : THEMES.mono;
-const baseCard = `rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-white/10 shadow-sm`;
+const baseCard =
+  'overflow-hidden rounded-xl border border-gray-200 bg-gray-50 shadow-sm transition-colors dark:border-white/10 dark:bg-gray-900';
 
-export const GithubGraphs = () => {
+export const GithubGraphComponent = () => {
   const { resolvedTheme } = useTheme();
-  const contributionGraphRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = contributionGraphRef.current;
-    if (!el) return;
-
-    const scrollToRight = () => {
-      if (el.scrollWidth > el.clientWidth) {
-        el.scrollLeft = el.scrollWidth;
-      }
-    };
-
-    scrollToRight();
-
-    const observer = new MutationObserver(() => {
-      setTimeout(() => scrollToRight(), 50);
-    });
-
-    observer.observe(el, { childList: true, subtree: true });
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <div className="flex flex-col gap-4">
+      <div className="flex items-center justify-between mt-4">
+        <h2 className="mb-2">Developer's Activity</h2>
+        <Link to="/github-graphs" className="flex flex-row items-center gap-1 text-sm font-light text-muted-foreground">
+          View All <IoIosArrowForward />
+        </Link>
+      </div>
       {/* ── Contribution Graph ── */}
-      <a href="https://github.com/kuyajp123" target="_blank" rel="noopener noreferrer" className={`${baseCard} block`}>
-        <div ref={contributionGraphRef} className="p-4 overflow-x-auto">
+      <a
+        href="https://github.com/kuyajp123"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`${baseCard} block select-none`}
+        draggable="false"
+      >
+        <div className="p-2 overflow-x-auto">
           <GitHubCalendar
             username="kuyajp123"
             colorScheme={resolvedTheme === 'dark' ? 'dark' : 'light'}
@@ -74,45 +67,46 @@ export const GithubGraphs = () => {
             }}
           />
         </div>
+        {/* place here */}
       </a>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* ── 31 Days Activity Graph ── */}
-        <div className={`${baseCard} overflow-hidden flex items-center justify-center`}>
-          <img
-            src={`https://github-readme-activity-graph.vercel.app/graph?username=kuyajp123&${t.activityLight}`}
-            alt="GitHub 31 Days Activity"
-            className="w-full block dark:hidden select-none no-drag"
-            draggable="false"
-            onDragStart={e => e.preventDefault()}
-          />
-          <img
-            src={`https://github-readme-activity-graph.vercel.app/graph?username=kuyajp123&${t.activityDark}`}
-            alt="GitHub 31 Days Activity"
-            className="w-full hidden dark:block select-none no-drag"
-            draggable="false"
-            onDragStart={e => e.preventDefault()}
-          />
-        </div>
-
-        {/* ── GitHub Stats ── */}
-        <div className={`${baseCard} overflow-hidden flex items-center justify-center`}>
-          <img
-            src={`https://github-readme-stats-gamma-blush-51.vercel.app/api?username=kuyajp123&show_icons=true&${t.statsLight}`}
-            alt="GitHub Stats"
-            className="w-full block dark:hidden select-none no-drag"
-            draggable="false"
-            onDragStart={e => e.preventDefault()}
-          />
-          <img
-            src={`https://github-readme-stats-gamma-blush-51.vercel.app/api?username=kuyajp123&show_icons=true&${t.statsDark}`}
-            alt="GitHub Stats"
-            className="w-full hidden dark:block select-none no-drag"
-            draggable="false"
-            onDragStart={e => e.preventDefault()}
-          />
-        </div>
-      </div>
     </div>
   );
 };
+
+// <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//   {/* ── 31 Days Activity Graph ── */}
+//   <div className={`${baseCard} overflow-hidden flex items-center justify-center`}>
+//     <img
+//       src={`https://github-readme-activity-graph.vercel.app/graph?username=kuyajp123&${t.activityLight}`}
+//       alt="GitHub 31 Days Activity"
+//       className="w-full block dark:hidden select-none no-drag"
+//       draggable="false"
+//       onDragStart={e => e.preventDefault()}
+//     />
+//     <img
+//       src={`https://github-readme-activity-graph.vercel.app/graph?username=kuyajp123&${t.activityDark}`}
+//       alt="GitHub 31 Days Activity"
+//       className="w-full hidden dark:block select-none no-drag"
+//       draggable="false"
+//       onDragStart={e => e.preventDefault()}
+//     />
+//   </div>
+
+//   {/* ── GitHub Stats ── */}
+//   <div className={`${baseCard} overflow-hidden flex items-center justify-center`}>
+//     <img
+//       src={`https://github-readme-stats-gamma-blush-51.vercel.app/api?username=kuyajp123&show_icons=true&include_all_commits=true&${t.statsLight}`}
+//       alt="GitHub Stats"
+//       className="w-full block dark:hidden select-none no-drag"
+//       draggable="false"
+//       onDragStart={e => e.preventDefault()}
+//     />
+//     <img
+//       src={`https://github-readme-stats-gamma-blush-51.vercel.app/api?username=kuyajp123&show_icons=true&include_all_commits=true&${t.statsDark}`}
+//       alt="GitHub Stats"
+//       className="w-full hidden dark:block select-none no-drag"
+//       draggable="false"
+//       onDragStart={e => e.preventDefault()}
+//     />
+//   </div>
+// </div>;
