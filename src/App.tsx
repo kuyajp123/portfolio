@@ -1,4 +1,4 @@
-import { About, CarouselGallery, Experience, Footer, Header, PersonalDetails, Social } from '@/components/';
+import { About, CarouselGallery, Experience, Footer, Header, PersonalDetails, Social, Quote } from '@/components/';
 import { Certificate } from '@/pages/certifications/Certificate';
 import { Projects } from '@/pages/projects';
 import { TechStack } from '@/pages/techStack';
@@ -55,6 +55,7 @@ const App = () => {
           <div className="grow border-t border-gray-200 dark:border-gray-700"></div>
         </div>
       </div>
+      <Quote />
       <Footer />
     </main>
   );

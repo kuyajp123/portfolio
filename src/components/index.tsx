@@ -9,6 +9,7 @@ import { PersonalDetails } from '@/components/personal/Personal';
 import { Project } from '@/components/projects/Project';
 import { Social } from '@/components/social/Social';
 import { TechStack } from '@/components/teckStack/TechStack';
+import { Quote } from '@/components/quote/Quote';
 
 export {
   About,
@@ -22,4 +23,5 @@ export {
   Project,
   Social,
   TechStack,
+  Quote,
 };
