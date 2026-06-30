@@ -27,18 +27,7 @@ export const backendTechStack = [
 
 export const devOpsAndCloudTechStack = ['Vercel', 'Netlify', 'Render', 'Railway', 'Hostinger', 'Google Cloud', 'Expo'];
 
-export const AITechStack = [
-  'OpenAI',
-  'Anthropic',
-  'Google AI Studio',
-  'Codex',
-  'Github Copilot',
-  'ChatGPT',
-  'Antigravity',
-  'Kiro',
-  'Claude',
-  'Gemini',
-];
+export const AITechStack = ['Google AI Studio', 'Codex', 'Github Copilot'];
 
 export const developmentTools = [
   'Visual Studio Code',

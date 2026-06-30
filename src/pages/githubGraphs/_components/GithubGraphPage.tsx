@@ -57,7 +57,7 @@ export const GithubGraphPage = () => {
             href={`https://github.com/${USERNAME}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded border border-gray-200 bg-gray-50 px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:border-gray-300 hover:bg-white dark:border-white/10 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-white/20"
+            className="inline-flex items-center gap-2 rounded border border-gray-200 bg-gray-50 px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:border-gray-300 hover:bg-white dark:hover:bg-gray-700/20 dark:border-white/10 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-white/20"
           >
             <FaGithub />
             GitHub
@@ -67,7 +67,7 @@ export const GithubGraphPage = () => {
       </div>
 
       <section className="mx-auto flex w-full max-w-5xl flex-col gap-5 px-4 py-8 sm:px-6">
-        <header className="flex flex-col gap-3 rounded-xl border border-gray-200 bg-gray-50 p-5 shadow-sm dark:border-white/10 dark:bg-gray-900">
+        <header className="flex flex-col gap-3">
           <span className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
             GitHub analytics
           </span>
