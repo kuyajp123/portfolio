@@ -98,14 +98,14 @@ export const GithubGraphs = () => {
         {/* ── GitHub Stats ── */}
         <div className={`${baseCard} overflow-hidden flex items-center justify-center`}>
           <img
-            src={`https://github-readme-stats.vercel.app/api?username=kuyajp123&show_icons=true&${t.statsLight}`}
+            src={`https://github-readme-stats-gamma-blush-51.vercel.app/api?username=kuyajp123&show_icons=true&${t.statsLight}`}
             alt="GitHub Stats"
             className="w-full block dark:hidden select-none no-drag"
             draggable="false"
             onDragStart={e => e.preventDefault()}
           />
           <img
-            src={`https://github-readme-stats.vercel.app/api?username=kuyajp123&show_icons=true&${t.statsDark}`}
+            src={`https://github-readme-stats-gamma-blush-51.vercel.app/api?username=kuyajp123&show_icons=true&${t.statsDark}`}
             alt="GitHub Stats"
             className="w-full hidden dark:block select-none no-drag"
             draggable="false"
