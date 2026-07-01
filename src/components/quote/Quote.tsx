@@ -13,6 +13,9 @@ type QuoteResponse = {
 const QUOTE_REFRESH_INTERVAL_MS = 15000;
 const QUOTE_FADE_DURATION_MS = 300;
 
+// ---------------------------------------------------------------------------
+// Fallback helpers — cycles through local quotes on API failure.
+// ---------------------------------------------------------------------------
 let fallbackIndex = Math.floor(Math.random() * programmingQuotes.length);
 
 const getNextFallback = (): QuoteResponse => {
@@ -61,15 +64,20 @@ const getQuote = () => {
 // Component
 // ---------------------------------------------------------------------------
 export const Quote = () => {
-  const [quote, setQuote] = useState<QuoteResponse | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const hasQuoteRef = useRef(false);
+  // Pick one random fallback on first render only — never replaced on re-entry.
+  // The inView effect only starts the interval; it never touches this initial value.
+  const [quote, setQuote] = useState<QuoteResponse>(
+    () => programmingQuotes[Math.floor(Math.random() * programmingQuotes.length)],
+  );
+  const [isVisible, setIsVisible] = useState(true);
   const fadeTimeoutRef = useRef<number | null>(null);
+  const timeRemainingRef = useRef(QUOTE_REFRESH_INTERVAL_MS);
+  const lastResumeTimeRef = useRef<number | null>(null);
 
   // Track whether the quote section is currently scrolled into view.
   // Nothing runs — no fetch, no interval — until inView becomes true.
   const { ref: sectionRef, inView } = useInView({
-    threshold: 0.1,
+    threshold: 0.1, // trigger when at least 10 % of the element is visible
   });
 
   const clearFadeTimeout = () => {
@@ -81,16 +89,8 @@ export const Quote = () => {
 
   const showQuote = (nextQuote: QuoteResponse, ignore: { current: boolean }) => {
     clearFadeTimeout();
-
-    if (!hasQuoteRef.current) {
-      hasQuoteRef.current = true;
-      setQuote(nextQuote);
-      setIsVisible(true);
-      return;
-    }
-
-    // Subsequent quotes — fade out → swap → fade in.
     setIsVisible(false);
+
     fadeTimeoutRef.current = window.setTimeout(() => {
       if (!ignore.current) {
         setQuote(nextQuote);
@@ -101,29 +101,29 @@ export const Quote = () => {
     }, QUOTE_FADE_DURATION_MS);
   };
 
-  // All fetching and scheduling lives here — only active while inView is true.
+  // Manages the accumulated viewing time. The 15-second countdown pauses when
+  // scrolled out of view, and resumes where it left off when scrolled back in.
   useEffect(() => {
-    if (inView) {
-      logger.log('[Quote] Section entered viewport — starting quote cycle.');
-    } else {
-      logger.log('[Quote] Section left viewport — pausing quote cycle.');
+    if (!inView) {
+      logger.log(`[Quote] Section left viewport — pausing quote cycle. (${Math.round(timeRemainingRef.current / 1000)}s remaining)`);
+      return;
     }
 
-    if (!inView) return;
+    logger.log(
+      `[Quote] Section entered viewport — starting/resuming countdown (${Math.round(timeRemainingRef.current / 1000)}s remaining).`
+    );
 
     const ignore = { current: false };
+    let timeoutId: number | null = null;
 
-    // Show a fallback quote immediately so the section is never empty.
-    const fallback = getNextFallback();
-    logger.log('[Quote] Showing fallback quote:', fallback.author);
-    showQuote(fallback, ignore);
+    lastResumeTimeRef.current = Date.now();
 
     const loadQuote = () => {
       logger.log('[Quote] Fetching new quote from API…');
       getQuote()
         .then(nextQuote => {
           if (!ignore.current) {
-            logger.log('[Quote] API quote received — replacing fallback.');
+            logger.log('[Quote] API quote received — replacing current quote.');
             showQuote(nextQuote, ignore);
           }
         })
@@ -136,31 +136,42 @@ export const Quote = () => {
         });
     };
 
-    // Fetch from the API after the interval — the fallback is shown in the
-    // meantime so users always see something right away.
-    const intervalId = window.setInterval(loadQuote, QUOTE_REFRESH_INTERVAL_MS);
+    const scheduleNext = (delay: number) => {
+      timeoutId = window.setTimeout(() => {
+        if (ignore.current) return;
+
+        loadQuote();
+        timeRemainingRef.current = QUOTE_REFRESH_INTERVAL_MS;
+        lastResumeTimeRef.current = Date.now();
+        scheduleNext(QUOTE_REFRESH_INTERVAL_MS);
+      }, delay);
+    };
+
+    scheduleNext(timeRemainingRef.current);
 
     return () => {
       ignore.current = true;
-      window.clearInterval(intervalId);
-      clearFadeTimeout();
-      logger.log('[Quote] Quote cycle paused.');
+      if (timeoutId !== null) {
+        window.clearTimeout(timeoutId);
+      }
+      if (lastResumeTimeRef.current !== null) {
+        const elapsed = Date.now() - lastResumeTimeRef.current;
+        timeRemainingRef.current = Math.max(0, timeRemainingRef.current - elapsed);
+        lastResumeTimeRef.current = null;
+      }
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 
   return (
     <aside ref={sectionRef} className="w-full max-w-4xl px-4 pb-4 flex flex-row justify-center">
       <figure
         className={`p-4 text-sm transition-all duration-300 ease-out ${
-          quote && isVisible ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-0'
+          isVisible ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-0'
         }`}
       >
-        {quote && (
-          <>
-            <blockquote className="text-gray-700 dark:text-gray-200">"{quote.quote}"</blockquote>
-            <figcaption className="mt-2 text-xs text-gray-500 dark:text-gray-400">- {quote.author}</figcaption>
-          </>
-        )}
+        <blockquote className="text-gray-700 dark:text-gray-200">"{quote.quote}"</blockquote>
+        <figcaption className="mt-2 text-xs text-gray-500 dark:text-gray-400">- {quote.author}</figcaption>
       </figure>
     </aside>
   );
