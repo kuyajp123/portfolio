@@ -1,6 +1,8 @@
 import { QUOTE_URL, QUOTES } from '@/API/endpoint';
+import { programmingQuotes } from '@/constant/quotes';
 import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { logger } from '@/config/logger';
 
 type QuoteResponse = {
   quote: string;
@@ -10,32 +12,13 @@ type QuoteResponse = {
 
 const QUOTE_REFRESH_INTERVAL_MS = 15000;
 const QUOTE_FADE_DURATION_MS = 300;
-const CACHE_KEY = 'portfolio_quote_cache';
 
-// ---------------------------------------------------------------------------
-// Session cache helpers — persists quote + fetch timestamp across page reloads
-// so we don't make a redundant API call if the 15-second window hasn't elapsed.
-// ---------------------------------------------------------------------------
-type QuoteCache = {
-  data: QuoteResponse;
-  fetchedAt: number; // Unix ms timestamp
-};
+let fallbackIndex = Math.floor(Math.random() * programmingQuotes.length);
 
-const saveCache = (data: QuoteResponse): void => {
-  try {
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data, fetchedAt: Date.now() } satisfies QuoteCache));
-  } catch {
-    // sessionStorage may be unavailable (e.g. private browsing restrictions)
-  }
-};
-
-const loadCache = (): QuoteCache | null => {
-  try {
-    const raw = sessionStorage.getItem(CACHE_KEY);
-    return raw ? (JSON.parse(raw) as QuoteCache) : null;
-  } catch {
-    return null;
-  }
+const getNextFallback = (): QuoteResponse => {
+  const q = programmingQuotes[fallbackIndex % programmingQuotes.length];
+  fallbackIndex++;
+  return q;
 };
 
 // ---------------------------------------------------------------------------
@@ -79,15 +62,14 @@ const getQuote = () => {
 // ---------------------------------------------------------------------------
 export const Quote = () => {
   const [quote, setQuote] = useState<QuoteResponse | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const hasQuoteRef = useRef(false);
   const fadeTimeoutRef = useRef<number | null>(null);
 
   // Track whether the quote section is currently scrolled into view.
-  // The recurring interval is only active while `inView` is true.
+  // Nothing runs — no fetch, no interval — until inView becomes true.
   const { ref: sectionRef, inView } = useInView({
-    threshold: 0.1, // trigger when at least 10 % of the element is visible
+    threshold: 0.1,
   });
 
   const clearFadeTimeout = () => {
@@ -107,6 +89,7 @@ export const Quote = () => {
       return;
     }
 
+    // Subsequent quotes — fade out → swap → fade in.
     setIsVisible(false);
     fadeTimeoutRef.current = window.setTimeout(() => {
       if (!ignore.current) {
@@ -118,117 +101,66 @@ export const Quote = () => {
     }, QUOTE_FADE_DURATION_MS);
   };
 
-  // On mount: serve the cached quote instantly if available (no API call).
-  // Only fall back to a real fetch when the cache is empty.
-  useEffect(() => {
-    const ignore = { current: false };
-    const cached = loadCache();
-
-    if (cached) {
-      console.log('[Quote] Restored from cache — skipping initial API call.');
-      showQuote(cached.data, ignore);
-      return () => {
-        ignore.current = true;
-        clearFadeTimeout();
-      };
-    }
-
-    console.log('[Quote] No cache found — fetching initial quote.');
-    getQuote()
-      .then(nextQuote => {
-        if (!ignore.current) {
-          saveCache(nextQuote);
-          showQuote(nextQuote, ignore);
-          setError(null);
-        }
-      })
-      .catch(err => {
-        if (!ignore.current) {
-          setError(err instanceof Error ? err.message : 'Unable to load quote');
-        }
-      });
-
-    return () => {
-      ignore.current = true;
-      clearFadeTimeout();
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // Start the recurring interval only while the section is visible on screen.
-  // Uses the cached timestamp to honour the original 15-second schedule even
-  // after a page reload — so the next fetch fires at the right time, not
-  // immediately.
+  // All fetching and scheduling lives here — only active while inView is true.
   useEffect(() => {
     if (inView) {
-      console.log('[Quote] Section entered viewport — scheduling next refresh.');
+      logger.log('[Quote] Section entered viewport — starting quote cycle.');
     } else {
-      console.log('[Quote] Section left viewport — pausing refresh.');
+      logger.log('[Quote] Section left viewport — pausing quote cycle.');
     }
 
     if (!inView) return;
 
     const ignore = { current: false };
 
+    // Show a fallback quote immediately so the section is never empty.
+    const fallback = getNextFallback();
+    logger.log('[Quote] Showing fallback quote:', fallback.author);
+    showQuote(fallback, ignore);
+
     const loadQuote = () => {
-      console.log('[Quote] Fetching new quote…');
+      logger.log('[Quote] Fetching new quote from API…');
       getQuote()
         .then(nextQuote => {
           if (!ignore.current) {
-            saveCache(nextQuote);
+            logger.log('[Quote] API quote received — replacing fallback.');
             showQuote(nextQuote, ignore);
-            setError(null);
           }
         })
-        .catch(err => {
+        .catch(() => {
           if (!ignore.current) {
-            setError(err instanceof Error ? err.message : 'Unable to load quote');
+            // API failed — silently cycle to the next local fallback.
+            logger.log('[Quote] API failed — cycling to next fallback quote.');
+            showQuote(getNextFallback(), ignore);
           }
         });
     };
 
-    // Calculate how long until the NEXT scheduled fetch based on the last
-    // recorded fetch time. This preserves the 15-second cadence across
-    // reloads and navigation events instead of always restarting from zero.
-    const cached = loadCache();
-    const elapsed = cached ? Date.now() - cached.fetchedAt : QUOTE_REFRESH_INTERVAL_MS;
-    const timeUntilNext = Math.max(0, QUOTE_REFRESH_INTERVAL_MS - elapsed);
-
-    console.log(`[Quote] Next fetch in ${Math.round(timeUntilNext / 1000)}s.`);
-
-    let intervalId: number;
-    const timeoutId = window.setTimeout(() => {
-      if (!ignore.current) {
-        loadQuote();
-        intervalId = window.setInterval(loadQuote, QUOTE_REFRESH_INTERVAL_MS);
-      }
-    }, timeUntilNext);
+    // Fetch from the API after the interval — the fallback is shown in the
+    // meantime so users always see something right away.
+    const intervalId = window.setInterval(loadQuote, QUOTE_REFRESH_INTERVAL_MS);
 
     return () => {
       ignore.current = true;
-      window.clearTimeout(timeoutId);
       window.clearInterval(intervalId);
       clearFadeTimeout();
-      console.log('[Quote] Refresh paused.');
+      logger.log('[Quote] Quote cycle paused.');
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
-
-  if (error || !quote) {
-    // Still attach the ref so IntersectionObserver can detect when the
-    // section becomes visible (e.g. on first load before any quote is shown).
-    return <div ref={sectionRef} />;
-  }
 
   return (
     <aside ref={sectionRef} className="w-full max-w-4xl px-4 pb-4 flex flex-row justify-center">
       <figure
         className={`p-4 text-sm transition-all duration-300 ease-out ${
-          isVisible ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-0'
+          quote && isVisible ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-0'
         }`}
       >
-        <blockquote className="text-gray-700 dark:text-gray-200">"{quote.quote}"</blockquote>
-        <figcaption className="mt-2 text-xs text-gray-500 dark:text-gray-400">- {quote.author}</figcaption>
+        {quote && (
+          <>
+            <blockquote className="text-gray-700 dark:text-gray-200">"{quote.quote}"</blockquote>
+            <figcaption className="mt-2 text-xs text-gray-500 dark:text-gray-400">- {quote.author}</figcaption>
+          </>
+        )}
       </figure>
     </aside>
   );

@@ -55,7 +55,7 @@ export default async (request: Request) => {
   const clientIp = getClientIp(request);
   const now = Date.now();
 
-  console.log(`[random-quote] Request from IP: ${clientIp}`);
+  // console.log(`[random-quote] Request from IP: ${clientIp}`);
 
   // Load the persisted entry for this IP from Netlify Blobs.
   const store = getStore(BLOB_STORE_NAME);
@@ -74,9 +74,9 @@ export default async (request: Request) => {
     const remaining = RATE_LIMIT_MS - elapsed;
 
     if (remaining > 0) {
-      console.log(
-        `[random-quote] ✅ CACHE HIT — returning cached quote (${Math.ceil(remaining / 1000)}s until next upstream fetch). Upstream API NOT called.`,
-      );
+      // console.log(
+      //   `[random-quote] ✅ CACHE HIT — returning cached quote (${Math.ceil(remaining / 1000)}s until next upstream fetch). Upstream API NOT called.`,
+      // );
 
       return jsonResponse(entry.lastQuote, {
         status: 200,
@@ -88,9 +88,9 @@ export default async (request: Request) => {
       });
     }
 
-    console.log(`[random-quote] ⏱ Rate-limit window expired — fetching fresh quote from upstream.`);
+    // console.log(`[random-quote] ⏱ Rate-limit window expired — fetching fresh quote from upstream.`);
   } else {
-    console.log(`[random-quote] 🆕 No cache entry for this IP — fetching fresh quote from upstream.`);
+    // console.log(`[random-quote] 🆕 No cache entry for this IP — fetching fresh quote from upstream.`);
   }
 
   // Outside rate-limit window — fetch a fresh quote from the upstream API.
@@ -115,9 +115,9 @@ export default async (request: Request) => {
       // cached quote without hitting the upstream API.
       const newEntry: RateLimitEntry = { lastFetchedAt: now, lastQuote: body };
       await store.set(clientIp, JSON.stringify(newEntry));
-      console.log(
-        `[random-quote] 🌐 UPSTREAM HIT — fetched fresh quote from API Ninjas. Cached for next ${RATE_LIMIT_MS / 1000}s.`,
-      );
+      // console.log(
+      //   `[random-quote] 🌐 UPSTREAM HIT — fetched fresh quote from API Ninjas. Cached for next ${RATE_LIMIT_MS / 1000}s.`,
+      // );
     }
 
     return jsonResponse(body, {
