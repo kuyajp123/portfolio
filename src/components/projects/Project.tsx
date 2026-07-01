@@ -62,7 +62,7 @@ export const Project = ({ isBackendMode = false }: ProjectProps) => {
       </div>
       <ul className="list-disc list-outside ml-5">
         {projectsData.items.map(project => (
-          <li className="cursor-pointer" key={project.key}>
+          <li className="" key={project.key}>
             <div className="flex justify-between w-full p-2 gap-4">
               <div className="flex flex-col w-0 flex-grow gap-1">
                 <div className="flex flex-wrap items-center gap-2">
@@ -81,9 +81,9 @@ export const Project = ({ isBackendMode = false }: ProjectProps) => {
 
               <div className="flex items-center gap-2">
                 <span className="text-sm font-semibold">{project.date}</span>
-                <span>
+                {/* <span>
                   <IoIosArrowForward />
-                </span>
+                </span> */}
               </div>
             </div>
           </li>

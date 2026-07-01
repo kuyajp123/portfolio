@@ -170,7 +170,7 @@ export const Quote = () => {
   return (
     <aside ref={sectionRef} className="w-full max-w-4xl px-4 pb-4 flex flex-row justify-center">
       <figure
-        className={`p-4 text-sm transition-all duration-300 ease-out ${
+        className={`p-4 text-sm transition-all duration-300 ease-out text-center ${
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-0'
         }`}
       >

@@ -6,10 +6,7 @@ import { FaGithub } from 'react-icons/fa';
 import { HiArrowTopRightOnSquare } from 'react-icons/hi2';
 import { IoChevronBackOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
-
-const USERNAME = 'kuyajp123';
-const STATS_BASE_URL = 'https://github-readme-stats-gamma-blush-51.vercel.app';
-const ACTIVITY_BASE_URL = 'https://github-readme-activity-graph.vercel.app/graph';
+import { achievements, ACTIVITY_BASE_URL, STATS_BASE_URL, USERNAME } from './constant';
 
 const calendarTheme = {
   light: ['#ebedf0', '#c6c9ce', '#9ea3ab', '#5a6069', '#1a1d23'],
@@ -143,25 +140,63 @@ export const GithubGraphPage = () => {
           </article>
 
           <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-2">
-            <article className={cardClass}>
-              <div className="border-b border-gray-200 px-4 py-3 dark:border-white/10">
-                <h2 className="text-base font-semibold">GitHub Stats</h2>
-              </div>
-              <div className="flex min-h-48 items-center justify-center">
-                <img
-                  src={statsLight}
-                  alt="GitHub Stats"
-                  className="block w-full select-none dark:hidden"
-                  draggable="false"
-                />
-                <img
-                  src={statsDark}
-                  alt="GitHub Stats"
-                  className="hidden w-full select-none dark:block"
-                  draggable="false"
-                />
-              </div>
-            </article>
+            <div className="flex flex-col gap-5">
+              <article className={cardClass}>
+                <div className="border-b border-gray-200 px-4 py-3 dark:border-white/10">
+                  <h2 className="text-base font-semibold">GitHub Stats</h2>
+                </div>
+                <div className="flex min-h-48 items-center justify-center">
+                  <img
+                    src={statsLight}
+                    alt="GitHub Stats"
+                    className="block w-full select-none dark:hidden"
+                    draggable="false"
+                  />
+                  <img
+                    src={statsDark}
+                    alt="GitHub Stats"
+                    className="hidden w-full select-none dark:block"
+                    draggable="false"
+                  />
+                </div>
+              </article>
+
+              <section className="flex flex-col gap-3">
+                <div className="flex items-center justify-between gap-3">
+                  <h2 className="text-lg font-semibold">Earned achievements</h2>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {achievements.map(ach => (
+                    <a
+                      key={ach.name}
+                      href={`https://github.com/${USERNAME}?tab=achievements&achievement=${ach.slug}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-col items-center justify-start gap-3 w-20 text-center"
+                      draggable="false"
+                    >
+                      {/* Relative wrapper to anchor the badge to the image corner */}
+                      <div className="relative">
+                        <img
+                          src={ach.image}
+                          alt={ach.name}
+                          className="w-[60px] h-[60px] object-contain drop-shadow-md"
+                          draggable="false"
+                        />
+                        {ach.badge && (
+                          <span className="absolute -bottom-1 -right-1 bg-gray-200 text-gray-800 text-[10px] font-bold px-1.5 py-0.5 rounded-full shadow-md border border-neutral-900">
+                            {ach.badge}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Clean, uniform text label */}
+                      <span className="text-[13px] font-semibold">{ach.name}</span>
+                    </a>
+                  ))}
+                </div>
+              </section>
+            </div>
 
             <article className={cardClass}>
               <div className="border-b border-gray-200 px-4 py-3 dark:border-white/10">

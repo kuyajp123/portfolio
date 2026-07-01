@@ -3,13 +3,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi';
 import Lightbox from 'yet-another-react-lightbox';
 import Captions from 'yet-another-react-lightbox/plugins/captions';
-import 'yet-another-react-lightbox/styles.css';
 import 'yet-another-react-lightbox/plugins/captions.css';
+import 'yet-another-react-lightbox/styles.css';
 
-import symposiumImg from '@/assets/symposium.png';
 import empireImg from '@/assets/empire.png';
 import laptopImg from '@/assets/laptop.jpg';
 import meImg from '@/assets/me.jpg';
+import symposiumImg from '@/assets/symposium.png';
 
 interface GalleryImage {
   src: string;
@@ -71,37 +71,42 @@ export const CarouselGallery = () => {
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
   // Each slide takes an equal share of the row; Embla enables scrolling when there are more
-  const slideWidth = `calc(${100 / VISIBLE_COUNT}% - 12px)`;
+  const slideWidth = `calc(${String(100 / VISIBLE_COUNT)}% - 12px)`;
 
   return (
     <div className="relative group">
       {/* Viewport */}
-      <div ref={emblaRef} className="overflow-hidden rounded-xl">
-        <div className="flex gap-3">
-          {images.map((img, i) => (
-            <div
-              key={i}
-              className="shrink-0 rounded-lg overflow-hidden cursor-zoom-in"
-              style={{ flex: `0 0 ${slideWidth}` }}
-              onClick={() => setLightboxIndex(i)}
-            >
-              {/* Fixed height thumbnail */}
-              <div className="relative h-28 bg-gray-200 dark:bg-gray-800 overflow-hidden group/img">
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-110"
-                  loading="lazy"
-                />
-                {/* Caption on hover */}
-                <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 p-2">
-                  <p className="text-white text-[10px] font-medium leading-tight line-clamp-2">
-                    {img.caption}
-                  </p>
+      <div ref={emblaRef} className="overflow-hidden rounded-xl -my-4 py-4 -mx-2 px-2">
+        <div className="flex gap-0">
+          {images.map((img, i) => {
+            const rotation = i % 2 === 0 ? '-rotate-2' : 'rotate-2';
+            const translateY = i % 2 === 0 ? 'translate-y-1' : '-translate-y-1';
+
+            return (
+              <div
+                key={i}
+                className={`relative shrink-0 rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition-all duration-300 ${rotation} ${translateY} hover:!rotate-0 hover:z-10`}
+                style={{ flex: `0 0 ${slideWidth}` }}
+                onClick={() => {
+                  setLightboxIndex(i);
+                }}
+              >
+                {/* Fixed height thumbnail */}
+                <div className="relative h-28 bg-gray-200 dark:bg-gray-800 overflow-hidden group/img hover:!rotate-0 hover:z-10">
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    className="w-full h-full object-cover transition-transform duration-500 "
+                    loading="lazy"
+                  />
+                  {/* Caption on hover */}
+                  <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 p-2">
+                    <p className="text-white text-[10px] font-medium leading-tight line-clamp-2">{img.caption}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
@@ -144,7 +149,9 @@ export const CarouselGallery = () => {
       <Lightbox
         open={lightboxIndex >= 0}
         index={lightboxIndex}
-        close={() => setLightboxIndex(-1)}
+        close={() => {
+          setLightboxIndex(-1);
+        }}
         slides={images.map(img => ({ src: img.src, alt: img.alt, title: img.caption }))}
         plugins={[Captions]}
         captions={{ showToggle: false, descriptionTextAlign: 'center' }}
