@@ -2,6 +2,7 @@ import { BackendDataView } from '@/components/ui/cards/BackendDataView';
 import { Card } from '@/components/ui/cards/Card';
 import { FlipCard } from '@/components/ui/cards/FlipCard';
 import { IoIosArrowForward, IoMdTrophy } from 'react-icons/io';
+IoIosArrowForward;
 
 interface ProjectItem {
   key: string;
