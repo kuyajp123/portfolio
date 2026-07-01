@@ -1,5 +1,6 @@
 import { QUOTE_URL, QUOTES } from '@/API/endpoint';
 import { programmingQuotes } from '@/constant/quotes';
+import { usePageVisible } from '@/hooks/usePageVisible';
 import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { logger } from '@/config/logger';
@@ -80,6 +81,9 @@ export const Quote = () => {
     threshold: 0.1, // trigger when at least 10 % of the element is visible
   });
 
+  const isPageVisible = usePageVisible();
+  const isCurrentlyViewed = inView && isPageVisible;
+
   const clearFadeTimeout = () => {
     if (fadeTimeoutRef.current !== null) {
       window.clearTimeout(fadeTimeoutRef.current);
@@ -102,15 +106,15 @@ export const Quote = () => {
   };
 
   // Manages the accumulated viewing time. The 15-second countdown pauses when
-  // scrolled out of view, and resumes where it left off when scrolled back in.
+  // scrolled out of view or tab is hidden, and resumes where it left off when scrolled back in.
   useEffect(() => {
-    if (!inView) {
-      logger.log(`[Quote] Section left viewport — pausing quote cycle. (${Math.round(timeRemainingRef.current / 1000)}s remaining)`);
+    if (!isCurrentlyViewed) {
+      logger.log(`[Quote] Section left viewport or tab inactive — pausing quote cycle. (${Math.round(timeRemainingRef.current / 1000)}s remaining)`);
       return;
     }
 
     logger.log(
-      `[Quote] Section entered viewport — starting/resuming countdown (${Math.round(timeRemainingRef.current / 1000)}s remaining).`
+      `[Quote] Section entered viewport and tab active — starting/resuming countdown (${Math.round(timeRemainingRef.current / 1000)}s remaining).`
     );
 
     const ignore = { current: false };
@@ -161,7 +165,7 @@ export const Quote = () => {
       }
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inView]);
+  }, [isCurrentlyViewed]);
 
   return (
     <aside ref={sectionRef} className="w-full max-w-4xl px-4 pb-4 flex flex-row justify-center">
