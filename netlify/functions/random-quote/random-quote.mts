@@ -6,11 +6,49 @@ const RATE_LIMIT_MS = 15_000; // must match QUOTE_REFRESH_INTERVAL_MS on the fro
 const BLOB_STORE_NAME = 'quote-rate-limit';
 
 // ---------------------------------------------------------------------------
+// Allowed origins.
+//
+// process.env.URL is injected automatically by Netlify on every deploy
+// (e.g. "https://yajeyps.netlify.app"). Localhost entries cover local dev
+// via `netlify dev` — no extra env vars required.
+// ---------------------------------------------------------------------------
+const getAllowedOrigins = (): string[] =>
+  [
+    process.env.URL,           // production domain — set by Netlify automatically
+    'http://localhost:8888',   // netlify dev proxy
+    'http://localhost:5173',   // vite dev server
+    'http://127.0.0.1:8888',
+    'http://127.0.0.1:5173',
+  ].filter(Boolean) as string[];
+
+/**
+ * Returns true when the request originates from the portfolio site.
+ *
+ * Browsers always send an `Origin` header for cross-origin requests and a
+ * `Referer` header for same-origin requests (Netlify functions are served
+ * on the same domain as the site). We check both so the validation works in
+ * every scenario:
+ *   - production (same-origin)  → Referer: https://yajeyps.netlify.app/
+ *   - local dev  (cross-origin) → Origin:  http://localhost:5173
+ *
+ * Direct tool calls (Postman, curl) without a matching header are rejected.
+ */
+const isAllowedOrigin = (request: Request): boolean => {
+  const origin  = request.headers.get('origin');
+  const referer = request.headers.get('referer');
+  const source  = origin ?? referer;
+
+  if (!source) return false;
+
+  return getAllowedOrigins().some(allowed => source.startsWith(allowed));
+};
+
+// ---------------------------------------------------------------------------
 // Netlify Blobs-backed rate-limit store (per IP).
 //
-// Unlike an in-memory Map, Blobs persist across function invocations, cold
-// starts, and multiple concurrent instances — making rate limiting reliable
-// in both local dev (netlify dev) and production.
+// Blobs persist across function invocations, cold starts, and multiple
+// concurrent instances — making rate limiting reliable in both local dev
+// (netlify dev) and production.
 //
 // Blob key  : client IP address
 // Blob value: JSON { lastFetchedAt: number, lastQuote: unknown }
@@ -23,11 +61,20 @@ type RateLimitEntry = {
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
+const buildCorsHeaders = () => ({
+  // Restrict which origins the browser exposes the response to.
+  // Defence-in-depth on top of the origin check above.
+  'access-control-allow-origin': process.env.URL ?? 'null',
+  'access-control-allow-methods': 'GET',
+  'access-control-allow-headers': 'Content-Type',
+});
+
 const jsonResponse = (body: unknown, init?: ResponseInit) =>
   new Response(JSON.stringify(body), {
     ...init,
     headers: {
       'content-type': 'application/json',
+      ...buildCorsHeaders(),
       ...init?.headers,
     },
   });
@@ -42,8 +89,21 @@ const getClientIp = (request: Request): string =>
 // Handler
 // ---------------------------------------------------------------------------
 export default async (request: Request) => {
+  // Preflight — must succeed for CORS to work in local dev (cross-origin).
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: buildCorsHeaders() });
+  }
+
   if (request.method !== 'GET') {
     return jsonResponse({ error: 'Method not allowed' }, { status: 405 });
+  }
+
+  // Origin / Referer guard — reject requests that don't come from the portfolio.
+  if (!isAllowedOrigin(request)) {
+    console.log(
+      `[random-quote] 🚫 Rejected — Origin: "${request.headers.get('origin')}" Referer: "${request.headers.get('referer')}"`,
+    );
+    return jsonResponse({ error: 'Forbidden' }, { status: 403 });
   }
 
   const apiKey = process.env.API_NINJAS_KEY;
@@ -55,9 +115,7 @@ export default async (request: Request) => {
   const clientIp = getClientIp(request);
   const now = Date.now();
 
-  // console.log(`[random-quote] Request from IP: ${clientIp}`);
-
-  // Load the persisted entry for this IP from Netlify Blobs.
+  // Load the persisted rate-limit entry for this IP from Netlify Blobs.
   const store = getStore(BLOB_STORE_NAME);
   let entry: RateLimitEntry | null = null;
 
@@ -74,10 +132,6 @@ export default async (request: Request) => {
     const remaining = RATE_LIMIT_MS - elapsed;
 
     if (remaining > 0) {
-      // console.log(
-      //   `[random-quote] ✅ CACHE HIT — returning cached quote (${Math.ceil(remaining / 1000)}s until next upstream fetch). Upstream API NOT called.`,
-      // );
-
       return jsonResponse(entry.lastQuote, {
         status: 200,
         headers: {
@@ -87,10 +141,6 @@ export default async (request: Request) => {
         },
       });
     }
-
-    // console.log(`[random-quote] ⏱ Rate-limit window expired — fetching fresh quote from upstream.`);
-  } else {
-    // console.log(`[random-quote] 🆕 No cache entry for this IP — fetching fresh quote from upstream.`);
   }
 
   // Outside rate-limit window — fetch a fresh quote from the upstream API.
@@ -100,9 +150,7 @@ export default async (request: Request) => {
     upstreamUrl.search = incomingUrl.search;
 
     const upstreamResponse = await fetch(upstreamUrl, {
-      headers: {
-        'X-Api-Key': apiKey,
-      },
+      headers: { 'X-Api-Key': apiKey },
     });
 
     const contentType = upstreamResponse.headers.get('content-type') ?? '';
@@ -111,13 +159,8 @@ export default async (request: Request) => {
       : { error: await upstreamResponse.text() };
 
     if (upstreamResponse.ok) {
-      // Persist the result so subsequent requests within the window get the
-      // cached quote without hitting the upstream API.
       const newEntry: RateLimitEntry = { lastFetchedAt: now, lastQuote: body };
       await store.set(clientIp, JSON.stringify(newEntry));
-      // console.log(
-      //   `[random-quote] 🌐 UPSTREAM HIT — fetched fresh quote from API Ninjas. Cached for next ${RATE_LIMIT_MS / 1000}s.`,
-      // );
     }
 
     return jsonResponse(body, {
