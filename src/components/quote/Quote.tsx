@@ -65,8 +65,6 @@ const getQuote = () => {
 // Component
 // ---------------------------------------------------------------------------
 export const Quote = () => {
-  // Pick one random fallback on first render only — never replaced on re-entry.
-  // The inView effect only starts the interval; it never touches this initial value.
   const [quote, setQuote] = useState<QuoteResponse>(
     () => programmingQuotes[Math.floor(Math.random() * programmingQuotes.length)],
   );
@@ -75,10 +73,8 @@ export const Quote = () => {
   const timeRemainingRef = useRef(QUOTE_REFRESH_INTERVAL_MS);
   const lastResumeTimeRef = useRef<number | null>(null);
 
-  // Track whether the quote section is currently scrolled into view.
-  // Nothing runs — no fetch, no interval — until inView becomes true.
   const { ref: sectionRef, inView } = useInView({
-    threshold: 0.1, // trigger when at least 10 % of the element is visible
+    threshold: 0.1,
   });
 
   const isPageVisible = usePageVisible();
@@ -105,8 +101,6 @@ export const Quote = () => {
     }, QUOTE_FADE_DURATION_MS);
   };
 
-  // Manages the accumulated viewing time. The 15-second countdown pauses when
-  // scrolled out of view or tab is hidden, and resumes where it left off when scrolled back in.
   useEffect(() => {
     if (!isCurrentlyViewed) {
       logger.log(`[Quote] Section left viewport or tab inactive — pausing quote cycle. (${Math.round(timeRemainingRef.current / 1000)}s remaining)`);
@@ -133,7 +127,6 @@ export const Quote = () => {
         })
         .catch(() => {
           if (!ignore.current) {
-            // API failed — silently cycle to the next local fallback.
             logger.log('[Quote] API failed — cycling to next fallback quote.');
             showQuote(getNextFallback(), ignore);
           }
@@ -164,7 +157,6 @@ export const Quote = () => {
         lastResumeTimeRef.current = null;
       }
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCurrentlyViewed]);
 
   return (
