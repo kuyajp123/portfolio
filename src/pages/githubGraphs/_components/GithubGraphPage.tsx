@@ -8,7 +8,7 @@ import 'react-github-calendar/tooltips.css';
 import { FaGithub } from 'react-icons/fa';
 import { FiArrowUpRight } from 'react-icons/fi';
 import { IoChevronBackOutline } from 'react-icons/io5';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   achievements,
   ACTIVITY_BASE_URL,
@@ -39,7 +39,6 @@ const panelClass =
   'overflow-hidden rounded-xl border border-black/8 dark:border-white/10 bg-black/2 dark:bg-white/3 transition-colors';
 
 export const GithubGraphPage = () => {
-  const navigate = useNavigate();
   const { resolvedTheme } = useTheme();
 
   const [isActivityAvailable, setIsActivityAvailable] = useState(false);
@@ -103,16 +102,13 @@ export const GithubGraphPage = () => {
     <div className="min-h-[100dvh] bg-grid-pattern flex flex-col items-center">
       {/* Top Bar */}
       <header className="w-full max-w-3xl mx-auto px-4 sm:px-6 py-6 flex items-center justify-between">
-        <button
-          type="button"
-          onClick={() => {
-            void navigate(-1);
-          }}
+        <Link
+          to="/"
           className="inline-flex items-center gap-1.5 text-xs font-mono text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors cursor-pointer"
         >
           <IoChevronBackOutline size={15} />
           <span>Back</span>
-        </button>
+        </Link>
 
         <div className="flex items-center gap-4">
           <a

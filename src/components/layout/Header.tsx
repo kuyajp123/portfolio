@@ -39,7 +39,6 @@ export const Header = ({ onOpenDrawer }: HeaderProps) => {
           aria-label="Open directory menu"
         >
           <HiMenuAlt3 size={15} />
-          <span>Menu</span>
         </button>
       </div>
     </header>

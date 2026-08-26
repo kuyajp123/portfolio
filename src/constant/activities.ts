@@ -1,7 +1,7 @@
-import egovHackathonImg from '@/assets/egov-hackathon.jpg';
-import egovBrylImg from '@/assets/egov-bryl.jpg';
-import egovBossRodImg from '@/assets/egov-boss-rod.jpg';
 import awsWorkshopImg from '@/assets/AWS-workshop.png';
+import egovBossRodImg from '@/assets/egov-boss-rod.jpg';
+import egovBrylImg from '@/assets/egov-bryl.jpg';
+import egovHackathonImg from '@/assets/egov-hackathon.jpg';
 
 export interface ActivityImage {
   src: string;
@@ -26,7 +26,8 @@ export const activities: ActivityItem[] = [
   {
     id: 'egov-hackathon',
     title: 'eGov Hackathon',
-    summary: 'Built an AI agent automating government document processing and workflow pipelines using the eGov API, placing Top 30 among 137 teams.',
+    summary:
+      'Built an AI agent automating government document processing and workflow pipelines using the eGov API, placing Top 30 among 137 teams.',
     roleOrAward: 'Top 30 Finalist (137 Teams)',
     type: 'Hackathon',
     location: 'BGC Taguig',
@@ -41,24 +42,28 @@ export const activities: ActivityItem[] = [
       {
         src: egovHackathonImg,
         title: 'eGov Hackathon Technical Pitch',
-        caption: 'Team presentation and technical defense of the automated document processing AI agent.',
+        caption:
+          'Team DevOops dominated the Technical Pitch Round with a fully functional prototype and seamless API integration, earning a spot among the Top 30 finalists out of 137 participating teams.',
       },
       {
         src: egovBrylImg,
-        title: 'eGov Hackathon Engineering',
-        caption: 'Collaborative development and API integration during the 24-hour sprint in BGC Taguig.',
+        title: 'eGov Hackathon Networking',
+        caption:
+          'Met tarsi founder during the hackathon and have an opprtunity to talk about the future of government digitalization.',
       },
       {
         src: egovBossRodImg,
-        title: 'eGov Hackathon Mentorship',
-        caption: 'Consultation and evaluation with industry mentors during the eGov evaluation round.',
+        title: 'eGov Hackathon Networking',
+        caption:
+          'Met upskwela founder during the hackathon and had an opportunity to discuss the future of government digitalization.',
       },
     ],
   },
   {
     id: 'aws-workshop',
     title: 'AWS Workshop: Amazon Q & Cloud AI',
-    summary: 'Hands-on exploration of Amazon Q generative developer tooling and cloud-assisted AI workflows in BGC Taguig.',
+    summary:
+      'Hands-on exploration of Amazon Q generative developer tooling and cloud-assisted AI workflows in BGC Taguig.',
     type: 'Workshop',
     location: 'BGC Taguig',
     date: 'August 14, 2026',

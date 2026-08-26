@@ -23,8 +23,8 @@ const moments: ViewerItem[] = [
   },
   {
     src: egovBrylImg,
-    title: 'eGov Hackathon Sprint',
-    caption: 'Collaborative development and API integration during the 24-hour hackathon sprint.',
+    title: 'eGov Hackathon Networking',
+    caption: 'Met tarsi founder during the hackathon and have an opprtunity to talk about the future of government digitalization.',
     category: 'Hackathon',
     date: 'July 2026',
   },
@@ -37,8 +37,9 @@ const moments: ViewerItem[] = [
   },
   {
     src: egovHackathonImg,
-    title: 'eGov Hackathon Technical Pitch',
-    caption: 'Team presentation and technical defense of the automated document processing AI agent in BGC Taguig.',
+    title: 'eGov Hackathon Team DevOops',
+    caption:
+      'Team DevOops dominated the Technical Pitch Round with a fully functional prototype and seamless API integration, earning a spot among the Top 30 finalists out of 137 participating teams.',
     category: 'Hackathon',
     date: 'July 2026',
   },
@@ -59,8 +60,8 @@ const moments: ViewerItem[] = [
   },
   {
     src: egovBossRodImg,
-    title: 'eGov Hackathon Mentorship',
-    caption: 'Consultation and evaluation with industry mentors during the evaluation round.',
+    title: 'eGov Hackathon Networking',
+    caption: 'Met upskwela founder during the hackathon and had an opportunity to discuss the future of government digitalization.',
     category: 'Hackathon',
     date: 'July 2026',
   },

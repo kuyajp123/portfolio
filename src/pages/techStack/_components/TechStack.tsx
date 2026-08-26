@@ -10,11 +10,10 @@ import {
   networkingAndVirtualization,
 } from '@/pages/techStack/_components/constant';
 import { IoChevronBackOutline } from 'react-icons/io5';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ThemeToggle } from '@/components/button/Theme';
 
 export const TechStack = () => {
-  const navigate = useNavigate();
 
   const categories = [
     { title: 'Frontend Architecture', subtitle: 'Modern user interfaces, type safety & reactive state', items: frontendTechStack },
@@ -29,16 +28,13 @@ export const TechStack = () => {
     <div className="min-h-[100dvh] bg-grid-pattern flex flex-col items-center">
       {/* Top Bar */}
       <header className="w-full max-w-3xl mx-auto px-4 sm:px-6 py-6 flex items-center justify-between">
-        <button
-          type="button"
-          onClick={() => {
-            void navigate(-1);
-          }}
+        <Link
+          to="/"
           className="inline-flex items-center gap-1.5 text-xs font-mono text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors cursor-pointer"
         >
           <IoChevronBackOutline size={15} />
           <span>Back</span>
-        </button>
+        </Link>
 
         <div className="flex items-center gap-4">
           <Link to="/" className="font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">

@@ -9,7 +9,6 @@ export const frontendTechStack = [
   'Tailwind CSS',
   'Bootstrap',
   'HeroUI',
-  'Lucide React',
 ];
 
 export const backendTechStack = [
@@ -23,11 +22,13 @@ export const backendTechStack = [
   'SupaBase',
   'Docker',
   'Deno',
+  'Tauri',
+  'Rust',
 ];
 
 export const devOpsAndCloudTechStack = ['Vercel', 'Netlify', 'Render', 'Railway', 'Hostinger', 'Google Cloud', 'Expo'];
 
-export const AITechStack = ['Google AI Studio', 'Codex', 'Github Copilot'];
+export const AITechStack = ['Google AI Studio', 'openAI', 'Codex', 'claude', 'Github Copilot'];
 
 export const developmentTools = [
   'Visual Studio Code',

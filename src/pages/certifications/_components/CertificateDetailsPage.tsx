@@ -8,11 +8,10 @@ import { useState } from 'react';
 import { FaFacebook } from 'react-icons/fa';
 import { FiArrowUpRight, FiAward } from 'react-icons/fi';
 import { IoChevronBackOutline } from 'react-icons/io5';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 export const CertificateDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const certificate = certifications.find(cert => cert.id === id);
   const [activeViewerIndex, setActiveViewerIndex] = useState(-1);
 
@@ -46,16 +45,13 @@ export const CertificateDetailsPage = () => {
     <div className="min-h-[100dvh] bg-grid-pattern flex flex-col items-center">
       {/* Top Bar */}
       <header className="w-full max-w-3xl mx-auto px-4 sm:px-6 py-6 flex items-center justify-between">
-        <button
-          type="button"
-          onClick={() => {
-            void navigate(-1);
-          }}
+        <Link
+          to="/"
           className="inline-flex items-center gap-1.5 text-xs font-mono text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors cursor-pointer"
         >
           <IoChevronBackOutline size={15} />
           <span>Back</span>
-        </button>
+        </Link>
 
         <div className="flex items-center gap-4">
           <Link to="/" className="font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">

@@ -1,4 +1,4 @@
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaFacebook, FaInstagram } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 
 export const Footer = () => {
@@ -31,6 +31,24 @@ export const Footer = () => {
             aria-label="LinkedIn profile"
           >
             <FaLinkedin size={15} />
+          </a>
+          <a
+            href="https://www.facebook.com/jeyps.py/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-gray-900 dark:hover:text-white transition-colors"
+            aria-label="Facebook profile"
+          >
+            <FaFacebook size={15} />
+          </a>
+          <a
+            href="https://www.instagram.com/jeyps.css/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-gray-900 dark:hover:text-white transition-colors"
+            aria-label="Instagram profile"
+          >
+            <FaInstagram size={15} />
           </a>
           <a
             href="mailto:johnpaulnaag10@gmail.com"

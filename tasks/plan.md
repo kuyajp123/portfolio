@@ -1,10 +1,20 @@
-# Implementation Plan: GitHub Analytics & Language Share Redesign
+# Implementation Plan: Smart Hybrid Spotify Playback Engine
 
 ## Overview
-1. Conditionally render third-party GitHub graphs based on HTTP status codes and content validation. If endpoints fail or return error SVGs, hide the broken sections completely.
-2. Replace the third-party Language Share donut SVG with a native React editorial widget featuring a multi-segment distribution bar and percentage breakdown.
+Enable real-time Spotify "Now Playing" detection that works both when Discord is running (via Lanyard) AND when Discord is closed (via Last.fm), with mathematical stale-scrobble expiration so paused/stopped tracks do not linger as phantom playback.
+
+## Root Cause
+- When Discord is closed, Lanyard reports offline.
+- Last.fm scrobbler receives start webhooks from Spotify but not pause webhooks, leaving `@attr.nowplaying: true` on the last played song indefinitely.
+- Solution: Calculate `elapsed = Date.now() - previousTrack.endedAt` and compare against the track's duration. If `elapsed <= duration + 30s`, the song is genuinely playing right now; otherwise, it is expired/resting.
 
 ## Task List
-- [ ] Task 1: Add SVG validation hooks/effects in `GithubGraphPage.tsx`
-- [ ] Task 2: Build native Language Share UI component
-- [ ] Task 3: Test and verify build and lint
+
+### Phase 1: Engine Implementation
+- [ ] Task 1: Update `SpotifyNowPlaying.tsx` with smart Last.fm timestamp freshness verification and duration calculation.
+- [ ] Task 2: Ensure seamless transition between Lanyard (when Discord is active) and Last.fm (when Discord is closed).
+
+### Checkpoint: Verification
+- [ ] ESLint passes with 0 errors.
+- [ ] Production build passes.
+- [ ] Stale tracks show Resting state; newly played tracks show Live Now Playing state with progress bar.

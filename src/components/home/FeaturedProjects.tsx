@@ -23,9 +23,12 @@ export const FeaturedProjects = () => {
               {/* Header: Title, Award & Date */}
               <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
                 <div className="flex flex-wrap items-center gap-2.5">
-                  <h3 className="font-sans text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
+                  <Link
+                    to={`/projects/${project.key}`}
+                    className="font-sans text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors"
+                  >
                     {project.title}
-                  </h3>
+                  </Link>
 
                   {project.award && (
                     <Link to={project.awardLink ?? '/certificates/best-paper'}>
@@ -56,15 +59,13 @@ export const FeaturedProjects = () => {
                 </div>
 
                 <div className="flex items-center gap-3 text-xs font-mono">
-                  {project.awardLink && (
-                    <Link
-                      to={project.awardLink}
-                      className="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400 hover:underline"
-                    >
-                      <span>View Paper Award</span>
-                      <FiArrowUpRight size={13} />
-                    </Link>
-                  )}
+                  <Link
+                    to={`/projects/${project.key}`}
+                    className="inline-flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-gray-950 dark:hover:text-white transition-colors"
+                  >
+                    <span>View Project</span>
+                    <FiArrowUpRight size={13} />
+                  </Link>
                   {project.github && (
                     <a
                       href={project.github}

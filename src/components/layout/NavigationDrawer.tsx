@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { HiX } from 'react-icons/hi';
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaFacebook, FaInstagram } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import { FiDownload } from 'react-icons/fi';
 import { ThemeToggle } from '@/components/button/Theme';
@@ -13,13 +13,14 @@ interface NavigationDrawerProps {
 }
 
 const navLinks = [
-  { num: '01', label: 'Featured Work', href: '#work', isHash: true },
+  { num: '01', label: 'Featured Work', href: '/projects', isHash: false },
   { num: '02', label: 'Activities & Hackathons', href: '/activities', isHash: false },
   { num: '03', label: 'About & Ethos', href: '#about', isHash: true },
   { num: '04', label: 'Visual Moments', href: '#moments', isHash: true },
-  { num: '05', label: 'Tech Taxonomy', href: '/tech-stack', isHash: false },
-  { num: '06', label: 'GitHub Activity', href: '/github-graphs', isHash: false },
-  { num: '07', label: 'Research Awards', href: '/certificates/best-paper', isHash: false },
+  { num: '05', label: 'Outside the IDE', href: '/outside-ide', isHash: false },
+  { num: '06', label: 'Tech Taxonomy', href: '/tech-stack', isHash: false },
+  { num: '07', label: 'GitHub Activity', href: '/github-graphs', isHash: false },
+  { num: '08', label: 'Research Awards', href: '/certificates/best-paper', isHash: false },
 ];
 
 export const NavigationDrawer = ({ isOpen, onClose }: NavigationDrawerProps) => {
@@ -173,6 +174,24 @@ export const NavigationDrawer = ({ isOpen, onClose }: NavigationDrawerProps) => 
                 >
                   <FaLinkedin size={15} />
                   <span>LinkedIn</span>
+                </a>
+                <a
+                  href="https://www.facebook.com/jeyps.py/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 p-2.5 rounded-lg border border-black/8 dark:border-white/8 text-xs font-mono text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                >
+                  <FaFacebook size={15} />
+                  <span>Facebook</span>
+                </a>
+                <a
+                  href="https://www.instagram.com/jeyps.css/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 p-2.5 rounded-lg border border-black/8 dark:border-white/8 text-xs font-mono text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                >
+                  <FaInstagram size={15} />
+                  <span>Instagram</span>
                 </a>
                 <a
                   href="/resume.pdf"

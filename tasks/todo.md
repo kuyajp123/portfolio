@@ -1,5 +1,5 @@
-# Tasks: GitHub Analytics Improvements
+# Todo Checklist
 
-- [ ] Task 1: Implement conditional validation for third-party SVG endpoints
-- [ ] Task 2: Implement native Language Share component with distribution bar
-- [ ] Task 3: Run `npm run build` and `npm run lint` validation
+- [ ] Task 1: Upgrade `SpotifyNowPlaying.tsx` with smart stale-scrobble freshness calculation
+- [ ] Task 2: Test both Discord-open and Discord-closed states
+- [ ] Task 3: Verify lint (`npm run lint`) and build (`npm run build`)

@@ -37,7 +37,6 @@ export const projects: ProjectItem[] = [
     subtitle: 'local first developer workspace to manage and track personal projects, assets, files, environments, and dependencies with offline-first capabilities.',
     date: '2026',
     tags: ['React 19', 'TypeScript', 'Tauri v2', 'Rust'],
-    github: 'https://github.com/kuyajp123/portfolio',
     featured: true,
   },
 ];
