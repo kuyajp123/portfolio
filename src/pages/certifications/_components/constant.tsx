@@ -19,11 +19,11 @@ export const certifications: Certification[] = [
   {
     id: 'best-paper',
     name: 'Best Research Paper & EMPIRE 2026 Participation',
-    issuer: 'Cavite State University – Trece Martires City Campus',
+    issuer: 'Cavite State University - Trece Martires City Campus',
     date: 'May 19, 2026',
     images: [bestPaperImg, empireImg],
     link: '/certificates/best-paper',
-    award: 'Best Paper – Developmental Category',
+    award: 'Best Paper - Developmental Category',
     paperTitle: 'Rescuennect: A Disaster Risk Management System in Barangay Bancaan Naic, Cavite',
     description:
       'Intellectual synergy took center stage at the Education, Management, Psychology, Information Technology Research Conference (EMPIRE) 2026! This premier event brought together the faculty, and student researchers to present groundbreaking studies across diverse disciplines.',

@@ -10,7 +10,9 @@ export function usePageVisible() {
 
     document.addEventListener('visibilitychange', onVisibilityChange);
 
-    return () => document.removeEventListener('visibilitychange', onVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+    };
   }, []);
 
   return isVisible;

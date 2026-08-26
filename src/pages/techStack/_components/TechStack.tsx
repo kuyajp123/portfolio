@@ -1,5 +1,6 @@
 import { Footer } from '@/components/footer/Footer';
-import { Chip } from '@/components/ui/chip/Chip';
+import { Badge } from '@/components/ui/Badge';
+import { SectionHeader } from '@/components/ui/SectionHeader';
 import {
   AITechStack,
   backendTechStack,
@@ -9,68 +10,81 @@ import {
   networkingAndVirtualization,
 } from '@/pages/techStack/_components/constant';
 import { IoChevronBackOutline } from 'react-icons/io5';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { ThemeToggle } from '@/components/button/Theme';
 
 export const TechStack = () => {
   const navigate = useNavigate();
 
+  const categories = [
+    { title: 'Frontend Architecture', subtitle: 'Modern user interfaces, type safety & reactive state', items: frontendTechStack },
+    { title: 'Backend & APIs', subtitle: 'Server runtimes, databases & real-time protocols', items: backendTechStack },
+    { title: 'DevOps & Cloud', subtitle: 'Deployment environments, hosting & cloud platforms', items: devOpsAndCloudTechStack },
+    { title: 'AI & Machine Intelligence', subtitle: 'LLM APIs, developer agents & assistive tooling', items: AITechStack },
+    { title: 'Engineering & Design Tooling', subtitle: 'Editor tooling, API clients & workflow applications', items: developmentTools },
+    { title: 'Networking & Systems', subtitle: 'Virtualization, network protocols & infrastructure', items: networkingAndVirtualization },
+  ];
+
   return (
-    <main className="flex min-h-screen flex-col items-center">
-      <div className="max-w-4xl p-6">
-        <button className="flex cursor-pointer items-center gap-2 mt-4" onClick={() => navigate(-1)}>
-          <IoChevronBackOutline size={20} className="mt-1" />
-          <h1 className="text-2xl font-bold">Tech Stack</h1>
+    <div className="min-h-[100dvh] bg-grid-pattern flex flex-col items-center">
+      {/* Top Bar */}
+      <header className="w-full max-w-3xl mx-auto px-4 sm:px-6 py-6 flex items-center justify-between">
+        <button
+          type="button"
+          onClick={() => {
+            void navigate(-1);
+          }}
+          className="inline-flex items-center gap-1.5 text-xs font-mono text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors cursor-pointer"
+        >
+          <IoChevronBackOutline size={15} />
+          <span>Back</span>
         </button>
-        <div className="mt-4">
-          <h1 className="text-sm text-muted-foreground">Frontend</h1>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {frontendTechStack.map(tech => (
-              <Chip key={tech}>{tech}</Chip>
-            ))}
-          </div>
+
+        <div className="flex items-center gap-4">
+          <Link to="/" className="font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+            johnpaul.dev
+          </Link>
+          <ThemeToggle />
         </div>
-        <div className="mt-4">
-          <h1 className="text-sm text-muted-foreground">Backend</h1>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {backendTechStack.map(tech => (
-              <Chip key={tech}>{tech}</Chip>
-            ))}
-          </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="w-full max-w-3xl px-4 sm:px-6 py-4 flex-1">
+        <SectionHeader
+          number="04"
+          title="Tech Taxonomy"
+          subtitle="Comprehensive directory of languages, frameworks, infrastructure, and engineering tools."
+        />
+
+        <div className="flex flex-col divide-y divide-black/8 dark:divide-white/8 mt-6">
+          {categories.map(cat => (
+            <div key={cat.title} className="py-6 first:pt-0 last:pb-0">
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                  <h3 className="font-sans text-base font-semibold text-gray-900 dark:text-gray-100">
+                    {cat.title}
+                  </h3>
+                  <span className="font-mono text-xs text-gray-400 dark:text-gray-500">
+                    {cat.items.length} technologies
+                  </span>
+                </div>
+
+                <p className="text-xs text-gray-500 dark:text-gray-400 font-normal">
+                  {cat.subtitle}
+                </p>
+
+                <div className="flex flex-wrap gap-1.5 mt-2">
+                  {cat.items.map(tech => (
+                    <Badge key={tech}>{tech}</Badge>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
-        <div className="mt-4">
-          <h1 className="text-sm text-muted-foreground">DevOps & Cloud</h1>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {devOpsAndCloudTechStack.map(tech => (
-              <Chip key={tech}>{tech}</Chip>
-            ))}
-          </div>
-        </div>
-        <div className="mt-4">
-          <h1 className="text-sm text-muted-foreground">AI</h1>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {AITechStack.map(tech => (
-              <Chip key={tech}>{tech}</Chip>
-            ))}
-          </div>
-        </div>
-        <div className="mt-4">
-          <h1 className="text-sm text-muted-foreground">Development Tools</h1>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {developmentTools.map(tech => (
-              <Chip key={tech}>{tech}</Chip>
-            ))}
-          </div>
-        </div>
-        <div className="mt-4">
-          <h1 className="text-sm text-muted-foreground">Networking & Virtualization</h1>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {networkingAndVirtualization.map(tech => (
-              <Chip key={tech}>{tech}</Chip>
-            ))}
-          </div>
-        </div>
-      </div>
+      </main>
+
       <Footer />
-    </main>
+    </div>
   );
 };

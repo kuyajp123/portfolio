@@ -1,3 +1,4 @@
+import { ActivitiesPage } from '@/pages/activities/_components/ActivitiesPage';
 import { CertificateDetailsPage } from '@/pages/certifications/_components/CertificateDetailsPage';
 import { GithubGraphPage } from '@/pages/githubGraphs/_components/GithubGraphPage';
 import { TechStack } from '@/pages/techStack/_components/TechStack';
@@ -9,6 +10,7 @@ export const Router = () => {
   return (
     <Routes>
       <Route path="/" element={<App />} />
+      <Route path="/activities" element={<ActivitiesPage />} />
       <Route path="/tech-stack" element={<TechStack />} />
       <Route path="/github-graphs" element={<GithubGraphPage />} />
       <Route path="/certificates/:id" element={<CertificateDetailsPage />} />

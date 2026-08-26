@@ -3,20 +3,16 @@ import { programmingQuotes } from '@/constant/quotes';
 import { usePageVisible } from '@/hooks/usePageVisible';
 import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { logger } from '@/config/logger';
 
-type QuoteResponse = {
+export interface QuoteResponse {
   quote: string;
   author: string;
   category?: string;
-};
+}
 
 const QUOTE_REFRESH_INTERVAL_MS = 15000;
 const QUOTE_FADE_DURATION_MS = 300;
 
-// ---------------------------------------------------------------------------
-// Fallback helpers — cycles through local quotes on API failure.
-// ---------------------------------------------------------------------------
 let fallbackIndex = Math.floor(Math.random() * programmingQuotes.length);
 
 const getNextFallback = (): QuoteResponse => {
@@ -25,45 +21,41 @@ const getNextFallback = (): QuoteResponse => {
   return q;
 };
 
-// ---------------------------------------------------------------------------
-// API
-// ---------------------------------------------------------------------------
 let quoteRequest: Promise<QuoteResponse> | null = null;
 
-const getQuote = () => {
-  quoteRequest ??= fetch(`${QUOTE_URL}${QUOTES.GET}`)
-    .then(response => {
+const getQuote = async (): Promise<QuoteResponse> => {
+  if (quoteRequest) return quoteRequest;
+
+  quoteRequest = (async () => {
+    try {
+      const response = await fetch(`${QUOTE_URL}${QUOTES.GET}`);
       if (!response.ok) {
-        quoteRequest = null;
         throw new Error('Unable to load quote');
       }
+      const data: unknown = await response.json();
+      const nextQuote = (Array.isArray(data) ? data[0] : data) as Record<string, unknown> | null;
 
-      return response.json();
-    })
-    .then(data => {
-      const nextQuote = Array.isArray(data) ? data[0] : data;
-
-      if (!nextQuote?.quote || !nextQuote?.author) {
-        quoteRequest = null;
+      if (
+        !nextQuote ||
+        typeof nextQuote.quote !== 'string' ||
+        typeof nextQuote.author !== 'string'
+      ) {
         throw new Error('Invalid quote response');
       }
 
-      return nextQuote;
-    })
-    .catch(error => {
+      return {
+        quote: nextQuote.quote,
+        author: nextQuote.author,
+        category: typeof nextQuote.category === 'string' ? nextQuote.category : undefined,
+      };
+    } finally {
       quoteRequest = null;
-      throw error;
-    })
-    .finally(() => {
-      quoteRequest = null;
-    });
+    }
+  })();
 
   return quoteRequest;
 };
 
-// ---------------------------------------------------------------------------
-// Component
-// ---------------------------------------------------------------------------
 export const Quote = () => {
   const [quote, setQuote] = useState<QuoteResponse>(
     () => programmingQuotes[Math.floor(Math.random() * programmingQuotes.length)],
@@ -96,20 +88,14 @@ export const Quote = () => {
         setQuote(nextQuote);
         setIsVisible(true);
       }
-
       fadeTimeoutRef.current = null;
     }, QUOTE_FADE_DURATION_MS);
   };
 
   useEffect(() => {
     if (!isCurrentlyViewed) {
-      logger.log(`[Quote] Section left viewport or tab inactive — pausing quote cycle. (${Math.round(timeRemainingRef.current / 1000)}s remaining)`);
       return;
     }
-
-    logger.log(
-      `[Quote] Section entered viewport and tab active — starting/resuming countdown (${Math.round(timeRemainingRef.current / 1000)}s remaining).`
-    );
 
     const ignore = { current: false };
     let timeoutId: number | null = null;
@@ -117,17 +103,14 @@ export const Quote = () => {
     lastResumeTimeRef.current = Date.now();
 
     const loadQuote = () => {
-      logger.log('[Quote] Fetching new quote from API…');
       getQuote()
         .then(nextQuote => {
           if (!ignore.current) {
-            logger.log('[Quote] API quote received — replacing current quote.');
             showQuote(nextQuote, ignore);
           }
         })
         .catch(() => {
           if (!ignore.current) {
-            logger.log('[Quote] API failed — cycling to next fallback quote.');
             showQuote(getNextFallback(), ignore);
           }
         });
@@ -136,7 +119,6 @@ export const Quote = () => {
     const scheduleNext = (delay: number) => {
       timeoutId = window.setTimeout(() => {
         if (ignore.current) return;
-
         loadQuote();
         timeRemainingRef.current = QUOTE_REFRESH_INTERVAL_MS;
         lastResumeTimeRef.current = Date.now();
@@ -160,14 +142,18 @@ export const Quote = () => {
   }, [isCurrentlyViewed]);
 
   return (
-    <aside ref={sectionRef} className="w-full max-w-4xl px-4 pb-4 flex flex-row justify-center">
+    <aside ref={sectionRef} className="w-full max-w-2xl mx-auto px-4 py-8 flex flex-col items-center text-center">
       <figure
-        className={`p-4 text-sm transition-all duration-300 ease-out text-center ${
+        className={`transition-all duration-300 ease-out ${
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-0'
         }`}
       >
-        <blockquote className="text-gray-700 dark:text-gray-200">"{quote.quote}"</blockquote>
-        <figcaption className="mt-2 text-xs text-gray-500 dark:text-gray-400">- {quote.author}</figcaption>
+        <blockquote className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 italic leading-relaxed">
+          "{quote.quote}"
+        </blockquote>
+        <figcaption className="mt-2 text-[11px] font-mono text-gray-400 dark:text-gray-500">
+          - {quote.author}
+        </figcaption>
       </figure>
     </aside>
   );
