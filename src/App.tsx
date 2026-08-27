@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Header } from '@/components/layout/Header';
+import { TableOfContents } from '@/components/layout/TableOfContents';
 import { NavigationDrawer } from '@/components/layout/NavigationDrawer';
 import { HeroSection } from '@/components/home/HeroSection';
 import { FeaturedProjects } from '@/components/home/FeaturedProjects';
@@ -29,13 +30,29 @@ export const App = () => {
   const shiftAmount = isMobile ? -60 : -220;
 
   return (
-    <div className="min-h-[100dvh] bg-grid-pattern relative flex flex-col items-center overflow-x-hidden">
-      {/* Animated Main Content Wrapper that shifts left when sidebar opens */}
+    <div className="min-h-[100dvh] bg-grid-pattern relative flex flex-col items-center overflow-x-clip">
+      {/* Fixed Left In-Page Navigation (Stays fixed when scrolling, shifts left in sync when drawer opens) */}
+      <motion.aside
+        animate={{
+          x: isDrawerOpen ? shiftAmount : 0,
+        }}
+        transition={{
+          type: 'spring',
+          stiffness: 280,
+          damping: 30,
+          mass: 0.8,
+        }}
+        className="hidden xl:block fixed left-[max(1.5rem,calc(50%-39.5rem))] top-28 z-30 w-44 pointer-events-auto"
+      >
+        <TableOfContents />
+      </motion.aside>
+
+      {/* Animated Main Content Wrapper that shifts left when right drawer opens */}
       <motion.div
         animate={{
           x: isDrawerOpen ? shiftAmount : 0,
           scale: isDrawerOpen ? (isMobile ? 0.98 : 0.96) : 1,
-          opacity: isDrawerOpen ? 0.6 : 1,
+          opacity: isDrawerOpen ? 0.85 : 1,
         }}
         transition={{
           type: 'spring',
@@ -66,7 +83,7 @@ export const App = () => {
         <Footer />
       </motion.div>
 
-      {/* Slide-over Navigation Drawer */}
+      {/* Slide-over Navigation Drawer (Opens from right side) */}
       <NavigationDrawer
         isOpen={isDrawerOpen}
         onClose={() => {

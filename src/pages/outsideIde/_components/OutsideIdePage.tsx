@@ -1,37 +1,36 @@
-import { ThemeToggle } from '@/components/button/Theme';
+import { useEffect } from 'react';
 import { Footer } from '@/components/footer/Footer';
+import { SubpageHeader } from '@/components/layout/SubpageHeader';
 import { Badge } from '@/components/ui/Badge';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { FiArrowUpRight, FiCalendar, FiCompass, FiHeadphones, FiMapPin, FiSliders, FiTerminal } from 'react-icons/fi';
-import { IoChevronBackOutline } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { SpotifyNowPlaying } from './SpotifyNowPlaying';
 import { TopPlayedTracks } from './TopPlayedTracks';
 import { offScreenInterests, upcomingEvents } from './constant';
 
 export const OutsideIdePage = () => {
-  return (
-    <div className="min-h-[100dvh] bg-grid-pattern flex flex-col items-center">
-      {/* Top Bar */}
-      <header className="w-full max-w-3xl mx-auto px-4 sm:px-6 py-6 flex items-center justify-between">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-1.5 text-xs font-mono text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors cursor-pointer"
-        >
-          <IoChevronBackOutline size={15} />
-          <span>Back</span>
-        </Link>
+  const { hash } = useLocation();
 
-        <div className="flex items-center gap-4">
-          <Link
-            to="/"
-            className="font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-          >
-            johnpaul.dev
-          </Link>
-          <ThemeToggle />
-        </div>
-      </header>
+  useEffect(() => {
+    if (hash) {
+      const targetId = hash.replace('#', '');
+      const element = document.getElementById(targetId);
+      if (element) {
+        const timer = setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+        return () => {
+          clearTimeout(timer);
+        };
+      }
+    }
+  }, [hash]);
+
+  return (
+    <div className="min-h-[100dvh] bg-grid-pattern flex flex-col items-center overflow-x-clip">
+      {/* Top Sticky Liquid Glass Header */}
+      <SubpageHeader />
 
       {/* Main Content */}
       <main className="w-full max-w-3xl px-4 sm:px-6 py-4 flex-1 flex flex-col gap-12">
@@ -44,19 +43,19 @@ export const OutsideIdePage = () => {
           />
 
           <div className="flex flex-wrap gap-2 pt-1">
-            <Badge variant="default">
+            <Badge variant="default" className="flex items-center gap-1.5">
               <FiTerminal size={11} className="shrink-0" />
               <span>AFK</span>
             </Badge>
-            <Badge variant="default">
+            <Badge variant="default" className="flex items-center gap-1.5">
               <FiSliders size={11} className="shrink-0" />
               <span>Off-Screen</span>
             </Badge>
-            <Badge variant="default">
+            <Badge variant="default" className="flex items-center gap-1.5">
               <FiHeadphones size={11} className="shrink-0" />
               <span>Audio & Spotify</span>
             </Badge>
-            <Badge variant="default">
+            <Badge variant="default" className="flex items-center gap-1.5">
               <FiCompass size={11} className="shrink-0" />
               <span>Event Radar</span>
             </Badge>
@@ -69,7 +68,10 @@ export const OutsideIdePage = () => {
         </div>
 
         {/* 01 / Live Soundtrack & Audio Deck */}
-        <section className="flex flex-col gap-5 pt-6 border-t border-black/8 dark:border-white/10">
+        <section
+          id="audio"
+          className="flex flex-col gap-5 pt-6 border-t border-black/8 dark:border-white/10 scroll-mt-24"
+        >
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">
               <span className="text-sky-500">01</span>
@@ -89,7 +91,10 @@ export const OutsideIdePage = () => {
         </section>
 
         {/* 02 / Upcoming Events & Radar */}
-        <section className="flex flex-col gap-5 pt-6 border-t border-black/8 dark:border-white/10">
+        <section
+          id="radar"
+          className="flex flex-col gap-5 pt-6 border-t border-black/8 dark:border-white/10 scroll-mt-24"
+        >
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">
@@ -149,7 +154,10 @@ export const OutsideIdePage = () => {
         </section>
 
         {/* 03 / Off-Screen Rituals & Gear */}
-        <section className="flex flex-col gap-5 pt-6 border-t border-black/8 dark:border-white/10">
+        <section
+          id="rituals"
+          className="flex flex-col gap-5 pt-6 border-t border-black/8 dark:border-white/10 scroll-mt-24"
+        >
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">
               <span className="text-sky-500">03</span>

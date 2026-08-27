@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FiArrowUpRight, FiMusic, FiRefreshCw } from 'react-icons/fi';
+import { getSessionCache, setSessionCache } from '@/utils/sessionCache';
 import { topPlayedTracks as fallbackTracks, type TopTrack } from './constant';
 
 const LASTFM_API_KEY = (import.meta.env.VITE_LASTFM_API_KEY as string | undefined) ?? '';
@@ -27,12 +28,28 @@ interface LastFmResponse {
 
 export const TopPlayedTracks = () => {
   const [period, setPeriod] = useState<'overall' | '1month' | '7day'>('overall');
-  const [tracks, setTracks] = useState<TopTrack[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLive, setIsLive] = useState(false);
+  const [tracks, setTracks] = useState<TopTrack[]>(() => {
+    return (getSessionCache('jp_spotify_top_tracks_overall') as TopTrack[] | null) ?? [];
+  });
+  const [isLoading, setIsLoading] = useState<boolean>(() => {
+    return !getSessionCache('jp_spotify_top_tracks_overall');
+  });
+  const [isLive, setIsLive] = useState<boolean>(() => {
+    return Boolean(getSessionCache('jp_spotify_top_tracks_overall'));
+  });
 
   useEffect(() => {
     let isCancelled = false;
+    const cacheKey = `jp_spotify_top_tracks_${period}`;
+
+    // Check session storage first
+    const cached = getSessionCache(cacheKey) as TopTrack[] | null;
+    if (cached && cached.length > 0) {
+      setTracks(cached);
+      setIsLive(true);
+      setIsLoading(false);
+      return;
+    }
 
     const fetchTopTracks = async () => {
       setIsLoading(true);
@@ -60,6 +77,7 @@ export const TopPlayedTracks = () => {
               duration: undefined,
               spotifyUrl: `https://open.spotify.com/search/${encodeURIComponent(`${t.name} ${t.artist.name}`)}`,
             }));
+            setSessionCache(cacheKey, formatted);
             setTracks(formatted);
             setIsLive(true);
             setIsLoading(false);

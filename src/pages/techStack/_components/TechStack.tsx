@@ -1,4 +1,5 @@
 import { Footer } from '@/components/footer/Footer';
+import { SubpageHeader } from '@/components/layout/SubpageHeader';
 import { Badge } from '@/components/ui/Badge';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import {
@@ -9,9 +10,6 @@ import {
   frontendTechStack,
   networkingAndVirtualization,
 } from '@/pages/techStack/_components/constant';
-import { IoChevronBackOutline } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
-import { ThemeToggle } from '@/components/button/Theme';
 
 export const TechStack = () => {
 
@@ -25,24 +23,9 @@ export const TechStack = () => {
   ];
 
   return (
-    <div className="min-h-[100dvh] bg-grid-pattern flex flex-col items-center">
-      {/* Top Bar */}
-      <header className="w-full max-w-3xl mx-auto px-4 sm:px-6 py-6 flex items-center justify-between">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-1.5 text-xs font-mono text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors cursor-pointer"
-        >
-          <IoChevronBackOutline size={15} />
-          <span>Back</span>
-        </Link>
-
-        <div className="flex items-center gap-4">
-          <Link to="/" className="font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-            johnpaul.dev
-          </Link>
-          <ThemeToggle />
-        </div>
-      </header>
+    <div className="min-h-[100dvh] bg-grid-pattern flex flex-col items-center overflow-x-clip">
+      {/* Top Sticky Liquid Glass Header */}
+      <SubpageHeader />
 
       {/* Main Content */}
       <main className="w-full max-w-3xl px-4 sm:px-6 py-4 flex-1">

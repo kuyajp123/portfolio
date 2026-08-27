@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Footer } from '@/components/footer/Footer';
+import { SubpageHeader } from '@/components/layout/SubpageHeader';
 import { SectionHeader } from '@/components/ui/SectionHeader';
-import { ThemeToggle } from '@/components/button/Theme';
 import { useTheme } from 'next-themes';
-import { GitHubCalendar } from 'react-github-calendar';
+import { ActivityCalendar, type Activity } from 'react-activity-calendar';
 import 'react-github-calendar/tooltips.css';
 import { FaGithub } from 'react-icons/fa';
 import { FiArrowUpRight } from 'react-icons/fi';
-import { IoChevronBackOutline } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { getSessionCache, setSessionCache } from '@/utils/sessionCache';
 import {
   achievements,
   ACTIVITY_BASE_URL,
@@ -38,19 +37,88 @@ const statsDark = `${STATS_BASE_URL}/api?${statsOptions}&${graphTheme.statsDark}
 const panelClass =
   'overflow-hidden rounded-xl border border-black/8 dark:border-white/10 bg-black/2 dark:bg-white/3 transition-colors';
 
+interface GithubValidationCache {
+  isActivityAvailable: boolean;
+  isStatsAvailable: boolean;
+}
+
+interface GithubContributionsApiResponse {
+  contributions?: Activity[];
+}
+
 export const GithubGraphPage = () => {
   const { resolvedTheme } = useTheme();
 
-  const [isActivityAvailable, setIsActivityAvailable] = useState(false);
-  const [isStatsAvailable, setIsStatsAvailable] = useState(false);
+  const [calendarData, setCalendarData] = useState<Activity[] | null>(() => {
+    return (getSessionCache(`jp_github_calendar_${USERNAME}`) as Activity[] | null) ?? null;
+  });
+
+  const [isActivityAvailable, setIsActivityAvailable] = useState<boolean>(() => {
+    const cached =
+      (getSessionCache('jp_github_validation_dark') as GithubValidationCache | null) ??
+      (getSessionCache('jp_github_validation_light') as GithubValidationCache | null);
+    return cached?.isActivityAvailable ?? false;
+  });
+  const [isStatsAvailable, setIsStatsAvailable] = useState<boolean>(() => {
+    const cached =
+      (getSessionCache('jp_github_validation_dark') as GithubValidationCache | null) ??
+      (getSessionCache('jp_github_validation_light') as GithubValidationCache | null);
+    return cached?.isStatsAvailable ?? false;
+  });
+
+  // 1. Fetch GitHub annual contributions and cache in sessionStorage
+  useEffect(() => {
+    let isCancelled = false;
+    const cacheKey = `jp_github_calendar_${USERNAME}`;
+    const cached = getSessionCache(cacheKey) as Activity[] | null;
+
+    if (cached && cached.length > 0) {
+      setCalendarData(cached);
+      return;
+    }
+
+    const fetchContributions = async () => {
+      try {
+        const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${USERNAME}?y=last`);
+        if (res.ok) {
+          const json = (await res.json()) as GithubContributionsApiResponse;
+          if (json.contributions && !isCancelled) {
+            setCalendarData(json.contributions);
+            setSessionCache(cacheKey, json.contributions);
+          }
+        }
+      } catch {
+        // Fallback gracefully
+      }
+    };
+
+    void fetchContributions();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, []);
 
   // Validate third-party SVG endpoints based on status codes and content
   useEffect(() => {
     let isCancelled = false;
+    const currentTheme = resolvedTheme === 'dark' ? 'dark' : 'light';
+    const cacheKey = `jp_github_validation_${currentTheme}`;
 
-    const validateActivity = async () => {
+    // Read from session storage if already validated during this session
+    const cached = getSessionCache(cacheKey) as GithubValidationCache | null;
+    if (cached) {
+      setIsActivityAvailable(cached.isActivityAvailable);
+      setIsStatsAvailable(cached.isStatsAvailable);
+      return;
+    }
+
+    let actResult = false;
+    let statsResult = false;
+
+    const validateActivity = async (): Promise<boolean> => {
       try {
-        const url = resolvedTheme === 'dark' ? activityGraphDark : activityGraphLight;
+        const url = currentTheme === 'dark' ? activityGraphDark : activityGraphLight;
         const res = await fetch(url);
         if (res.status === 200) {
           const text = await res.text();
@@ -59,19 +127,18 @@ export const GithubGraphPage = () => {
             !text.includes('DEPLOYMENT_DISABLED') &&
             !text.includes('Payment required')
           ) {
-            if (!isCancelled) setIsActivityAvailable(true);
-            return;
+            return true;
           }
         }
-        if (!isCancelled) setIsActivityAvailable(false);
+        return false;
       } catch {
-        if (!isCancelled) setIsActivityAvailable(false);
+        return false;
       }
     };
 
-    const validateStats = async () => {
+    const validateStats = async (): Promise<boolean> => {
       try {
-        const url = resolvedTheme === 'dark' ? statsDark : statsLight;
+        const url = currentTheme === 'dark' ? statsDark : statsLight;
         const res = await fetch(url);
         if (res.status === 200) {
           const text = await res.text();
@@ -80,18 +147,30 @@ export const GithubGraphPage = () => {
             !text.includes('Something went wrong') &&
             !text.includes('Resource not accessible')
           ) {
-            if (!isCancelled) setIsStatsAvailable(true);
-            return;
+            return true;
           }
         }
-        if (!isCancelled) setIsStatsAvailable(false);
+        return false;
       } catch {
-        if (!isCancelled) setIsStatsAvailable(false);
+        return false;
       }
     };
 
-    void validateActivity();
-    void validateStats();
+    const runValidations = async () => {
+      actResult = await validateActivity();
+      statsResult = await validateStats();
+
+      if (!isCancelled) {
+        setIsActivityAvailable(actResult);
+        setIsStatsAvailable(statsResult);
+        setSessionCache(cacheKey, {
+          isActivityAvailable: actResult,
+          isStatsAvailable: statsResult,
+        });
+      }
+    };
+
+    void runValidations();
 
     return () => {
       isCancelled = true;
@@ -99,31 +178,22 @@ export const GithubGraphPage = () => {
   }, [resolvedTheme]);
 
   return (
-    <div className="min-h-[100dvh] bg-grid-pattern flex flex-col items-center">
-      {/* Top Bar */}
-      <header className="w-full max-w-3xl mx-auto px-4 sm:px-6 py-6 flex items-center justify-between">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-1.5 text-xs font-mono text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors cursor-pointer"
-        >
-          <IoChevronBackOutline size={15} />
-          <span>Back</span>
-        </Link>
-
-        <div className="flex items-center gap-4">
+    <div className="min-h-[100dvh] bg-grid-pattern flex flex-col items-center overflow-x-clip">
+      {/* Top Sticky Liquid Glass Header */}
+      <SubpageHeader
+        rightContent={
           <a
             href={`https://github.com/${USERNAME}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+            className="inline-flex items-center gap-1 font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:outline-hidden rounded-md"
           >
             <FaGithub size={13} />
             <span>github/{USERNAME}</span>
             <FiArrowUpRight size={12} />
           </a>
-          <ThemeToggle />
-        </div>
-      </header>
+        }
+      />
 
       {/* Main Content */}
       <main className="w-full max-w-3xl px-4 sm:px-6 py-4 flex-1 flex flex-col gap-8">
@@ -139,10 +209,15 @@ export const GithubGraphPage = () => {
             Annual Contributions
           </span>
           <div className={`${panelClass} p-4 overflow-x-auto`}>
-            <GitHubCalendar
-              username={USERNAME}
+            <ActivityCalendar
+              data={calendarData ?? []}
+              loading={calendarData === null}
               colorScheme={resolvedTheme === 'dark' ? 'dark' : 'light'}
               theme={calendarTheme}
+              labels={{
+                totalCount: '{{count}} contributions in the last year',
+              }}
+              maxLevel={4}
               tooltips={{
                 activity: { text: activity => `${String(activity.count)} contributions on ${activity.date}` },
               }}

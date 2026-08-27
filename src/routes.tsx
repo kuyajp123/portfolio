@@ -1,7 +1,9 @@
 import { ActivitiesPage } from '@/pages/activities/_components/ActivitiesPage';
 import { ProjectsPage } from '@/pages/projects/_components/ProjectsPage';
 import { ProjectDetailPage } from '@/pages/projects/_components/ProjectDetailPage';
-import { OutsideIdePage } from '@/pages/outsideIde/_components/OutsideIdePage';
+import { AudioFrequencyPage } from '@/pages/outsideIde/_components/AudioFrequencyPage';
+import { RadarAppearancesPage } from '@/pages/outsideIde/_components/RadarAppearancesPage';
+import { OffScreenRitualsPage } from '@/pages/outsideIde/_components/OffScreenRitualsPage';
 import { CertificateDetailsPage } from '@/pages/certifications/_components/CertificateDetailsPage';
 import { GithubGraphPage } from '@/pages/githubGraphs/_components/GithubGraphPage';
 import { TechStack } from '@/pages/techStack/_components/TechStack';
@@ -16,7 +18,10 @@ export const Router = () => {
       <Route path="/projects" element={<ProjectsPage />} />
       <Route path="/projects/:id" element={<ProjectDetailPage />} />
       <Route path="/activities" element={<ActivitiesPage />} />
-      <Route path="/outside-ide" element={<OutsideIdePage />} />
+      <Route path="/outside-ide" element={<AudioFrequencyPage />} />
+      <Route path="/outside-ide/audio" element={<AudioFrequencyPage />} />
+      <Route path="/outside-ide/radar" element={<RadarAppearancesPage />} />
+      <Route path="/outside-ide/rituals" element={<OffScreenRitualsPage />} />
       <Route path="/tech-stack" element={<TechStack />} />
       <Route path="/github-graphs" element={<GithubGraphPage />} />
       <Route path="/certificates/:id" element={<CertificateDetailsPage />} />

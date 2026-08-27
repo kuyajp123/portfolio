@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { FaSpotify } from 'react-icons/fa';
 import { FiArrowUpRight, FiDisc, FiRadio } from 'react-icons/fi';
+import { getSessionCache, setSessionCache } from '@/utils/sessionCache';
 
 const DISCORD_USER_ID = '735019008281018430';
+const LANYARD_WS_URL = 'wss://api.lanyard.rest/socket';
 const LASTFM_API_KEY = (import.meta.env.VITE_LASTFM_API_KEY as string | undefined) ?? '';
 const LASTFM_USERNAME = (import.meta.env.VITE_LASTFM_USERNAME as string | undefined) ?? '';
 
@@ -19,20 +21,38 @@ interface TrackDisplay {
   };
 }
 
-interface LanyardData {
+interface SpotifyPlaybackCache {
+  discordStatus: 'online' | 'idle' | 'dnd' | 'offline';
+  activeTrack: TrackDisplay | null;
+}
+
+interface LanyardSpotifyData {
+  track_id: string;
+  song: string;
+  artist: string;
+  album: string;
+  album_art_url: string;
+  timestamps: {
+    start: number;
+    end: number;
+  };
+}
+
+interface LanyardPresence {
   discord_status: 'online' | 'idle' | 'dnd' | 'offline';
   listening_to_spotify: boolean;
-  spotify: {
-    track_id: string;
-    song: string;
-    artist: string;
-    album: string;
-    album_art_url: string;
-    timestamps: {
-      start: number;
-      end: number;
-    };
-  } | null;
+  spotify: LanyardSpotifyData | null;
+}
+
+interface LanyardSocketMessage {
+  op: number;
+  t?: 'INIT_STATE' | 'PRESENCE_UPDATE';
+  d?: {
+    heartbeat_interval?: number;
+    discord_status?: 'online' | 'idle' | 'dnd' | 'offline';
+    listening_to_spotify?: boolean;
+    spotify?: LanyardSpotifyData | null;
+  } & Record<string, unknown>;
 }
 
 interface LastFmRecentResponse {
@@ -49,85 +69,214 @@ interface LastFmRecentResponse {
 }
 
 export const SpotifyNowPlaying = () => {
-  const [discordStatus, setDiscordStatus] = useState<'online' | 'idle' | 'dnd' | 'offline'>('offline');
-  const [activeTrack, setActiveTrack] = useState<TrackDisplay | null>(null);
+  const [discordStatus, setDiscordStatus] = useState<'online' | 'idle' | 'dnd' | 'offline'>(() => {
+    return (getSessionCache('jp_spotify_playback_cache') as SpotifyPlaybackCache | null)?.discordStatus ?? 'offline';
+  });
+  const [activeTrack, setActiveTrack] = useState<TrackDisplay | null>(() => {
+    return (getSessionCache('jp_spotify_playback_cache') as SpotifyPlaybackCache | null)?.activeTrack ?? null;
+  });
   const [progress, setProgress] = useState(0);
   const [currentTimeStr, setCurrentTimeStr] = useState('0:00');
   const [totalTimeStr, setTotalTimeStr] = useState('0:00');
 
+  // Ref tracking whether Discord is currently actively streaming Spotify via WebSocket
+  const isDiscordStreamingRef = useRef(false);
+  const discordStatusRef = useRef<'online' | 'idle' | 'dnd' | 'offline'>('offline');
+
   useEffect(() => {
-    let isCancelled = false;
+    discordStatusRef.current = discordStatus;
+  }, [discordStatus]);
 
-    const fetchPlayback = async () => {
-      // 1. Try Discord Lanyard (when Discord is active)
+  const updatePlayback = useCallback(
+    (status: 'online' | 'idle' | 'dnd' | 'offline', track: TrackDisplay | null) => {
+      setDiscordStatus(status);
+      setActiveTrack(track);
+      setSessionCache('jp_spotify_playback_cache', {
+        discordStatus: status,
+        activeTrack: track,
+      });
+    },
+    [],
+  );
+
+  // 1. Last.fm Fallback (invoked ONLY when Discord is truly offline / disconnected)
+  const checkLastFm = useCallback(async () => {
+    if (
+      isDiscordStreamingRef.current ||
+      discordStatusRef.current !== 'offline' ||
+      document.visibilityState !== 'visible'
+    ) {
+      return;
+    }
+    if (!LASTFM_API_KEY || !LASTFM_USERNAME) {
+      return;
+    }
+
+    try {
+      const lastFmUrl = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USERNAME}&api_key=${LASTFM_API_KEY}&format=json&limit=1`;
+      const res = await fetch(lastFmUrl);
+      if (res.ok) {
+        const data = (await res.json()) as LastFmRecentResponse;
+        const firstTrack = data.recenttracks?.track[0];
+
+        if (firstTrack?.['@attr']?.nowplaying === 'true') {
+          const largeImage =
+            firstTrack.image?.find(img => img.size === 'extralarge' || img.size === 'large')?.['#text'] ?? '';
+
+          const trackData: TrackDisplay = {
+            title: firstTrack.name,
+            artist: firstTrack.artist['#text'],
+            album: firstTrack.album['#text'] || 'Single',
+            albumArt: largeImage,
+            spotifyUrl: `https://open.spotify.com/search/${encodeURIComponent(`${firstTrack.name} ${firstTrack.artist['#text']}`)}`,
+            source: 'lastfm',
+          };
+
+          updatePlayback('offline', trackData);
+          return;
+        }
+      }
+    } catch {
+      // Quiet fallback
+    }
+
+    setActiveTrack(null);
+    setSessionCache('jp_spotify_playback_cache', {
+      discordStatus: 'offline',
+      activeTrack: null,
+    });
+  }, [updatePlayback]);
+
+  // 2. Real-time Lanyard WebSocket Gateway
+  useEffect(() => {
+    let socket: WebSocket | null = null;
+    let heartbeatTimer: ReturnType<typeof setInterval> | null = null;
+    let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+    let isUnmounted = false;
+
+    const connectWebSocket = () => {
+      if (isUnmounted) return;
+
       try {
-        const lanyardRes = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`);
-        if (lanyardRes.ok) {
-          const json = (await lanyardRes.json()) as { success: boolean; data?: LanyardData };
-          if (json.success && json.data) {
-            if (!isCancelled) setDiscordStatus(json.data.discord_status);
+        const ws = new WebSocket(LANYARD_WS_URL);
+        socket = ws;
 
-            if (json.data.listening_to_spotify && json.data.spotify) {
-              if (!isCancelled) {
-                setActiveTrack({
-                  title: json.data.spotify.song,
-                  artist: json.data.spotify.artist,
-                  album: json.data.spotify.album,
-                  albumArt: json.data.spotify.album_art_url,
-                  spotifyUrl: `https://open.spotify.com/track/${json.data.spotify.track_id}`,
-                  source: 'lanyard',
-                  timestamps: json.data.spotify.timestamps,
-                });
-              }
+        ws.onmessage = event => {
+          if (isUnmounted) return;
+          try {
+            const message = JSON.parse(event.data as string) as LanyardSocketMessage;
+
+            // Op 1: Hello -> start heartbeat and subscribe to Discord user ID
+            if (message.op === 1 && message.d?.heartbeat_interval) {
+              const intervalMs = message.d.heartbeat_interval;
+
+              if (heartbeatTimer !== null) clearInterval(heartbeatTimer);
+              heartbeatTimer = setInterval(() => {
+                if (ws.readyState === WebSocket.OPEN) {
+                  ws.send(JSON.stringify({ op: 3 }));
+                }
+              }, intervalMs);
+
+              ws.send(
+                JSON.stringify({
+                  op: 2,
+                  d: { subscribe_to_id: DISCORD_USER_ID },
+                }),
+              );
               return;
             }
-          }
-        }
-      } catch {
-        // Fall through to Last.fm
-      }
 
-      // 2. Try Last.fm (works seamlessly when Discord is closed)
-      try {
-        const lastFmUrl = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USERNAME}&api_key=${LASTFM_API_KEY}&format=json&limit=1`;
-        const lastFmRes = await fetch(lastFmUrl);
-        if (lastFmRes.ok) {
-          const lastFmData = (await lastFmRes.json()) as LastFmRecentResponse;
-          const firstTrack = lastFmData.recenttracks?.track[0];
+            // Op 0: Event (INIT_STATE or PRESENCE_UPDATE)
+            if (message.op === 0 && (message.t === 'INIT_STATE' || message.t === 'PRESENCE_UPDATE')) {
+              const data = message.d as LanyardPresence | undefined;
+              if (!data) return;
 
-          if (firstTrack?.['@attr']?.nowplaying === 'true') {
-            const largeImage = firstTrack.image?.find(img => img.size === 'extralarge' || img.size === 'large')?.['#text'] ?? '';
+              const status = data.discord_status;
 
-            if (!isCancelled) {
-              setActiveTrack({
-                title: firstTrack.name,
-                artist: firstTrack.artist['#text'],
-                album: firstTrack.album['#text'] || 'Single',
-                albumArt: largeImage,
-                spotifyUrl: `https://open.spotify.com/search/${encodeURIComponent(`${firstTrack.name} ${firstTrack.artist['#text']}`)}`,
-                source: 'lastfm',
-              });
+              if (data.listening_to_spotify && data.spotify) {
+                isDiscordStreamingRef.current = true;
+                const trackData: TrackDisplay = {
+                  title: data.spotify.song,
+                  artist: data.spotify.artist,
+                  album: data.spotify.album,
+                  albumArt: data.spotify.album_art_url,
+                  spotifyUrl: `https://open.spotify.com/track/${data.spotify.track_id}`,
+                  source: 'lanyard',
+                  timestamps: data.spotify.timestamps,
+                };
+                updatePlayback(status, trackData);
+              } else {
+                isDiscordStreamingRef.current = false;
+                if (status === 'offline') {
+                  setDiscordStatus('offline');
+                  void checkLastFm();
+                } else {
+                  // Discord is active (online/idle/dnd) but player is paused/idle
+                  updatePlayback(status, null);
+                }
+              }
             }
-            return;
+          } catch {
+            // Ignore parse errors
           }
-        }
-      } catch {
-        // Quiet fallback
-      }
+        };
 
-      if (!isCancelled) {
-        setActiveTrack(null);
+        ws.onerror = () => {
+          isDiscordStreamingRef.current = false;
+        };
+
+        ws.onclose = () => {
+          isDiscordStreamingRef.current = false;
+          if (heartbeatTimer !== null) {
+            clearInterval(heartbeatTimer);
+            heartbeatTimer = null;
+          }
+          // Schedule reconnect attempt in 5 seconds if still mounted
+          if (!isUnmounted) {
+            reconnectTimer = setTimeout(connectWebSocket, 5000);
+          }
+        };
+      } catch {
+        isDiscordStreamingRef.current = false;
+        reconnectTimer = setTimeout(connectWebSocket, 5000);
       }
     };
 
-    void fetchPlayback();
-    const interval = setInterval(fetchPlayback, 3000);
+    connectWebSocket();
 
     return () => {
-      isCancelled = true;
-      clearInterval(interval);
+      isUnmounted = true;
+      if (heartbeatTimer !== null) clearInterval(heartbeatTimer);
+      if (reconnectTimer !== null) clearTimeout(reconnectTimer);
+      if (socket !== null) {
+        socket.onclose = null;
+        socket.onerror = null;
+        socket.close();
+      }
     };
-  }, []);
+  }, [checkLastFm, updatePlayback]);
+
+  // 3. Fallback Last.fm interval check (runs every 10s only when Discord is OFFLINE and tab is visible)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (discordStatusRef.current === 'offline') {
+        void checkLastFm();
+      }
+    }, 10000);
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible' && discordStatusRef.current === 'offline') {
+        void checkLastFm();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [checkLastFm]);
 
   // Update live progress bar timer when timestamps are available (e.g. from Discord Lanyard)
   useEffect(() => {

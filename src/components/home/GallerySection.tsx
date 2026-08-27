@@ -4,13 +4,17 @@ import { useState } from 'react';
 import { FiMaximize2 } from 'react-icons/fi';
 
 import awsWorkshopImg from '@/assets/AWS-workshop.png';
+import clientMeeting from '@/assets/client-meeting.jpg';
 import egovBossRodImg from '@/assets/egov-boss-rod.jpg';
 import egovBrylImg from '@/assets/egov-bryl.jpg';
 import egovHackathonImg from '@/assets/egov-hackathon.jpg';
 import empireImg from '@/assets/empire.png';
 import laptopImg from '@/assets/laptop.jpg';
 import meImg from '@/assets/me.jpg';
+import performingTask from '@/assets/performing-task.jpg';
 import symposiumImg from '@/assets/symposium.png';
+import teamCollaboration from '@/assets/team-collaboration.jpg';
+import graduation from '@/assets/graduation.jpg';
 
 const moments: ViewerItem[] = [
   {
@@ -24,7 +28,8 @@ const moments: ViewerItem[] = [
   {
     src: egovBrylImg,
     title: 'eGov Hackathon Networking',
-    caption: 'Met tarsi founder during the hackathon and have an opprtunity to talk about the future of government digitalization.',
+    caption:
+      'Met tarsi founder during the hackathon and have an opprtunity to talk about the future of government digitalization.',
     category: 'Hackathon',
     date: 'July 2026',
   },
@@ -36,13 +41,13 @@ const moments: ViewerItem[] = [
     date: 'May 2026',
   },
   {
-    src: egovHackathonImg,
-    title: 'eGov Hackathon Team DevOops',
-    caption:
-      'Team DevOops dominated the Technical Pitch Round with a fully functional prototype and seamless API integration, earning a spot among the Top 30 finalists out of 137 participating teams.',
-    category: 'Hackathon',
-    date: 'July 2026',
+    src: clientMeeting,
+    title: 'Client Meeting',
+    caption: 'Discussing project requirements and timelines with the client.',
+    category: 'Work',
+    date: '2026',
   },
+
   {
     src: awsWorkshopImg,
     title: 'AWS Workshop: Amazon Q',
@@ -52,18 +57,19 @@ const moments: ViewerItem[] = [
     date: 'August 2026',
   },
   {
-    src: meImg,
-    title: 'Startuplab Workspace',
-    caption: 'Building production-grade web applications during the software engineering internship program.',
-    category: 'Engineering',
-    date: '2026',
-  },
-  {
-    src: egovBossRodImg,
-    title: 'eGov Hackathon Networking',
-    caption: 'Met upskwela founder during the hackathon and had an opportunity to discuss the future of government digitalization.',
+    src: egovHackathonImg,
+    title: 'eGov Hackathon Team DevOops',
+    caption:
+      'Team DevOops dominated the Technical Pitch Round with a fully functional prototype and seamless API integration, earning a spot among the Top 30 finalists out of 137 participating teams.',
     category: 'Hackathon',
     date: 'July 2026',
+  },
+  {
+    src: meImg,
+    title: 'Startuplab Workspace',
+    caption: 'Golder hour after a productive day of coding and collaboration.',
+    category: 'Me and i',
+    date: '2026',
   },
   {
     src: laptopImg,
@@ -72,13 +78,43 @@ const moments: ViewerItem[] = [
     category: 'Workspace',
     date: '2026',
   },
+  {
+    src: egovBossRodImg,
+    title: 'eGov Hackathon Networking',
+    caption:
+      'Met upskwela founder during the hackathon and had an opportunity to discuss the future of government digitalization.',
+    category: 'Hackathon',
+    date: 'July 2026',
+  },
+
+  {
+    src: performingTask,
+    title: 'Performing Task',
+    caption: 'Working on a complex task and solving problems along the way.',
+    category: 'Work',
+    date: '2026',
+  },
+  {
+    src: teamCollaboration,
+    title: 'Team Collaboration',
+    caption: 'Klever team collaborating on a project, sharing ideas and working together to achieve a common goal.',
+    category: 'Work',
+    date: '2026',
+  },
+  {
+    src: graduation,
+    title: 'Graduation',
+    caption: 'Celebrating the completion of my degree and the beginning of a new chapter.',
+    category: 'Me and i',
+    date: '2026',
+  },
 ];
 
 export const GallerySection = () => {
   const [activeViewerIndex, setActiveViewerIndex] = useState(-1);
 
   return (
-    <section id="moments" className="py-10 border-t border-black/8 dark:border-white/10">
+    <section id="moments" className="py-10 border-t border-black/8 dark:border-white/10 scroll-mt-24">
       <SectionHeader
         number="04"
         title="Visual Moments"

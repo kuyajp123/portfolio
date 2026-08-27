@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 export const FeaturedProjects = () => {
   return (
-    <section id="work" className="py-10 border-t border-black/8 dark:border-white/10">
+    <section id="work" className="py-10 border-t border-black/8 dark:border-white/10 scroll-mt-24">
       <SectionHeader
         number="01"
         title="Featured Work"

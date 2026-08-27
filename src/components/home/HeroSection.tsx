@@ -5,7 +5,7 @@ import { FiArrowUpRight } from 'react-icons/fi';
 
 export const HeroSection = () => {
   return (
-    <section className="pt-6 sm:pt-10 pb-10">
+    <section id="intro" className="pt-6 sm:pt-10 pb-10 scroll-mt-24">
       {/* Top Profile + Bio Block */}
       <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-start">
         {/* Avatar Image with subtle border and atmospheric glow */}

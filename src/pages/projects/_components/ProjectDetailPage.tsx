@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/Badge';
 import { AppBuildersBadge } from '@/components/ui/AppBuildersBadge';
 import { EditorialImageViewer, type ViewerItem } from '@/components/ui/EditorialImageViewer';
 import { Footer } from '@/components/footer/Footer';
-import { ThemeToggle } from '@/components/button/Theme';
+import { SubpageHeader } from '@/components/layout/SubpageHeader';
 import {
   FiAward,
   FiCalendar,
@@ -17,33 +17,13 @@ import {
   FiArrowLeft,
   FiArrowRight,
 } from 'react-icons/fi';
-import { IoChevronBackOutline } from 'react-icons/io5';
 
 export const ProjectDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const [activeImageIndex, setActiveImageIndex] = useState(-1);
 
   const currentIndex = projectDetails.findIndex(p => p.key === id);
-  const project = currentIndex >= 0 ? projectDetails[currentIndex] : null;
-
-  if (!project) {
-    return (
-      <div className="min-h-[100dvh] bg-grid-pattern flex flex-col items-center justify-center p-6 text-center">
-        <h1 className="font-sans text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-          Project Not Found
-        </h1>
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-          The requested project does not exist or has been relocated.
-        </p>
-        <Link
-          to="/"
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-black/10 dark:border-white/15 bg-black/5 dark:bg-white/5 text-xs font-mono text-gray-800 dark:text-gray-200"
-        >
-          <span>Return to Homepage</span>
-        </Link>
-      </div>
-    );
-  }
+  const project = currentIndex >= 0 ? projectDetails[currentIndex] : projectDetails[0];
 
   const prevProject = currentIndex > 0 ? projectDetails[currentIndex - 1] : null;
   const nextProject = currentIndex < projectDetails.length - 1 ? projectDetails[currentIndex + 1] : null;
@@ -57,24 +37,9 @@ export const ProjectDetailPage = () => {
   }));
 
   return (
-    <div className="min-h-[100dvh] bg-grid-pattern flex flex-col items-center">
-      {/* Top Bar */}
-      <header className="w-full max-w-3xl mx-auto px-4 sm:px-6 py-6 flex items-center justify-between">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-1.5 text-xs font-mono text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors cursor-pointer"
-        >
-          <IoChevronBackOutline size={15} />
-          <span>Back</span>
-        </Link>
-
-        <div className="flex items-center gap-4">
-          <Link to="/" className="font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-            johnpaul.dev
-          </Link>
-          <ThemeToggle />
-        </div>
-      </header>
+    <div className="min-h-[100dvh] bg-grid-pattern flex flex-col items-center overflow-x-clip">
+      {/* Top Sticky Liquid Glass Header */}
+      <SubpageHeader />
 
       {/* Main Project Case Study Content */}
       <main className="w-full max-w-3xl px-4 sm:px-6 py-4 flex-1 flex flex-col gap-10">
