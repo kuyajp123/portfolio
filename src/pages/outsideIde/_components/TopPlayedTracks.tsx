@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { FiArrowUpRight, FiMusic, FiRefreshCw } from 'react-icons/fi';
 import { topPlayedTracks as fallbackTracks, type TopTrack } from './constant';
 
-const LASTFM_API_KEY = (import.meta.env.VITE_LASTFM_API_KEY as string | undefined) ?? '35d378ba4a6c52e7b0710e7b919a3373';
-const LASTFM_USERNAME = (import.meta.env.VITE_LASTFM_USERNAME as string | undefined) ?? 'yajeyps';
+const LASTFM_API_KEY = (import.meta.env.VITE_LASTFM_API_KEY as string | undefined) ?? '';
+const LASTFM_USERNAME = (import.meta.env.VITE_LASTFM_USERNAME as string | undefined) ?? '';
 
 interface LastFmTrack {
   name: string;
@@ -36,6 +36,14 @@ export const TopPlayedTracks = () => {
 
     const fetchTopTracks = async () => {
       setIsLoading(true);
+      if (!LASTFM_API_KEY || !LASTFM_USERNAME) {
+        if (!isCancelled) {
+          setTracks(fallbackTracks);
+          setIsLive(false);
+          setIsLoading(false);
+        }
+        return;
+      }
       try {
         const url = `https://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=${LASTFM_USERNAME}&api_key=${LASTFM_API_KEY}&format=json&limit=5&period=${period}`;
         const res = await fetch(url);

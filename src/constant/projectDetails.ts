@@ -66,7 +66,7 @@ export const projectDetails: ProjectDetail[] = [
     award: 'Best Research Paper - Developmental Category (EMPIRE 2026)',
     awardLink: '/certificates/best-paper',
     date: '2025 - 2026',
-    tags: ['React Native', 'Node.js', 'Express', 'MongoDB', 'WebSockets', 'Tailwind CSS'],
+    tags: ['React Native', 'React.js', 'Express', 'Firebase', 'Typescript', 'Tailwind CSS'],
     liveUrl: 'https://rescuenect.vercel.app/home',
     appBuildersSlug: 'rescuenect-11k',
     embedIframe: {
@@ -78,35 +78,43 @@ export const projectDetails: ProjectDetail[] = [
     features: [
       {
         title: 'Real-Time Emergency Reporting',
-        description: 'Residents can submit instant reports about floods, hazards, accidents, or emergency situations in their vicinity.',
+        description:
+          'Residents can submit instant reports about floods, hazards, accidents, or emergency situations in their vicinity.',
       },
       {
         title: 'Disaster Alerts and Notifications',
-        description: 'Users receive verified updates, weather advisories, and critical announcements from authorized local officials.',
+        description:
+          'Users receive verified updates, weather advisories, and critical announcements from authorized local officials.',
       },
       {
         title: 'Location-Based Reports',
-        description: 'Reports include precise geolocation data to help first responders locate affected zones and allocate aid faster.',
+        description:
+          'Reports include precise geolocation data to help first responders locate affected zones and allocate aid faster.',
       },
       {
         title: 'Admin Monitoring Dashboard',
-        description: 'Administrators view, verify, coordinate, and resolve incident reports through a unified web command center.',
+        description:
+          'Administrators view, verify, coordinate, and resolve incident reports through a unified web command center.',
       },
       {
         title: 'Community Status Updates',
-        description: 'Residents can share hyper-local status reports to keep neighboring communities informed about real-time conditions.',
+        description:
+          'Residents can share hyper-local status reports to keep neighboring communities informed about real-time conditions.',
       },
       {
         title: 'Evacuation Center Guidance',
-        description: 'Instant directory of open evacuation shelters with capacity, amenities, and safe movement status during crises.',
+        description:
+          'Instant directory of open evacuation shelters with capacity, amenities, and safe movement status during crises.',
       },
       {
         title: 'Danger Zone Mapping',
-        description: 'Interactive map submission where residents can flag active hazards for official verification and quarantine.',
+        description:
+          'Interactive map submission where residents can flag active hazards for official verification and quarantine.',
       },
       {
         title: 'Dynamic Evacuation Routing',
-        description: 'Calculates the safest and nearest evacuation path based on real-time road conditions, danger zones, and flood traffic.',
+        description:
+          'Calculates the safest and nearest evacuation path based on real-time road conditions, danger zones, and flood traffic.',
       },
     ],
     images: [
@@ -158,7 +166,7 @@ export const projectDetails: ProjectDetail[] = [
       'LikhaDocs was utilized by Cavite State University (CvSU) students for preparing their official OJT narrative reports, validating the platform through real-world academic usage.',
     ],
     date: 'March 2026',
-    tags: ['React', 'TypeScript', 'Supabase', 'Google AI Studio', 'Tailwind CSS', 'DOCX Export'],
+    tags: ['Next.js', 'TypeScript', 'Supabase', 'Google AI Studio', 'Tailwind CSS',],
     liveUrl: 'https://likhadocs.com',
     appBuildersSlug: 'likhadocs',
     embedIframe: {
@@ -178,19 +186,23 @@ export const projectDetails: ProjectDetail[] = [
       },
       {
         title: 'AI Narrative Generation',
-        description: 'Transform rough notes and weekly bullet points into polished, professional narrative chapters with AI.',
+        description:
+          'Transform rough notes and weekly bullet points into polished, professional narrative chapters with AI.',
       },
       {
         title: 'Narrative Report Builder with DOCX Export',
-        description: 'Assemble complete narrative documents with standardized academic formatting and export directly to Microsoft Word (.docx).',
+        description:
+          'Assemble complete narrative documents with standardized academic formatting and export directly to Microsoft Word (.docx).',
       },
       {
         title: 'Reduced Blank-Page Friction',
-        description: 'Eliminates writer block so students spend less time formatting and more time reflecting on career growth.',
+        description:
+          'Eliminates writer block so students spend less time formatting and more time reflecting on career growth.',
       },
       {
         title: 'Validated by CvSU Students',
-        description: 'Field-tested by actual graduating IT students for submitting thesis and internship requirement documents.',
+        description:
+          'Field-tested by actual graduating IT students for submitting thesis and internship requirement documents.',
       },
     ],
     images: [
@@ -230,13 +242,14 @@ export const projectDetails: ProjectDetail[] = [
       'Devventory operates 100% offline, locally on your machine, with zero secret value storage and no account required.',
     ],
     date: '2026',
-    tags: ['React 19', 'TypeScript', 'Tauri v2', 'Rust', 'Tailwind CSS', 'Local-First'],
+    tags: ['React 19', 'TypeScript', 'Tauri v2', 'Rust', 'Tailwind CSS', 'SQLite'],
     githubUrl: 'https://github.com/kuyajp123/devventory',
     downloadUrl: 'https://github.com/kuyajp123/devventory-releases',
     features: [
       {
         title: 'Environment & Key Tracker',
-        description: 'Inspect which environment variables and keys are present, missing, required, optional, or misplaced across local, staging, and production.',
+        description:
+          'Inspect which environment variables and keys are present, missing, required, optional, or misplaced across local, staging, and production.',
       },
       {
         title: 'Environment Health Indicators',
@@ -244,19 +257,23 @@ export const projectDetails: ProjectDetail[] = [
       },
       {
         title: 'Project Asset & File Inventory',
-        description: 'Scan and index files, schemas, and configurations inside your repository so they are easy to locate.',
+        description:
+          'Scan and index files, schemas, and configurations inside your repository so they are easy to locate.',
       },
       {
         title: 'Relational File Linking',
-        description: 'Associate logos, icon variants, configuration files, and related assets together for fast multi-project lookup.',
+        description:
+          'Associate logos, icon variants, configuration files, and related assets together for fast multi-project lookup.',
       },
       {
         title: 'Coding-Agent Quota Monitor',
-        description: 'Track account quotas across AI coding-agent platforms to see which account is ready for active development.',
+        description:
+          'Track account quotas across AI coding-agent platforms to see which account is ready for active development.',
       },
       {
         title: 'Offline & Secret-Safe Architecture',
-        description: 'Never stores or transmits actual secret values. Operates fully offline and locally on your desktop machine.',
+        description:
+          'Never stores or transmits actual secret values. Operates fully offline and locally on your desktop machine.',
       },
     ],
     images: [

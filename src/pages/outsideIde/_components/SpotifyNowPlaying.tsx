@@ -3,8 +3,8 @@ import { FaSpotify } from 'react-icons/fa';
 import { FiArrowUpRight, FiDisc, FiRadio } from 'react-icons/fi';
 
 const DISCORD_USER_ID = '735019008281018430';
-const LASTFM_API_KEY = (import.meta.env.VITE_LASTFM_API_KEY as string | undefined) ?? '35d378ba4a6c52e7b0710e7b919a3373';
-const LASTFM_USERNAME = (import.meta.env.VITE_LASTFM_USERNAME as string | undefined) ?? 'yajeyps';
+const LASTFM_API_KEY = (import.meta.env.VITE_LASTFM_API_KEY as string | undefined) ?? '';
+const LASTFM_USERNAME = (import.meta.env.VITE_LASTFM_USERNAME as string | undefined) ?? '';
 
 interface TrackDisplay {
   title: string;

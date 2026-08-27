@@ -37,7 +37,7 @@ export const activities: ActivityItem[] = [
       'Integrated the eGov API to enable the application to interact with government services and process relevant data.',
       'Presented the application and defended its technical implementation during Q&A, placing in the Top 30 among 137 participating teams.',
     ],
-    tags: ['eGov API', 'AI Agent', 'Workflow Automation', 'FastAPI', 'Next.js'],
+    tags: ['eGov API', 'AI Agent', 'Workflow Automation', 'React.js', 'Typescript'],
     images: [
       {
         src: egovHackathonImg,

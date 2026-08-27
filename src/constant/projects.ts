@@ -20,7 +20,7 @@ export const projects: ProjectItem[] = [
     award: 'Best Research Paper Award (EMPIRE 2026)',
     awardLink: '/certificates/best-paper',
     date: '2025 - 2026',
-    tags: ['React Native', 'Node.js', 'Express', 'MongoDB', 'WebSockets'],
+    tags: ['React Native', 'React.js', 'Express', 'Firebase', 'Typescript'],
     featured: true,
   },
   {
@@ -28,7 +28,7 @@ export const projects: ProjectItem[] = [
     title: 'LikhaDocs',
     subtitle: 'AI-assisted narrative report generation engine streamlining structured technical and academic documentation.',
     date: 'March 2026',
-    tags: ['React', 'TypeScript', 'Google AI Studio', 'Tailwind CSS'],
+    tags: ['Next.js', 'TypeScript', 'Google AI Studio', 'Tailwind CSS'],
     featured: true,
   },
   {
@@ -36,7 +36,7 @@ export const projects: ProjectItem[] = [
     title: 'Devventory',
     subtitle: 'local first developer workspace to manage and track personal projects, assets, files, environments, and dependencies with offline-first capabilities.',
     date: '2026',
-    tags: ['React 19', 'TypeScript', 'Tauri v2', 'Rust'],
+    tags: ['React 19', 'TypeScript', 'Tauri v2', 'Rust', 'SQLite'],
     featured: true,
   },
 ];
