@@ -141,3 +141,17 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--border-active);
 }
+
+/* Disable video fullscreen button in browser media controls */
+video::-webkit-media-controls-fullscreen-button {
+  display: none !important;
+}
+
+/* Make all images, videos, and svgs non-draggable */
+img,
+video,
+svg {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+}

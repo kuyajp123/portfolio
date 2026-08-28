@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { useIsScrolled } from '@/hooks/useIsScrolled';
 import { ThemeToggle } from '@/components/button/Theme';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IoChevronBackOutline } from 'react-icons/io5';
 
 interface SubpageHeaderProps {
@@ -10,13 +10,23 @@ interface SubpageHeaderProps {
 
 export const SubpageHeader = ({ rightContent }: SubpageHeaderProps) => {
   const isScrolled = useIsScrolled(20);
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      void navigate(-1);
+    } else {
+      void navigate('/');
+    }
+  };
 
   return (
     <header className="sticky top-0 z-40 w-full py-4 sm:py-5 pointer-events-none">
       <div className="w-full max-w-3xl mx-auto px-4 sm:px-6 flex items-center justify-between pointer-events-auto">
-        {/* Left: Back button */}
-        <Link
-          to="/"
+        {/* Left: History-based Back button */}
+        <button
+          type="button"
+          onClick={handleBack}
           className={
             isScrolled
               ? 'liquid-glass-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-mono text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all duration-200 cursor-pointer focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:outline-hidden'
@@ -25,7 +35,7 @@ export const SubpageHeader = ({ rightContent }: SubpageHeaderProps) => {
         >
           <IoChevronBackOutline size={14} />
           <span>Back</span>
-        </Link>
+        </button>
 
         {/* Right: Brand / Actions */}
         {isScrolled ? (

@@ -1,3 +1,12 @@
+import rescuenectIcon from '@/assets/rescuenect/rescuenect-app-icon.png';
+import rescuenectCover from '@/assets/rescuenect/navigation.png';
+
+import likhadocsIcon from '@/assets/likhadocs/likhadocs-app-icon.png';
+import likhadocsCover from '@/assets/likhadocs/likhadocs_facebook_ad.png';
+
+import devventoryIcon from '@/assets/devventory/devventory-app-icon.png';
+import devventoryCover from '@/assets/devventory/dashboard.png';
+
 export interface ProjectItem {
   key: string;
   title: string;
@@ -10,6 +19,8 @@ export interface ProjectItem {
   link?: string;
   github?: string;
   featured?: boolean;
+  icon?: string;
+  coverImage?: string;
 }
 
 export const projects: ProjectItem[] = [
@@ -22,6 +33,8 @@ export const projects: ProjectItem[] = [
     date: '2025 - 2026',
     tags: ['React Native', 'React.js', 'Express', 'Firebase', 'Typescript'],
     featured: true,
+    icon: rescuenectIcon,
+    coverImage: rescuenectCover,
   },
   {
     key: 'likhadocs',
@@ -30,13 +43,17 @@ export const projects: ProjectItem[] = [
     date: 'March 2026',
     tags: ['Next.js', 'TypeScript', 'Google AI Studio', 'Tailwind CSS'],
     featured: true,
+    icon: likhadocsIcon,
+    coverImage: likhadocsCover,
   },
   {
     key: 'devventory',
     title: 'Devventory',
-    subtitle: 'local first developer workspace to manage and track personal projects, assets, files, environments, and dependencies with offline-first capabilities.',
+    subtitle: 'Local-first developer workspace to manage and track personal projects, assets, files, and environments.',
     date: '2026',
     tags: ['React 19', 'TypeScript', 'Tauri v2', 'Rust', 'SQLite'],
     featured: true,
+    icon: devventoryIcon,
+    coverImage: devventoryCover,
   },
 ];

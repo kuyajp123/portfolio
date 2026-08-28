@@ -1,7 +1,6 @@
-import { projects } from '@/constant/projects';
 import { SectionHeader } from '@/components/ui/SectionHeader';
-import { Badge } from '@/components/ui/Badge';
-import { FiAward, FiArrowUpRight, FiGithub } from 'react-icons/fi';
+import { projects } from '@/constant/projects';
+import { FiAward } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 
 export const FeaturedProjects = () => {
@@ -11,77 +10,65 @@ export const FeaturedProjects = () => {
         number="01"
         title="Featured Work"
         subtitle="Selected software projects, applications, and academic engineering."
+        viewAllLink={{
+          label: 'All Projects',
+          href: '/projects',
+        }}
       />
 
-      <div className="flex flex-col divide-y divide-black/8 dark:divide-white/8">
+      {/* Microsoft Store Style 3-Column App Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4.5 sm:gap-5 items-stretch">
         {projects.map(project => (
-          <article
+          <Link
             key={project.key}
-            className="py-7 first:pt-2 last:pb-2 group transition-colors"
+            to={`/projects/${project.key}`}
+            className="group relative flex flex-col justify-end overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-[#12161f] shadow-sm hover:shadow-xl hover:border-black/25 dark:hover:border-white/25 hover:-translate-y-1 transition-all duration-300 min-h-[280px] sm:min-h-[290px] h-full w-full cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
           >
-            <div className="flex flex-col gap-3">
-              {/* Header: Title, Award & Date */}
-              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
-                <div className="flex flex-wrap items-center gap-2.5">
-                  <Link
-                    to={`/projects/${project.key}`}
-                    className="font-sans text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors"
-                  >
-                    {project.title}
-                  </Link>
+            {/* Background Cover Image */}
+            {project.coverImage && (
+              <img
+                src={project.coverImage}
+                alt={project.title}
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                loading="lazy"
+              />
+            )}
 
-                  {project.award && (
-                    <Link to={project.awardLink ?? '/certificates/best-paper'}>
-                      <Badge variant="award">
-                        <FiAward size={12} className="shrink-0" />
-                        <span>{project.award}</span>
-                      </Badge>
-                    </Link>
-                  )}
-                </div>
+            {/* Smooth Frosted Dark Backdrop Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/75 via-45% to-transparent pointer-events-none transition-opacity duration-300" />
 
-                <span className="font-mono text-xs text-gray-400 dark:text-gray-500 shrink-0">
-                  {project.date}
-                </span>
-              </div>
+            {/* Bottom Content Bar */}
+            <div className="relative z-10 p-3.5 sm:p-4 flex items-end">
+              {/* App Icon + App Name & Subtitle */}
+              <div className="flex items-center gap-3 min-w-0 w-full">
+                {project.icon && (
+                  <img
+                    src={project.icon}
+                    alt={`${project.title} icon`}
+                    className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl object-cover shadow-md shrink-0"
+                    loading="lazy"
+                  />
+                )}
 
-              {/* Subtitle / Description */}
-              <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl font-normal">
-                {project.subtitle}
-              </p>
+                <div className="flex flex-col min-w-0 flex-1">
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <h3 className="font-sans text-sm sm:text-base font-semibold text-white group-hover:text-sky-300 transition-colors">
+                      {project.title}
+                    </h3>
+                    {project.award && (
+                      <span title="Award Winner" className="inline-flex items-center">
+                        <FiAward size={14} className="text-amber-400 fill-amber-400/20 shrink-0" />
+                      </span>
+                    )}
+                  </div>
 
-              {/* Tech Stack & Links */}
-              <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
-                <div className="flex flex-wrap gap-1.5">
-                  {project.tags.map(tag => (
-                    <Badge key={tag}>{tag}</Badge>
-                  ))}
-                </div>
-
-                <div className="flex items-center gap-3 text-xs font-mono">
-                  <Link
-                    to={`/projects/${project.key}`}
-                    className="inline-flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-gray-950 dark:hover:text-white transition-colors"
-                  >
-                    <span>View Project</span>
-                    <FiArrowUpRight size={13} />
-                  </Link>
-                  {project.github && (
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-                    >
-                      <FiGithub size={13} />
-                      <span>Source</span>
-                      <FiArrowUpRight size={12} />
-                    </a>
-                  )}
+                  <p className="font-sans text-xs text-gray-300 line-clamp-2 leading-tight mt-0.5 font-normal">
+                    {project.subtitle}
+                  </p>
                 </div>
               </div>
             </div>
-          </article>
+          </Link>
         ))}
       </div>
     </section>

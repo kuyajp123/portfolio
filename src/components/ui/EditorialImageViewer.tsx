@@ -8,6 +8,8 @@ export interface ViewerItem {
   caption?: string;
   category?: string;
   date?: string;
+  type?: 'image' | 'video';
+  poster?: string;
 }
 
 export interface EditorialImageViewerProps {
@@ -25,20 +27,21 @@ export const EditorialImageViewer = ({
   onIndexChange,
   items,
 }: EditorialImageViewerProps) => {
-  const currentItem = items[currentIndex];
+  const safeIndex = currentIndex >= 0 && currentIndex < items.length ? currentIndex : 0;
+  const currentItem = items[safeIndex] as ViewerItem | undefined;
   const hasMultiple = items.length > 1;
 
   // Keyboard navigation & escape listener
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen || !currentItem) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
       } else if (e.key === 'ArrowLeft' && hasMultiple) {
-        onIndexChange((currentIndex - 1 + items.length) % items.length);
+        onIndexChange((safeIndex - 1 + items.length) % items.length);
       } else if (e.key === 'ArrowRight' && hasMultiple) {
-        onIndexChange((currentIndex + 1) % items.length);
+        onIndexChange((safeIndex + 1) % items.length);
       }
     };
 
@@ -46,11 +49,11 @@ export const EditorialImageViewer = ({
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpen, currentIndex, items.length, hasMultiple, onClose, onIndexChange]);
+  }, [isOpen, safeIndex, items.length, hasMultiple, onClose, onIndexChange, currentItem]);
 
   // Lock body scroll when open
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && currentItem) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -58,29 +61,35 @@ export const EditorialImageViewer = ({
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isOpen]);
+  }, [isOpen, currentItem]);
+
+  const isVideo = Boolean(currentItem && (currentItem.type === 'video' || currentItem.src.endsWith('.mp4')));
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      {isOpen && currentItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           {/* Deep Frosted Atmospheric Backdrop - Clicking outside closes viewer */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.2 }}
             onClick={onClose}
-            className="fixed inset-0 bg-[#07090c]/85 dark:bg-[#05070a]/90 backdrop-blur-2xl cursor-pointer"
+            className={`fixed inset-0 cursor-pointer ${
+              isVideo
+                ? 'bg-[#05070a]/95'
+                : 'bg-[#07090c]/85 dark:bg-[#05070a]/90 backdrop-blur-2xl'
+            }`}
             aria-label="Click outside to close"
           />
 
           {/* Main Inspection Canvas */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
+            initial={{ opacity: 0, scale: 0.99 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            exit={{ opacity: 0, scale: 0.99 }}
+            transition={{ duration: 0.2 }}
             onClick={e => {
               // Clicking canvas background also closes unless clicking an interactive element
               if (e.target === e.currentTarget) {
@@ -93,7 +102,7 @@ export const EditorialImageViewer = ({
             <div className="flex items-center justify-between pointer-events-auto pb-4 cursor-default">
               <div className="flex items-center gap-3">
                 <span className="font-mono text-xs text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">
-                  Document & Image Inspection
+                  {isVideo ? 'Video Inspection' : 'Document & Image Inspection'}
                 </span>
                 {currentItem.category && (
                   <span className="hidden sm:inline-block font-mono text-[11px] px-2 py-0.5 rounded bg-white/10 text-gray-300 border border-white/10">
@@ -113,7 +122,7 @@ export const EditorialImageViewer = ({
               </button>
             </div>
 
-            {/* Split Editorial Area: Left = Title & Context, Right = High-Res Image */}
+            {/* Split Editorial Area: Left = Title & Context, Right = High-Res Image / Video */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto py-4 cursor-default">
               {/* Left Column: Generous Title, Narrative, Metadata & Cycling Controls */}
               <div
@@ -126,7 +135,7 @@ export const EditorialImageViewer = ({
                 {hasMultiple && (
                   <div className="flex items-center gap-2">
                     <span className="font-mono text-xs font-semibold text-sky-400">
-                      {String(currentIndex + 1).padStart(2, '0')} / {String(items.length).padStart(2, '0')}
+                      {String(safeIndex + 1).padStart(2, '0')} / {String(items.length).padStart(2, '0')}
                     </span>
                     <span className="text-gray-600">•</span>
                     {currentItem.date && (
@@ -137,7 +146,7 @@ export const EditorialImageViewer = ({
                   </div>
                 )}
 
-                {/* Main Image Title */}
+                {/* Main Image / Video Title */}
                 <h2 className="font-sans text-2xl sm:text-3xl font-bold text-white tracking-tight leading-snug">
                   {currentItem.title}
                 </h2>
@@ -155,10 +164,10 @@ export const EditorialImageViewer = ({
                     <button
                       type="button"
                       onClick={() => {
-                        onIndexChange((currentIndex - 1 + items.length) % items.length);
+                        onIndexChange((safeIndex - 1 + items.length) % items.length);
                       }}
                       className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-mono text-gray-200 bg-white/8 hover:bg-white/15 border border-white/10 transition-colors cursor-pointer"
-                      aria-label="Previous image"
+                      aria-label="Previous item"
                     >
                       <FiArrowLeft size={13} />
                       <span>Prev</span>
@@ -167,10 +176,10 @@ export const EditorialImageViewer = ({
                     <button
                       type="button"
                       onClick={() => {
-                        onIndexChange((currentIndex + 1) % items.length);
+                        onIndexChange((safeIndex + 1) % items.length);
                       }}
                       className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-mono text-gray-200 bg-white/8 hover:bg-white/15 border border-white/10 transition-colors cursor-pointer"
-                      aria-label="Next image"
+                      aria-label="Next item"
                     >
                       <span>Next</span>
                       <FiArrowRight size={13} />
@@ -183,24 +192,42 @@ export const EditorialImageViewer = ({
                 )}
               </div>
 
-              {/* Right Column: Featured Image with Hairline Frame */}
+              {/* Right Column: Featured Image / Video with Hardware Acceleration */}
               <div
                 className="lg:col-span-7 flex items-center justify-center pointer-events-auto"
                 onClick={e => {
                   e.stopPropagation();
                 }}
               >
-                <div className="relative max-h-[70vh] sm:max-h-[75vh] w-auto overflow-hidden rounded-2xl border border-white/15 shadow-2xl bg-black/40">
-                  <motion.img
-                    key={currentItem.src}
-                    src={currentItem.src}
-                    alt={currentItem.title}
-                    initial={{ opacity: 0, scale: 0.97 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3, ease: 'easeOut' }}
-                    className="max-h-[70vh] sm:max-h-[75vh] w-auto max-w-full object-contain rounded-xl select-none"
-                    draggable={false}
-                  />
+                <div className="relative max-h-[70vh] sm:max-h-[75vh] w-auto overflow-hidden rounded-2xl border border-white/15 bg-black/90 shadow-xl">
+                  {isVideo ? (
+                    <video
+                      key={currentItem.src}
+                      src={currentItem.src}
+                      poster={currentItem.poster}
+                      controls
+                      controlsList="nofullscreen nodownload noremoteplayback"
+                      disablePictureInPicture
+                      autoPlay
+                      playsInline
+                      preload="auto"
+                      onDoubleClick={e => {
+                        e.preventDefault();
+                      }}
+                      className="max-h-[70vh] sm:max-h-[75vh] w-auto max-w-full rounded-xl outline-none"
+                    />
+                  ) : (
+                    <motion.img
+                      key={currentItem.src}
+                      src={currentItem.src}
+                      alt={currentItem.title}
+                      initial={{ opacity: 0, scale: 0.97 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.25, ease: 'easeOut' }}
+                      className="max-h-[70vh] sm:max-h-[75vh] w-auto max-w-full object-contain rounded-xl select-none"
+                      draggable={false}
+                    />
+                  )}
                 </div>
               </div>
             </div>

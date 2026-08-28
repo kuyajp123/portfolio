@@ -1,34 +1,42 @@
+// App Icons
+import rescuenectIcon from '@/assets/rescuenect/rescuenect-app-icon.png';
+import likhadocsIcon from '@/assets/likhadocs/likhadocs-app-icon.png';
+import devventoryIcon from '@/assets/devventory/devventory-app-icon.png';
+
 // Rescuenect Images
+import rescuenectAnalytics from '@/assets/rescuenect/analytics.png';
+import rescuenectCommunity from '@/assets/rescuenect/community.png';
+import rescuenectNavigation from '@/assets/rescuenect/navigation.png';
+import rescuenectDark from '@/assets/rescuenect/playstore dark.png';
 import rescuenectWelcome from '@/assets/rescuenect/playstore welcome.png';
 import rescuenectPlaystore from '@/assets/rescuenect/playstore.png';
-import rescuenectDark from '@/assets/rescuenect/playstore dark.png';
-import rescuenectCommunity from '@/assets/rescuenect/community.png';
-import rescuenectAnalytics from '@/assets/rescuenect/analytics.png';
-import rescuenectNavigation from '@/assets/rescuenect/navigation.png';
 
 // LikhaDocs Images
 import likhadocsFb from '@/assets/likhadocs/likhadocs_facebook_ad.png';
+import likhadocsOutro from '@/assets/likhadocs/likhadocs_outro_ad.png';
 import likhadocsSmartResearch from '@/assets/likhadocs/smart_research_ad.png';
 import likhadocsWorkspace from '@/assets/likhadocs/weekly_report_workspace_ad.png';
-import likhadocsOutro from '@/assets/likhadocs/likhadocs_outro_ad.png';
 
 // Devventory Images
+import devventoryAgents from '@/assets/devventory/agent-usage.png';
 import devventoryDashboard from '@/assets/devventory/dashboard.png';
 import devventoryEnv from '@/assets/devventory/environment-tracker.png';
 import devventoryFiles from '@/assets/devventory/file-inventory.png';
-import devventoryAgents from '@/assets/devventory/agent-usage.png';
 
 export interface ProjectImage {
   src: string;
   title: string;
   caption: string;
   aspect?: 'portrait' | 'landscape';
+  type?: 'video' | 'image';
+  poster?: string;
 }
 
 export interface ProjectDetail {
   key: string;
   title: string;
   subtitle: string;
+  icon?: string;
   description: string[];
   architectureNote?: string;
   award?: string;
@@ -57,6 +65,7 @@ export const projectDetails: ProjectDetail[] = [
     key: 'rescuenect',
     title: 'Rescuenect',
     subtitle: 'Community disaster risk management and emergency dispatch coordination ecosystem.',
+    icon: rescuenectIcon,
     description: [
       'Rescuenect helps communities, residents, and local responders communicate quickly during disasters through real-time reports, alerts, and emergency coordination.',
       'Rescuenect provides a straightforward platform for residents to report emergencies and for administrators to verify and manage information.',
@@ -160,13 +169,14 @@ export const projectDetails: ProjectDetail[] = [
     key: 'likhadocs',
     title: 'LikhaDocs',
     subtitle: 'AI-assisted structured narrative report builder and OJT documentation workspace.',
+    icon: likhadocsIcon,
     description: [
       'LikhaDocs helps users draft structured narrative reports with AI assistance, organize weekly entries, references, and templates, and export final documents in DOCX format.',
       'The platform uses Supabase for authentication, relational data storage, and file storage.',
       'LikhaDocs was utilized by Cavite State University (CvSU) students for preparing their official OJT narrative reports, validating the platform through real-world academic usage.',
     ],
     date: 'March 2026',
-    tags: ['Next.js', 'TypeScript', 'Supabase', 'Google AI Studio', 'Tailwind CSS',],
+    tags: ['Next.js', 'TypeScript', 'Supabase', 'Google AI Studio', 'Tailwind CSS'],
     liveUrl: 'https://likhadocs.com',
     appBuildersSlug: 'likhadocs',
     embedIframe: {
@@ -207,6 +217,12 @@ export const projectDetails: ProjectDetail[] = [
     ],
     images: [
       {
+        src: likhadocsFb,
+        title: 'LikhaDocs Platform Overview',
+        caption: 'Modern writing interface built for students and technical professionals.',
+        aspect: 'landscape',
+      },
+      {
         src: likhadocsWorkspace,
         title: 'Weekly Report Workspace',
         caption: 'Structured journal view for drafting, organizing, and refining weekly OJT logs.',
@@ -214,20 +230,14 @@ export const projectDetails: ProjectDetail[] = [
       },
       {
         src: likhadocsSmartResearch,
-        title: 'AI-Assisted Report Generation',
-        caption: 'Context-aware AI assistant helping convert raw bullet notes into formal narrative paragraphs.',
-        aspect: 'landscape',
-      },
-      {
-        src: likhadocsFb,
-        title: 'LikhaDocs Platform Overview',
-        caption: 'Modern writing interface built for students and technical professionals.',
+        title: 'AI Smart Research Integration',
+        caption: 'Deep research assistant summarizing key findings for technical reports.',
         aspect: 'landscape',
       },
       {
         src: likhadocsOutro,
-        title: 'DOCX Document Exporting',
-        caption: 'One-click automated export to standard DOCX format ready for institutional submission.',
+        title: 'Export & Document Generation',
+        caption: 'Automated formatting and conversion to compliant thesis and report templates.',
         aspect: 'landscape',
       },
     ],
@@ -236,6 +246,7 @@ export const projectDetails: ProjectDetail[] = [
     key: 'devventory',
     title: 'Devventory',
     subtitle: 'Local-first offline development workspace to track environments, assets, and coding-agent quotas.',
+    icon: devventoryIcon,
     description: [
       'Devventory is a personal development workspace tool that allows engineers to manage multi-environment workflows with precision.',
       'Devventory was built because modern projects with local, staging, and production environments require specific keys and configuration variables that frequently get missing, misplaced, or mismatched, while assets like logos, variants, and configs get scattered across repositories.',

@@ -7,6 +7,7 @@ import { OffScreenRitualsPage } from '@/pages/outsideIde/_components/OffScreenRi
 import { CertificateDetailsPage } from '@/pages/certifications/_components/CertificateDetailsPage';
 import { GithubGraphPage } from '@/pages/githubGraphs/_components/GithubGraphPage';
 import { TechStack } from '@/pages/techStack/_components/TechStack';
+import { CommunityNotesPage } from '@/pages/notes/_components/CommunityNotesPage';
 import { NotFound } from '@/pages/NotFound';
 import { Route, Routes } from 'react-router-dom';
 import App from './App';
@@ -25,6 +26,8 @@ export const Router = () => {
       <Route path="/tech-stack" element={<TechStack />} />
       <Route path="/github-graphs" element={<GithubGraphPage />} />
       <Route path="/certificates/:id" element={<CertificateDetailsPage />} />
+      <Route path="/notes" element={<CommunityNotesPage />} />
+      <Route path="/testimonials" element={<CommunityNotesPage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

@@ -8,6 +8,7 @@ import { FeaturedProjects } from '@/components/home/FeaturedProjects';
 import { ActivitiesSection } from '@/components/home/ActivitiesSection';
 import { AboutSection } from '@/components/home/AboutSection';
 import { GallerySection } from '@/components/home/GallerySection';
+import { CommunityNotesSection } from '@/components/home/CommunityNotesSection';
 import { Quote } from '@/components/quote/Quote';
 import { Footer } from '@/components/footer/Footer';
 
@@ -76,6 +77,7 @@ export const App = () => {
           <ActivitiesSection />
           <AboutSection />
           <GallerySection />
+          <CommunityNotesSection />
           <Quote />
         </main>
 

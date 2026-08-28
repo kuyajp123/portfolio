@@ -10,6 +10,7 @@ import {
   FiAward,
   FiCalendar,
   FiMaximize2,
+  FiPlay,
   FiArrowUpRight,
   FiGithub,
   FiDownload,
@@ -34,6 +35,8 @@ export const ProjectDetailPage = () => {
     caption: img.caption,
     category: project.title,
     date: project.date,
+    type: img.type,
+    poster: img.poster,
   }));
 
   return (
@@ -54,6 +57,14 @@ export const ProjectDetailPage = () => {
 
             <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3">
               <div className="flex flex-wrap items-center gap-3">
+                {project.icon && (
+                  <img
+                    src={project.icon}
+                    alt={`${project.title} icon`}
+                    className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl object-cover bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/15 shadow-sm shrink-0"
+                  />
+                )}
+
                 <h1 className="font-sans text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 tracking-tight">
                   {project.title}
                 </h1>
@@ -121,16 +132,33 @@ export const ProjectDetailPage = () => {
                   }`}
                 >
                   <img
-                    src={img.src}
+                    src={img.poster ?? img.src}
                     alt={img.title}
-                    className="w-full h-full object-cover grayscale group-hover/shot:grayscale-0 group-hover/shot:scale-102 transition-all duration-500 ease-out"
+                    className="w-full h-full object-cover group-hover/shot:scale-102 transition-all duration-500 ease-out"
                     loading="lazy"
                   />
 
-                  {/* Top Inspect Pill */}
-                  <div className="absolute top-2.5 right-2.5 opacity-0 group-hover/shot:opacity-100 transition-opacity duration-300 bg-black/70 backdrop-blur-md text-white p-1.5 rounded-lg border border-white/20">
-                    <FiMaximize2 size={12} />
-                  </div>
+                  {/* Video center play badge & top pill */}
+                  {(img.type === 'video' || img.src.endsWith('.mp4')) && (
+                    <>
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover/shot:bg-black/35 transition-colors">
+                        <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-black/60 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-xl group-hover/shot:scale-110 group-hover/shot:bg-sky-600 transition-all duration-300">
+                          <FiPlay size={18} className="fill-white ml-0.5" />
+                        </div>
+                      </div>
+                      <div className="absolute top-2.5 left-2.5 bg-black/70 backdrop-blur-md text-white px-2 py-0.5 rounded-md border border-white/20 text-[10px] font-mono flex items-center gap-1">
+                        <FiPlay size={8} className="fill-white" />
+                        <span>VIDEO</span>
+                      </div>
+                    </>
+                  )}
+
+                  {/* Top Inspect Pill (for standard images) */}
+                  {!img.type && !img.src.endsWith('.mp4') && (
+                    <div className="absolute top-2.5 right-2.5 opacity-0 group-hover/shot:opacity-100 transition-opacity duration-300 bg-black/70 backdrop-blur-md text-white p-1.5 rounded-lg border border-white/20">
+                      <FiMaximize2 size={12} />
+                    </div>
+                  )}
 
                   {/* Bottom Caption Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover/shot:opacity-100 transition-opacity duration-300 p-3.5 flex flex-col justify-end">
@@ -146,27 +174,26 @@ export const ProjectDetailPage = () => {
             </div>
           </div>
 
-          {/* Key Capabilities & Features */}
+          {/* Key Capabilities & Features (Bullet Points List) */}
           <div className="flex flex-col gap-3 pt-2">
             <span className="font-mono text-xs uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">
               Key Capabilities & Features
             </span>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <ul className="flex flex-col gap-2 list-none">
               {project.features.map(feat => (
-                <div
-                  key={feat.title}
-                  className="p-3.5 rounded-xl border border-black/6 dark:border-white/8 bg-black/2 dark:bg-white/2 flex flex-col gap-1"
-                >
-                  <div className="flex items-center gap-1.5 font-sans text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100">
-                    <span className="font-mono text-sky-500 select-none">›</span>
-                    <span>{feat.title}</span>
+                <li key={feat.title} className="flex items-start gap-2.5 text-xs sm:text-sm">
+                  <span className="font-mono text-sky-500 dark:text-sky-400 font-bold select-none leading-relaxed">
+                    •
+                  </span>
+                  <div className="leading-relaxed text-gray-700 dark:text-gray-300">
+                    <strong className="font-semibold text-gray-900 dark:text-gray-100">
+                      {feat.title}:
+                    </strong>{' '}
+                    <span>{feat.description}</span>
                   </div>
-                  <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed pl-3.5">
-                    {feat.description}
-                  </p>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
           {/* Tech Stack Tags */}

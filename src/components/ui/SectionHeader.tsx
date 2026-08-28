@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+import { FiArrowUpRight } from 'react-icons/fi';
+
 interface SectionHeaderProps {
   number: string;
   title: string;
@@ -23,12 +26,25 @@ export const SectionHeader = ({ number, title, subtitle, viewAllLink }: SectionH
         </div>
 
         {viewAllLink && (
-          <a
-            href={viewAllLink.href}
-            className="font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-sky-500 dark:hover:text-sky-400 transition-colors"
-          >
-            {viewAllLink.label} ?
-          </a>
+          viewAllLink.href.startsWith('/') ? (
+            <Link
+              to={viewAllLink.href}
+              className="inline-flex items-center gap-1 font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+            >
+              <span>{viewAllLink.label}</span>
+              <FiArrowUpRight size={13} />
+            </Link>
+          ) : (
+            <a
+              href={viewAllLink.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+            >
+              <span>{viewAllLink.label}</span>
+              <FiArrowUpRight size={13} />
+            </a>
+          )
         )}
       </div>
 

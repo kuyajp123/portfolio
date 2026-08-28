@@ -1,11 +1,11 @@
-import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'motion/react';
-import { HiX } from 'react-icons/hi';
-import { FaGithub, FaLinkedin, FaFacebook, FaInstagram } from 'react-icons/fa';
-import { MdEmail } from 'react-icons/md';
-import { FiDownload, FiArrowUpRight, FiHeadphones, FiCompass, FiSliders } from 'react-icons/fi';
 import { ThemeToggle } from '@/components/button/Theme';
+import { AnimatePresence, motion } from 'motion/react';
+import { useEffect, useRef } from 'react';
+import { FaFacebook, FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import { FiArrowUpRight, FiCompass, FiDownload, FiHeadphones, FiSliders } from 'react-icons/fi';
+import { HiX } from 'react-icons/hi';
+import { MdEmail } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 interface NavigationDrawerProps {
   isOpen: boolean;
@@ -42,6 +42,7 @@ const dedicatedDirectories = [
   { num: '03', label: 'Tech Taxonomy', href: '/tech-stack' },
   { num: '04', label: 'GitHub Activity', href: '/github-graphs' },
   { num: '05', label: 'Research Awards', href: '/certificates/best-paper' },
+  { num: '06', label: 'Notes', href: '/notes' },
 ];
 
 export const NavigationDrawer = ({ isOpen, onClose }: NavigationDrawerProps) => {
@@ -134,26 +135,17 @@ export const NavigationDrawer = ({ isOpen, onClose }: NavigationDrawerProps) => 
                 </div>
 
                 {outsideIdeSections.map(item => {
-                  const Icon = item.icon;
                   return (
                     <Link
                       key={item.label}
                       to={item.href}
                       onClick={onClose}
-                      className="group p-3 rounded-xl border border-black/8 dark:border-white/10 bg-black/2 dark:bg-white/3 hover:bg-black/5 dark:hover:bg-white/6 hover:border-black/15 dark:hover:border-white/20 transition-all flex items-center justify-between"
+                      className="group p-2 flex items-center justify-between"
                     >
-                      <div className="flex items-center gap-3 min-w-0">
-                        <div className="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
-                          <Icon size={15} />
-                        </div>
-                        <div className="flex flex-col min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span className="font-mono text-xs font-semibold text-gray-900 dark:text-gray-100 group-hover:text-sky-500 dark:group-hover:text-sky-400 transition-colors truncate">
-                              {item.label}
-                            </span>
-                          </div>
-                          <span className="text-[11px] text-gray-500 dark:text-gray-400 truncate">{item.desc}</span>
-                        </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="font-mono text-xs font-semibold text-gray-900 dark:text-gray-100 group-hover:text-sky-500 dark:group-hover:text-sky-400 transition-colors truncate">
+                          {item.label}
+                        </span>
                       </div>
 
                       <span className="font-mono text-xs text-gray-400 dark:text-gray-500 group-hover:text-sky-500 transition-colors ml-2 shrink-0 flex items-center gap-0.5">
@@ -199,6 +191,24 @@ export const NavigationDrawer = ({ isOpen, onClose }: NavigationDrawerProps) => 
               </p>
               <div className="grid grid-cols-2 gap-2">
                 <a
+                  href="https://www.facebook.com/jeyps.py/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 p-2 rounded-lg border border-black/8 dark:border-white/8 text-xs font-mono text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                >
+                  <FaFacebook size={14} />
+                  <span>Facebook</span>
+                </a>
+                <a
+                  href="https://www.instagram.com/jeyps.css/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 p-2 rounded-lg border border-black/8 dark:border-white/8 text-xs font-mono text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                >
+                  <FaInstagram size={14} />
+                  <span>Instagram</span>
+                </a>
+                <a
                   href="mailto:johnpaulnaag10@gmail.com"
                   className="flex items-center gap-2 p-2 rounded-lg border border-black/8 dark:border-white/8 text-xs font-mono text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
                 >
@@ -224,24 +234,6 @@ export const NavigationDrawer = ({ isOpen, onClose }: NavigationDrawerProps) => 
                   <span>LinkedIn</span>
                 </a>
                 <a
-                  href="https://www.facebook.com/jeyps.py/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 p-2 rounded-lg border border-black/8 dark:border-white/8 text-xs font-mono text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
-                >
-                  <FaFacebook size={14} />
-                  <span>Facebook</span>
-                </a>
-                <a
-                  href="https://www.instagram.com/jeyps.css/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 p-2 rounded-lg border border-black/8 dark:border-white/8 text-xs font-mono text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
-                >
-                  <FaInstagram size={14} />
-                  <span>Instagram</span>
-                </a>
-                <a
                   href="/resume.pdf"
                   download
                   className="flex items-center gap-2 p-2 rounded-lg border border-black/8 dark:border-white/8 text-xs font-mono text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
@@ -249,6 +241,7 @@ export const NavigationDrawer = ({ isOpen, onClose }: NavigationDrawerProps) => 
                   <FiDownload size={14} />
                   <span>Resume</span>
                 </a>
+                
               </div>
 
               <div className="flex items-center justify-between text-[10px] font-mono text-gray-400 dark:text-gray-500 pt-1">

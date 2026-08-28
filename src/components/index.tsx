@@ -5,5 +5,6 @@ export { FeaturedProjects } from '@/components/home/FeaturedProjects';
 export { ActivitiesSection } from '@/components/home/ActivitiesSection';
 export { AboutSection } from '@/components/home/AboutSection';
 export { GallerySection } from '@/components/home/GallerySection';
+export { CommunityNotesSection } from '@/components/home/CommunityNotesSection';
 export { Footer } from '@/components/footer/Footer';
 export { Quote } from '@/components/quote/Quote';

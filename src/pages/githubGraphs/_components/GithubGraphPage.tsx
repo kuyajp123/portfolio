@@ -3,11 +3,10 @@ import { Footer } from '@/components/footer/Footer';
 import { SubpageHeader } from '@/components/layout/SubpageHeader';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { useTheme } from 'next-themes';
-import { ActivityCalendar, type Activity } from 'react-activity-calendar';
-import 'react-github-calendar/tooltips.css';
 import { FaGithub } from 'react-icons/fa';
 import { FiArrowUpRight } from 'react-icons/fi';
 import { getSessionCache, setSessionCache } from '@/utils/sessionCache';
+import { GithubRecentGraph } from '@/components/github/GithubRecentGraph';
 import {
   achievements,
   ACTIVITY_BASE_URL,
@@ -15,11 +14,6 @@ import {
   USERNAME,
   topLanguages,
 } from './constant';
-
-const calendarTheme = {
-  light: ['#ebedf0', '#c6c9ce', '#9ea3ab', '#5a6069', '#1a1d23'],
-  dark: ['#161b22', '#2d333b', '#444c56', '#768390', '#cdd9e5'],
-};
 
 const graphTheme = {
   activityLight: 'bg_color=f6f7f9&color=111827&line=4b5563&point=111827&area_color=e5e7eb&area=true&hide_border=true',
@@ -42,16 +36,8 @@ interface GithubValidationCache {
   isStatsAvailable: boolean;
 }
 
-interface GithubContributionsApiResponse {
-  contributions?: Activity[];
-}
-
 export const GithubGraphPage = () => {
   const { resolvedTheme } = useTheme();
-
-  const [calendarData, setCalendarData] = useState<Activity[] | null>(() => {
-    return (getSessionCache(`jp_github_calendar_${USERNAME}`) as Activity[] | null) ?? null;
-  });
 
   const [isActivityAvailable, setIsActivityAvailable] = useState<boolean>(() => {
     const cached =
@@ -65,39 +51,6 @@ export const GithubGraphPage = () => {
       (getSessionCache('jp_github_validation_light') as GithubValidationCache | null);
     return cached?.isStatsAvailable ?? false;
   });
-
-  // 1. Fetch GitHub annual contributions and cache in sessionStorage
-  useEffect(() => {
-    let isCancelled = false;
-    const cacheKey = `jp_github_calendar_${USERNAME}`;
-    const cached = getSessionCache(cacheKey) as Activity[] | null;
-
-    if (cached && cached.length > 0) {
-      setCalendarData(cached);
-      return;
-    }
-
-    const fetchContributions = async () => {
-      try {
-        const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${USERNAME}?y=last`);
-        if (res.ok) {
-          const json = (await res.json()) as GithubContributionsApiResponse;
-          if (json.contributions && !isCancelled) {
-            setCalendarData(json.contributions);
-            setSessionCache(cacheKey, json.contributions);
-          }
-        }
-      } catch {
-        // Fallback gracefully
-      }
-    };
-
-    void fetchContributions();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, []);
 
   // Validate third-party SVG endpoints based on status codes and content
   useEffect(() => {
@@ -203,27 +156,8 @@ export const GithubGraphPage = () => {
           subtitle="Real-time contribution frequency, commit metrics, and language distribution across public repositories."
         />
 
-        {/* 365 Days Calendar Card */}
-        <div className="flex flex-col gap-3">
-          <span className="font-mono text-xs uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">
-            Annual Contributions
-          </span>
-          <div className={`${panelClass} p-4 overflow-x-auto`}>
-            <ActivityCalendar
-              data={calendarData ?? []}
-              loading={calendarData === null}
-              colorScheme={resolvedTheme === 'dark' ? 'dark' : 'light'}
-              theme={calendarTheme}
-              labels={{
-                totalCount: '{{count}} contributions in the last year',
-              }}
-              maxLevel={4}
-              tooltips={{
-                activity: { text: activity => `${String(activity.count)} contributions on ${activity.date}` },
-              }}
-            />
-          </div>
-        </div>
+        {/* Contributions Graph */}
+        <GithubRecentGraph />
 
         {/* 31 Days Activity Graph - Only rendered if endpoint status is 200 and valid */}
         {isActivityAvailable && (
