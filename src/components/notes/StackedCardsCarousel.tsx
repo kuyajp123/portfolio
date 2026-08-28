@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
-import { motion } from 'motion/react';
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { CommunityCard } from '@/components/notes/CommunityCard';
 import type { CommunityNote } from '@/services/communityNotes';
+import { motion } from 'motion/react';
+import { useCallback, useEffect, useState } from 'react';
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 interface StackedCardsCarouselProps {
   notes: CommunityNote[];
@@ -10,11 +10,7 @@ interface StackedCardsCarouselProps {
   userHasNote: boolean;
 }
 
-export const StackedCardsCarousel = ({
-  notes,
-  onOpenModal,
-  userHasNote,
-}: StackedCardsCarouselProps) => {
+export const StackedCardsCarousel = ({ notes, onOpenModal, userHasNote }: StackedCardsCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [lastActionTime, setLastActionTime] = useState<number>(() => Date.now());
@@ -45,10 +41,13 @@ export const StackedCardsCarousel = ({
     prevCard();
   }, [prevCard, registerUserAction]);
 
-  const handleCardSelect = useCallback((idx: number) => {
-    registerUserAction();
-    setCurrentIndex(idx);
-  }, [registerUserAction]);
+  const handleCardSelect = useCallback(
+    (idx: number) => {
+      registerUserAction();
+      setCurrentIndex(idx);
+    },
+    [registerUserAction]
+  );
 
   // Auto Rotation with Inactivity Cooldown (waits 6s of no action / no hover before advancing)
   useEffect(() => {
@@ -75,7 +74,8 @@ export const StackedCardsCarousel = ({
       authorKey: 'empty',
       name: 'Claim Spot #1',
       role: 'First Community Contributor',
-      message: 'No community notes yet. Be the first to leave your feedback, testimonial, or note and claim Spot #1 on the board!',
+      message:
+        'No community notes yet. Be the first to leave your feedback, testimonial, or note and claim Spot #1 on the board!',
       color: 'obsidian',
       spotNumber: 1,
       createdAt: Date.now(),
@@ -165,7 +165,7 @@ export const StackedCardsCarousel = ({
             rotateY = -14;
             rotateZ = 2.5;
             zIndex = 20;
-            opacity = 0.90;
+            opacity = 0.9;
             brightness = 0.78;
           } else if (offset === -1) {
             xOffset = -60;
@@ -174,7 +174,7 @@ export const StackedCardsCarousel = ({
             rotateY = 14;
             rotateZ = -2.5;
             zIndex = 20;
-            opacity = 0.90;
+            opacity = 0.9;
             brightness = 0.78;
           } else if (offset === 2) {
             xOffset = 110;
@@ -183,7 +183,7 @@ export const StackedCardsCarousel = ({
             rotateY = -24;
             rotateZ = 4.5;
             zIndex = 10;
-            opacity = 0.50;
+            opacity = 0.5;
             brightness = 0.55;
           } else if (offset === -2) {
             xOffset = -110;
@@ -192,7 +192,7 @@ export const StackedCardsCarousel = ({
             rotateY = 24;
             rotateZ = -4.5;
             zIndex = 10;
-            opacity = 0.50;
+            opacity = 0.5;
             brightness = 0.55;
           }
 
@@ -277,11 +277,9 @@ export const StackedCardsCarousel = ({
       {/* Sub-label under card */}
       <div className="text-center pt-3 flex flex-col items-center gap-2">
         <span className="font-mono text-xs text-gray-500 dark:text-gray-400">
-          {topNote.name} claimed Spot #{String(topNote.spotNumber + 1)}
+          {topNote.name} claimed Spot #{String(topNote.spotNumber)}
         </span>
-        <span className="font-mono text-xs text-gray-500 dark:text-gray-400">
-          Get your spot anonymously!
-        </span>
+        <span className="font-mono text-xs text-gray-500 dark:text-gray-400">Get your spot anonymously!</span>
 
         {/* Interactive Action: Leave / Edit Note */}
         <button
