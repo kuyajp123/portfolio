@@ -277,7 +277,10 @@ export const StackedCardsCarousel = ({
       {/* Sub-label under card */}
       <div className="text-center pt-3 flex flex-col items-center gap-2">
         <span className="font-mono text-xs text-gray-500 dark:text-gray-400">
-          {topNote.name} claimed Spot #{String(topNote.spotNumber)}
+          {topNote.name} claimed Spot #{String(topNote.spotNumber + 1)}
+        </span>
+        <span className="font-mono text-xs text-gray-500 dark:text-gray-400">
+          Get your spot anonymously!
         </span>
 
         {/* Interactive Action: Leave / Edit Note */}
