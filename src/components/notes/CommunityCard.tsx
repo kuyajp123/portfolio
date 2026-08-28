@@ -134,23 +134,30 @@ export const CommunityCard = ({
 
         {/* Center: Author, Subtitle & Testimonial Message */}
         <div className="relative z-10 my-auto py-2 flex flex-col items-center text-center w-full max-w-full min-w-0 flex-1 justify-center">
-          <h3 className="font-sans text-xl sm:text-2xl font-bold text-white tracking-tight leading-tight drop-shadow-sm break-words [overflow-wrap:anywhere] max-w-full">
-            {note.name}
-          </h3>
+          {Boolean(note.name && note.name.trim() !== '') && (
+            <h3 className="font-sans text-xl sm:text-2xl font-bold text-white tracking-tight leading-tight drop-shadow-sm break-words  max-w-full">
+              {note.name}
+            </h3>
+          )}
 
-          {note.role && (
+          {Boolean(note.role && note.role.trim() !== '') && (
             <span
-              className={`font-mono text-[10px] sm:text-[11px] tracking-wider uppercase mt-1 break-words [overflow-wrap:anywhere] max-w-full ${theme.textMuted}`}
+              className={`font-mono text-[10px] sm:text-[11px] tracking-wider uppercase mt-1 break-words  max-w-full ${theme.textMuted}`}
             >
               {note.role}
             </span>
           )}
 
-          {/* Decorative Divider */}
-          <div className="w-12 h-px bg-gradient-to-r from-transparent via-amber-400/40 to-transparent my-2.5 shrink-0" />
+          {/* Decorative Divider - only if name or role is present */}
+          {Boolean(
+            (note.name && note.name.trim() !== '') ||
+            (note.role && note.role.trim() !== '')
+          ) && (
+            <div className="w-12 h-px bg-gradient-to-r from-transparent via-amber-400/40 to-transparent my-2.5 shrink-0" />
+          )}
 
           {/* Note Quote */}
-          <blockquote className="font-sans text-xs sm:text-[13px] text-white/90 leading-relaxed font-normal italic px-1 max-w-full w-full break-words [overflow-wrap:anywhere]">
+          <blockquote className="font-sans text-xs sm:text-[13px] text-white/90 leading-relaxed font-normal italic px-1 max-w-full w-full break-words ">
             "{note.message}"
           </blockquote>
         </div>

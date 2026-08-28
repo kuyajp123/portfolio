@@ -129,8 +129,8 @@ export const saveOrUpdateCommunityNote = async (input: {
   if (existingIndex >= 0) {
     savedNote = {
       ...existingNotes[existingIndex],
-      name: input.name.trim() !== '' ? input.name.trim() : 'Anonymous Visitor',
-      role: input.role && input.role.trim() !== '' ? input.role.trim() : 'Community Member',
+      name: input.name.trim(),
+      role: input.role && input.role.trim() !== '' ? input.role.trim() : undefined,
       message: input.message.trim(),
       color: input.color,
       spotNumber: existingNotes[existingIndex].spotNumber,
@@ -148,8 +148,8 @@ export const saveOrUpdateCommunityNote = async (input: {
     savedNote = {
       id: 'note_' + Math.random().toString(36).substring(2, 9) + '_' + Date.now().toString(36),
       authorKey,
-      name: input.name.trim() !== '' ? input.name.trim() : 'Anonymous Visitor',
-      role: input.role && input.role.trim() !== '' ? input.role.trim() : 'Community Member',
+      name: input.name.trim(),
+      role: input.role && input.role.trim() !== '' ? input.role.trim() : undefined,
       message: input.message.trim(),
       color: input.color,
       spotNumber: maxSpotNumber + 1,

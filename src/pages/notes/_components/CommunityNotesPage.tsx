@@ -59,7 +59,7 @@ export const CommunityNotesPage = () => {
             }}
             className="shrink-0 self-start sm:self-auto px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-sans text-xs font-bold shadow-md transition-all duration-200 cursor-pointer hover:scale-102"
           >
-            {userHasNote ? '✨ Edit Your Spot' : '🚀 Claim Your Spot & Drop a Note'}
+            {userHasNote ? '✨ Edit Your Spot' : '🚀 Drop a Note'}
           </button>
         </div>
 

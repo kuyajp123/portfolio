@@ -20,7 +20,7 @@ export const HeroSection = () => {
   return (
     <section id="intro" className="pt-6 sm:pt-10 pb-10 scroll-mt-24">
       {/* Top Profile + Bio Block */}
-      <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-start">
+      <div className="flex flex-col sm:flex-row gap-6 sm:gap-9 items-start">
         {/* Avatar Image with subtle border, status bubble, and online indicator */}
         <div className="relative shrink-0 pt-6 sm:pt-7">
           {/* Instagram-style Floating Status Bubble */}
@@ -29,16 +29,16 @@ export const HeroSection = () => {
               initial={{ opacity: 0, y: 6, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-              className="absolute -top-1 left-[25%] -translate-x-1/2 z-20 select-none pointer-events-none whitespace-nowrap"
+              className="absolute -top-1 sm:-top-2 left-0 sm:left-[28%] sm:-translate-x-1/2 z-20 select-none pointer-events-none whitespace-nowrap"
             >
-              <div className="relative px-3 py-1 rounded-2xl bg-white/95 dark:bg-[#151923]/95 backdrop-blur-md border border-black/10 dark:border-white/15 shadow-[0_4px_16px_rgba(0,0,0,0.12)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.4)] flex items-center gap-1.5 max-w-[200px]">
+              <div className="relative px-3 py-1 rounded-2xl bg-white/95 dark:bg-[#151923]/95 backdrop-blur-md border border-black/10 dark:border-white/15 shadow-[0_4px_16px_rgba(0,0,0,0.12)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.4)] flex items-center gap-1.5 max-w-[200px] sm:max-w-[220px]">
                 <span className="font-sans text-[11px] sm:text-xs text-gray-800 dark:text-gray-100 font-medium tracking-tight truncate">
                   {status}
                 </span>
 
                 {/* Speech bubble pointer dots (Instagram style, pointing down to avatar) */}
-                <span className="absolute -bottom-1 left-[65%] -translate-x-1/2 w-2 h-2 rounded-full bg-white/95 dark:bg-[#151923]/95 border-b border-r border-black/10 dark:border-white/15" />
-                <span className="absolute -bottom-2 left-[62%] -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-white/95 dark:bg-[#151923]/95 border-b border-r border-black/10 dark:border-white/15" />
+                <span className="absolute -bottom-1 left-6 sm:left-[58%] sm:-translate-x-1/2 w-2 h-2 rounded-full bg-white/95 dark:bg-[#151923]/95 border-b border-r border-black/10 dark:border-white/15" />
+                <span className="absolute -bottom-2 left-5 sm:left-[55%] sm:-translate-x-1/2 w-1.5 h-1.5 rounded-full bg-white/95 dark:bg-[#151923]/95 border-b border-r border-black/10 dark:border-white/15" />
               </div>
             </motion.div>
           )}
@@ -55,7 +55,7 @@ export const HeroSection = () => {
         </div>
 
         {/* Narrative & Name */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 sm:pt-2">
           <div>
             <h1 className="font-mono text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
               John Paul Naag

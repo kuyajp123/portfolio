@@ -46,8 +46,8 @@ export const LeaveNoteModal = ({
         const found = existingNotes.find(n => n.id === savedId);
         if (found) {
           setExistingNoteId(found.id);
-          setName(found.name === 'Anonymous Visitor' ? '' : found.name);
-          setRole(found.role === 'Community Member' ? '' : (found.role ?? ''));
+          setName(found.name);
+          setRole(found.role ?? '');
           setMessage(found.message);
           setColor(found.color);
           return;
@@ -76,9 +76,9 @@ export const LeaveNoteModal = ({
   const previewNote: CommunityNote = {
     id: existingNoteId ?? 'preview',
     authorKey: 'preview-key',
-    name: name.trim() !== '' ? name.trim() : 'Your Name',
-    role: role.trim() !== '' ? role.trim() : 'Cool Visitor',
-    message: message.trim() !== '' ? message.trim() : 'Leave a thought, message, confession, or whatever.',
+    name: name.trim(),
+    role: role.trim() !== '' ? role.trim() : undefined,
+    message: message.trim() !== '' ? message.trim() : 'Leave a thought, message, feedback, or whatever.',
     color,
     spotNumber: currentSpotNumber,
     createdAt: Date.now(),
@@ -253,7 +253,7 @@ export const LeaveNoteModal = ({
                       ? 'Securing Spot...'
                       : existingNoteId
                       ? `✨ Update Your Spot (Spot #${String(currentSpotNumber)})`
-                      : `🚀 Claim Spot #${String(currentSpotNumber)} & Drop Note`}
+                      : `🚀 Drop Note`}
                   </button>
                 </div>
               </div>

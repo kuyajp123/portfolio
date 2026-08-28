@@ -12,7 +12,7 @@ const sections: SectionItem[] = [
   { id: 'activities', num: '02', label: 'Activities' },
   { id: 'about', num: '03', label: 'About & Ethos' },
   { id: 'moments', num: '04', label: 'Visual Moments' },
-  { id: 'notes', num: '05', label: 'Community Notes' },
+  { id: 'notes', num: '05', label: 'Notes' },
 ];
 
 export const TableOfContents = () => {
