@@ -9,7 +9,7 @@ const BLOB_STORE_NAME = 'quote-rate-limit';
 // Allowed origins.
 //
 // process.env.URL is injected automatically by Netlify on every deploy
-// (e.g. "https://yajeyps.netlify.app"). Localhost entries cover local dev
+// (e.g. "https://your-site.netlify.app"). Localhost entries cover local dev
 // via `netlify dev` — no extra env vars required.
 // ---------------------------------------------------------------------------
 const getAllowedOrigins = (): string[] =>
@@ -28,7 +28,7 @@ const getAllowedOrigins = (): string[] =>
  * `Referer` header for same-origin requests (Netlify functions are served
  * on the same domain as the site). We check both so the validation works in
  * every scenario:
- *   - production (same-origin)  → Referer: https://yajeyps.netlify.app/
+ *   - production (same-origin)  → Referer: https://your-site.netlify.app/
  *   - local dev  (cross-origin) → Origin:  http://localhost:5173
  *
  * Direct tool calls (Postman, curl) without a matching header are rejected.
