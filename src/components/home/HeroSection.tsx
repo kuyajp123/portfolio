@@ -4,10 +4,15 @@ import profile from '@/assets/profile.jpg';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import { FiArrowUpRight } from 'react-icons/fi';
-import { getProfileStatus } from '@/services/communityNotes';
+import { getProfileStatus, SESSION_PROFILE_STATUS_KEY } from '@/services/communityNotes';
+import { getSessionCache } from '@/utils/sessionCache';
 
 export const HeroSection = () => {
-  const [status, setStatus] = useState<string>('');
+  const [status, setStatus] = useState<string>(() => {
+    const cached = getSessionCache(SESSION_PROFILE_STATUS_KEY);
+    if (typeof cached === 'string') return cached;
+    return localStorage.getItem('jp_portfolio_profile_status') ?? '';
+  });
 
   useEffect(() => {
     const fetchStatus = async () => {

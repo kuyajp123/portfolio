@@ -1,4 +1,5 @@
 import { COMMUNITY_NOTES, PROFILE_STATUS } from '@/API/endpoint';
+import { getSessionCache, setSessionCache } from '@/utils/sessionCache';
 
 export type CardColor = 'obsidian' | 'amber' | 'emerald' | 'sapphire' | 'plum' | 'titanium';
 
@@ -20,29 +21,57 @@ const LOCAL_STORAGE_AUTHOR_KEY = 'jp_portfolio_user_author_key';
 const LOCAL_STORAGE_FALLBACK_NOTES_KEY = 'jp_portfolio_notes_fallback_v2';
 const LOCAL_STORAGE_PROFILE_STATUS_KEY = 'jp_portfolio_profile_status';
 
+export const SESSION_PROFILE_STATUS_KEY = 'jp_session_profile_status';
+export const SESSION_COMMUNITY_NOTES_KEY = 'jp_session_community_notes';
+
 export const initialSeedNotes: CommunityNote[] = [];
 
-export const getProfileStatus = async (): Promise<string> => {
-  try {
-    const res = await fetch(PROFILE_STATUS.API);
-    if (res.ok) {
-      const data = (await res.json()) as { status?: string };
-      if (typeof data.status === 'string') {
-        const text = data.status.trim();
-        localStorage.setItem(LOCAL_STORAGE_PROFILE_STATUS_KEY, text);
-        return text;
-      }
+let pendingProfileStatusPromise: Promise<string> | null = null;
+let pendingCommunityNotesPromise: Promise<CommunityNote[]> | null = null;
+
+export const getProfileStatus = async (forceRefresh = false): Promise<string> => {
+  if (!forceRefresh) {
+    const sessionStatus = getSessionCache(SESSION_PROFILE_STATUS_KEY);
+    if (typeof sessionStatus === 'string') {
+      return sessionStatus;
     }
-  } catch (err) {
-    console.warn('Error fetching profile status from server function:', err);
   }
 
-  const cached = localStorage.getItem(LOCAL_STORAGE_PROFILE_STATUS_KEY);
-  if (cached && cached.trim() !== '') {
-    return cached.trim();
+  if (pendingProfileStatusPromise) {
+    return pendingProfileStatusPromise;
   }
 
-  return '';
+  pendingProfileStatusPromise = (async () => {
+    try {
+      const res = await fetch(PROFILE_STATUS.API);
+      const contentType = res.headers.get('content-type') ?? '';
+      if (res.ok && contentType.includes('application/json')) {
+        const data = (await res.json()) as { status?: string };
+        if (typeof data.status === 'string') {
+          const text = data.status.trim();
+          setSessionCache(SESSION_PROFILE_STATUS_KEY, text);
+          localStorage.setItem(LOCAL_STORAGE_PROFILE_STATUS_KEY, text);
+          return text;
+        }
+      }
+    } catch (err) {
+      console.warn('Error fetching profile status from server function:', err);
+    } finally {
+      pendingProfileStatusPromise = null;
+    }
+
+    const cached = localStorage.getItem(LOCAL_STORAGE_PROFILE_STATUS_KEY);
+    if (cached && cached.trim() !== '') {
+      const text = cached.trim();
+      setSessionCache(SESSION_PROFILE_STATUS_KEY, text);
+      return text;
+    }
+
+    setSessionCache(SESSION_PROFILE_STATUS_KEY, '');
+    return '';
+  })();
+
+  return pendingProfileStatusPromise;
 };
 
 export const getOrCreateAuthorKey = (): string => {
@@ -62,33 +91,54 @@ export const setUserSavedNoteId = (id: string): void => {
   localStorage.setItem(LOCAL_STORAGE_NOTE_ID_KEY, id);
 };
 
-export const getCommunityNotes = async (): Promise<CommunityNote[]> => {
-  try {
-    const res = await fetch(COMMUNITY_NOTES.API);
-    if (res.ok) {
-      const data = (await res.json()) as CommunityNote[];
-      if (Array.isArray(data)) {
-        localStorage.setItem(LOCAL_STORAGE_FALLBACK_NOTES_KEY, JSON.stringify(data));
-        return data;
-      }
+export const getCommunityNotes = async (forceRefresh = false): Promise<CommunityNote[]> => {
+  if (!forceRefresh) {
+    const sessionNotes = getSessionCache(SESSION_COMMUNITY_NOTES_KEY);
+    if (Array.isArray(sessionNotes)) {
+      return sessionNotes as CommunityNote[];
     }
-  } catch (err) {
-    console.warn('Error fetching notes from server function, using local fallback:', err);
   }
 
-  const cached = localStorage.getItem(LOCAL_STORAGE_FALLBACK_NOTES_KEY);
-  if (cached) {
+  if (pendingCommunityNotesPromise) {
+    return pendingCommunityNotesPromise;
+  }
+
+  pendingCommunityNotesPromise = (async () => {
     try {
-      const parsed = JSON.parse(cached) as CommunityNote[];
-      if (Array.isArray(parsed)) {
-        return parsed;
+      const res = await fetch(COMMUNITY_NOTES.API);
+      const contentType = res.headers.get('content-type') ?? '';
+      if (res.ok && contentType.includes('application/json')) {
+        const data = (await res.json()) as CommunityNote[];
+        if (Array.isArray(data)) {
+          setSessionCache(SESSION_COMMUNITY_NOTES_KEY, data);
+          localStorage.setItem(LOCAL_STORAGE_FALLBACK_NOTES_KEY, JSON.stringify(data));
+          return data;
+        }
       }
-    } catch {
-      // Ignore parse errors
+    } catch (err) {
+      console.warn('Error fetching notes from server function, using local fallback:', err);
+    } finally {
+      pendingCommunityNotesPromise = null;
     }
-  }
 
-  return [];
+    const cached = localStorage.getItem(LOCAL_STORAGE_FALLBACK_NOTES_KEY);
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached) as CommunityNote[];
+        if (Array.isArray(parsed)) {
+          setSessionCache(SESSION_COMMUNITY_NOTES_KEY, parsed);
+          return parsed;
+        }
+      } catch {
+        // Ignore parse errors
+      }
+    }
+
+    setSessionCache(SESSION_COMMUNITY_NOTES_KEY, []);
+    return [];
+  })();
+
+  return pendingCommunityNotesPromise;
 };
 
 export const saveOrUpdateCommunityNote = async (input: {
@@ -122,6 +172,8 @@ export const saveOrUpdateCommunityNote = async (input: {
       const updated = data.isNew
         ? [data.note, ...cached.filter(n => n.id !== data.note.id)]
         : cached.map(n => (n.id === data.note.id ? data.note : n));
+      
+      setSessionCache(SESSION_COMMUNITY_NOTES_KEY, updated);
       localStorage.setItem(LOCAL_STORAGE_FALLBACK_NOTES_KEY, JSON.stringify(updated));
       return data;
     }
@@ -172,6 +224,7 @@ export const saveOrUpdateCommunityNote = async (input: {
   }
 
   setUserSavedNoteId(savedNote.id);
+  setSessionCache(SESSION_COMMUNITY_NOTES_KEY, updatedList);
   localStorage.setItem(LOCAL_STORAGE_FALLBACK_NOTES_KEY, JSON.stringify(updatedList));
 
   return { note: savedNote, isNew };
