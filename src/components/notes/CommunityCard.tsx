@@ -122,7 +122,7 @@ export const CommunityCard = ({
         />
 
         {/* Top Header: Logo / Emblem */}
-        <div className="relative z-10 flex items-center justify-between pb-2 shrink-0">
+        {/* <div className="relative z-10 flex items-center justify-between pb-2 shrink-0">
           <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)]" />
             <span className="font-mono text-[11px] sm:text-xs uppercase tracking-[0.25em] text-white/80 font-medium">
@@ -130,7 +130,7 @@ export const CommunityCard = ({
             </span>
           </div>
           <span className="font-mono text-[11px] sm:text-xs text-white/50 tracking-wider">jp.dev</span>
-        </div>
+        </div> */}
 
         {/* Center: Author, Subtitle & Testimonial Message */}
         <div className="relative z-10 my-auto py-2 flex flex-col items-center text-center w-full max-w-full min-w-0 flex-1 justify-center">

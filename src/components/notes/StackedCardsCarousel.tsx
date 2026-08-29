@@ -280,9 +280,10 @@ export const StackedCardsCarousel = ({ notes, onOpenModal, userHasNote }: Stacke
         <button
           type="button"
           onClick={onOpenModal}
-          className="mt-1 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500/90 to-amber-600/90 hover:from-amber-500 hover:to-amber-600 text-black font-sans text-xs font-semibold shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer hover:scale-102"
+          className="mt-1 inline-flex items-center gap-1 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500/90 to-amber-600/90 hover:from-amber-500 hover:to-amber-600 text-slate-900 font-sans text-xs font-semibold shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer hover:scale-102"
         >
-          <span>{userHasNote ? '✨ Edit Your Spot' : '🚀 Claim Your Spot!'}</span>
+          <span>{userHasNote ? 'Edit Your Spot' : 'Leave a Feedback'}</span>
+          <FiChevronRight size={14} />
         </button>
       </div>
     </div>

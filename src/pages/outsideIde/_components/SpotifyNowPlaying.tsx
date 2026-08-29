@@ -2,11 +2,10 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { FaSpotify } from 'react-icons/fa';
 import { FiArrowUpRight, FiDisc, FiRadio } from 'react-icons/fi';
 import { getSessionCache, setSessionCache } from '@/utils/sessionCache';
+import { LASTFM } from '@/API/endpoint';
 
-const DISCORD_USER_ID = '735019008281018430';
+const DISCORD_USER_ID = (import.meta.env.VITE_DISCORD_USER_ID as string | undefined) ?? '';
 const LANYARD_WS_URL = 'wss://api.lanyard.rest/socket';
-const LASTFM_API_KEY = (import.meta.env.VITE_LASTFM_API_KEY as string | undefined) ?? '';
-const LASTFM_USERNAME = (import.meta.env.VITE_LASTFM_USERNAME as string | undefined) ?? '';
 
 interface TrackDisplay {
   title: string;
@@ -55,19 +54,6 @@ interface LanyardSocketMessage {
   } & Record<string, unknown>;
 }
 
-interface LastFmRecentResponse {
-  recenttracks?: {
-    track: {
-      name: string;
-      artist: { '#text': string };
-      album: { '#text': string };
-      image?: { '#text': string; size: string }[];
-      '@attr'?: { nowplaying?: string };
-      url: string;
-    }[];
-  };
-}
-
 export const SpotifyNowPlaying = () => {
   const [discordStatus, setDiscordStatus] = useState<'online' | 'idle' | 'dnd' | 'offline'>(() => {
     return (getSessionCache('jp_spotify_playback_cache') as SpotifyPlaybackCache | null)?.discordStatus ?? 'offline';
@@ -108,31 +94,13 @@ export const SpotifyNowPlaying = () => {
     ) {
       return;
     }
-    if (!LASTFM_API_KEY || !LASTFM_USERNAME) {
-      return;
-    }
 
     try {
-      const lastFmUrl = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USERNAME}&api_key=${LASTFM_API_KEY}&format=json&limit=1`;
-      const res = await fetch(lastFmUrl);
+      const res = await fetch(LASTFM.NOW_PLAYING);
       if (res.ok) {
-        const data = (await res.json()) as LastFmRecentResponse;
-        const firstTrack = data.recenttracks?.track[0];
-
-        if (firstTrack?.['@attr']?.nowplaying === 'true') {
-          const largeImage =
-            firstTrack.image?.find(img => img.size === 'extralarge' || img.size === 'large')?.['#text'] ?? '';
-
-          const trackData: TrackDisplay = {
-            title: firstTrack.name,
-            artist: firstTrack.artist['#text'],
-            album: firstTrack.album['#text'] || 'Single',
-            albumArt: largeImage,
-            spotifyUrl: `https://open.spotify.com/search/${encodeURIComponent(`${firstTrack.name} ${firstTrack.artist['#text']}`)}`,
-            source: 'lastfm',
-          };
-
-          updatePlayback('offline', trackData);
+        const data = (await res.json()) as { isPlaying: boolean; track: TrackDisplay | null };
+        if (data.isPlaying && data.track) {
+          updatePlayback('offline', data.track);
           return;
         }
       }
@@ -156,6 +124,10 @@ export const SpotifyNowPlaying = () => {
 
     const connectWebSocket = () => {
       if (isUnmounted) return;
+      if (!DISCORD_USER_ID) {
+        void checkLastFm();
+        return;
+      }
 
       try {
         const ws = new WebSocket(LANYARD_WS_URL);

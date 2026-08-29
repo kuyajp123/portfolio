@@ -1,4 +1,4 @@
-import { Redis } from '@upstash/redis';
+import { COMMUNITY_NOTES, PROFILE_STATUS } from '@/API/endpoint';
 
 export type CardColor = 'obsidian' | 'amber' | 'emerald' | 'sapphire' | 'plum' | 'titanium';
 
@@ -15,43 +15,26 @@ export interface CommunityNote {
   updatedAt?: number;
 }
 
-const REDIS_KEY = 'portfolio_community_notes_v2';
-const REDIS_PROFILE_STATUS_KEY = 'portfolio_profile_status';
 const LOCAL_STORAGE_NOTE_ID_KEY = 'jp_portfolio_user_note_id';
 const LOCAL_STORAGE_AUTHOR_KEY = 'jp_portfolio_user_author_key';
 const LOCAL_STORAGE_FALLBACK_NOTES_KEY = 'jp_portfolio_notes_fallback_v2';
 const LOCAL_STORAGE_PROFILE_STATUS_KEY = 'jp_portfolio_profile_status';
 
-const UPSTASH_URL = (import.meta.env.VITE_UPSTASH_REDIS_REST_URL as string | undefined) ?? '';
-const UPSTASH_TOKEN = (import.meta.env.VITE_UPSTASH_REDIS_REST_TOKEN as string | undefined) ?? '';
-
-let redisClient: Redis | null = null;
-if (UPSTASH_URL && UPSTASH_TOKEN) {
-  try {
-    redisClient = new Redis({
-      url: UPSTASH_URL,
-      token: UPSTASH_TOKEN,
-    });
-  } catch (err) {
-    console.warn('Failed to initialize Upstash Redis client:', err);
-  }
-}
-
 export const initialSeedNotes: CommunityNote[] = [];
 
 export const getProfileStatus = async (): Promise<string> => {
-  if (redisClient) {
-    try {
-      const data = await redisClient.get<string | { text?: string }>(REDIS_PROFILE_STATUS_KEY);
-      if (typeof data === 'string' && data.trim() !== '') {
-        return data.trim();
+  try {
+    const res = await fetch(PROFILE_STATUS.API);
+    if (res.ok) {
+      const data = (await res.json()) as { status?: string };
+      if (typeof data.status === 'string') {
+        const text = data.status.trim();
+        localStorage.setItem(LOCAL_STORAGE_PROFILE_STATUS_KEY, text);
+        return text;
       }
-      if (typeof data === 'object' && data !== null && typeof data.text === 'string' && data.text.trim() !== '') {
-        return data.text.trim();
-      }
-    } catch (err) {
-      console.warn('Error fetching profile status from Upstash Redis:', err);
     }
+  } catch (err) {
+    console.warn('Error fetching profile status from server function:', err);
   }
 
   const cached = localStorage.getItem(LOCAL_STORAGE_PROFILE_STATUS_KEY);
@@ -80,16 +63,17 @@ export const setUserSavedNoteId = (id: string): void => {
 };
 
 export const getCommunityNotes = async (): Promise<CommunityNote[]> => {
-  if (redisClient) {
-    try {
-      const data = await redisClient.get<CommunityNote[]>(REDIS_KEY);
+  try {
+    const res = await fetch(COMMUNITY_NOTES.API);
+    if (res.ok) {
+      const data = (await res.json()) as CommunityNote[];
       if (Array.isArray(data)) {
+        localStorage.setItem(LOCAL_STORAGE_FALLBACK_NOTES_KEY, JSON.stringify(data));
         return data;
       }
-      return [];
-    } catch (err) {
-      console.warn('Error fetching notes from Upstash Redis, using local fallback:', err);
     }
+  } catch (err) {
+    console.warn('Error fetching notes from server function, using local fallback:', err);
   }
 
   const cached = localStorage.getItem(LOCAL_STORAGE_FALLBACK_NOTES_KEY);
@@ -115,9 +99,38 @@ export const saveOrUpdateCommunityNote = async (input: {
   color: CardColor;
 }): Promise<{ note: CommunityNote; isNew: boolean }> => {
   const authorKey = getOrCreateAuthorKey();
-  const existingNotes = await getCommunityNotes();
   const existingNoteId = input.id ?? getUserSavedNoteId();
 
+  try {
+    const res = await fetch(COMMUNITY_NOTES.API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: existingNoteId ?? undefined,
+        authorKey,
+        name: input.name,
+        role: input.role,
+        message: input.message,
+        color: input.color,
+      }),
+    });
+
+    if (res.ok) {
+      const data = (await res.json()) as { note: CommunityNote; isNew: boolean };
+      setUserSavedNoteId(data.note.id);
+      const cached = await getCommunityNotes();
+      const updated = data.isNew
+        ? [data.note, ...cached.filter(n => n.id !== data.note.id)]
+        : cached.map(n => (n.id === data.note.id ? data.note : n));
+      localStorage.setItem(LOCAL_STORAGE_FALLBACK_NOTES_KEY, JSON.stringify(updated));
+      return data;
+    }
+  } catch (err) {
+    console.warn('Error saving note via server function, applying local offline fallback:', err);
+  }
+
+  // Local offline fallback if serverless function is unreachable
+  const existingNotes = await getCommunityNotes();
   const existingIndex = existingNoteId
     ? existingNotes.findIndex(n => n.id === existingNoteId && (n.authorKey === authorKey || !n.authorKey))
     : -1;
@@ -160,14 +173,6 @@ export const saveOrUpdateCommunityNote = async (input: {
 
   setUserSavedNoteId(savedNote.id);
   localStorage.setItem(LOCAL_STORAGE_FALLBACK_NOTES_KEY, JSON.stringify(updatedList));
-
-  if (redisClient) {
-    try {
-      await redisClient.set(REDIS_KEY, updatedList);
-    } catch (err) {
-      console.warn('Error saving note to Upstash Redis, kept in local fallback:', err);
-    }
-  }
 
   return { note: savedNote, isNew };
 };

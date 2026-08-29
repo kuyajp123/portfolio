@@ -1,8 +1,8 @@
+import { GithubRecentGraph } from '@/components/github/GithubRecentGraph';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { experiences } from '@/constant/experience';
-import { Link } from 'react-router-dom';
 import { FiArrowUpRight } from 'react-icons/fi';
-import { GithubRecentGraph } from '@/components/github/GithubRecentGraph';
+import { Link } from 'react-router-dom';
 
 export const AboutSection = () => {
   return (
@@ -15,11 +15,15 @@ export const AboutSection = () => {
 
       <div className="flex flex-col gap-6 text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed font-normal">
         <p>
-          I am a Full Stack Developer graduated with a degree in Information Technology from Cavite State University. My focus centers on architecting clean, maintainable software and intuitive interfaces across web and mobile platforms.
+          I am a Full Stack Developer graduated with a degree in Information Technology from Cavite State University. My
+          focus centers on architecting clean, maintainable software and intuitive interfaces across web and mobile
+          platforms.
         </p>
 
         <p>
-          Recently, I have been exploring the realms of AI and Machine Learning, integrating these technologies into my projects to enhance user experiences and streamline development workflows. My approach emphasizes type safety, reactive state management, and leveraging modern frameworks to build scalable applications.
+          Recently, I have been exploring the realms of AI and Machine Learning, integrating these technologies into my
+          projects to enhance user experiences and streamline development workflows. My approach emphasizes type safety,
+          reactive state management, and leveraging modern frameworks to build scalable applications.
         </p>
       </div>
 
@@ -31,7 +35,7 @@ export const AboutSection = () => {
           </h4>
           <Link
             to="/tech-stack"
-            className="inline-flex items-center gap-1 font-mono text-xs text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 transition-colors"
+            className="inline-flex items-center gap-1 font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
           >
             <span>Tech Taxonomy</span>
             <FiArrowUpRight size={13} />
@@ -45,17 +49,11 @@ export const AboutSection = () => {
               className="flex flex-col sm:flex-row sm:items-baseline justify-between py-2 border-b border-black/5 dark:border-white/5 last:border-b-0"
             >
               <div className="flex flex-col">
-                <span className="font-sans text-sm font-semibold text-gray-900 dark:text-gray-100">
-                  {item.role}
-                </span>
-                <span className="font-mono text-xs text-gray-500 dark:text-gray-400">
-                  {item.organization}
-                </span>
+                <span className="font-sans text-sm font-semibold text-gray-900 dark:text-gray-100">{item.role}</span>
+                <span className="font-mono text-xs text-gray-500 dark:text-gray-400">{item.organization}</span>
               </div>
 
-              <span className="font-mono text-xs text-gray-400 dark:text-gray-500 mt-1 sm:mt-0">
-                {item.period}
-              </span>
+              <span className="font-mono text-xs text-gray-400 dark:text-gray-500 mt-1 sm:mt-0">{item.period}</span>
             </div>
           ))}
         </div>

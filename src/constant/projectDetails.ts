@@ -37,6 +37,7 @@ export interface ProjectDetail {
   title: string;
   subtitle: string;
   icon?: string;
+  isMainProject?: boolean;
   description: string[];
   architectureNote?: string;
   award?: string;
@@ -66,6 +67,7 @@ export const projectDetails: ProjectDetail[] = [
     title: 'Rescuenect',
     subtitle: 'Community disaster risk management and emergency dispatch coordination ecosystem.',
     icon: rescuenectIcon,
+    isMainProject: true,
     description: [
       'Rescuenect helps communities, residents, and local responders communicate quickly during disasters through real-time reports, alerts, and emergency coordination.',
       'Rescuenect provides a straightforward platform for residents to report emergencies and for administrators to verify and manage information.',
@@ -170,6 +172,7 @@ export const projectDetails: ProjectDetail[] = [
     title: 'LikhaDocs',
     subtitle: 'AI-assisted structured narrative report builder and OJT documentation workspace.',
     icon: likhadocsIcon,
+    isMainProject: true,
     description: [
       'LikhaDocs helps users draft structured narrative reports with AI assistance, organize weekly entries, references, and templates, and export final documents in DOCX format.',
       'The platform uses Supabase for authentication, relational data storage, and file storage.',
@@ -247,13 +250,14 @@ export const projectDetails: ProjectDetail[] = [
     title: 'Devventory',
     subtitle: 'Local-first offline development workspace to track environments, assets, and coding-agent quotas.',
     icon: devventoryIcon,
+    isMainProject: true,
     description: [
       'Devventory is a personal development workspace tool that allows engineers to manage multi-environment workflows with precision.',
       'Devventory was built because modern projects with local, staging, and production environments require specific keys and configuration variables that frequently get missing, misplaced, or mismatched, while assets like logos, variants, and configs get scattered across repositories.',
       'Devventory operates 100% offline, locally on your machine, with zero secret value storage and no account required.',
     ],
     date: '2026',
-    tags: ['React 19', 'TypeScript', 'Tauri v2', 'Rust', 'Tailwind CSS', 'SQLite'],
+    tags: ['React 19', 'TypeScript', 'Tauri v2', 'Rust', 'SQLite'],
     githubUrl: 'https://github.com/kuyajp123/devventory',
     downloadUrl: 'https://github.com/kuyajp123/devventory-releases',
     features: [

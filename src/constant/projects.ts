@@ -19,6 +19,7 @@ export interface ProjectItem {
   link?: string;
   github?: string;
   featured?: boolean;
+  isMainProject?: boolean;
   icon?: string;
   coverImage?: string;
 }
@@ -33,6 +34,7 @@ export const projects: ProjectItem[] = [
     date: '2025 - 2026',
     tags: ['React Native', 'React.js', 'Express', 'Firebase', 'Typescript'],
     featured: true,
+    isMainProject: true,
     icon: rescuenectIcon,
     coverImage: rescuenectCover,
   },
@@ -43,6 +45,7 @@ export const projects: ProjectItem[] = [
     date: 'March 2026',
     tags: ['Next.js', 'TypeScript', 'Google AI Studio', 'Tailwind CSS'],
     featured: true,
+    isMainProject: true,
     icon: likhadocsIcon,
     coverImage: likhadocsCover,
   },
@@ -53,6 +56,7 @@ export const projects: ProjectItem[] = [
     date: '2026',
     tags: ['React 19', 'TypeScript', 'Tauri v2', 'Rust', 'SQLite'],
     featured: true,
+    isMainProject: true,
     icon: devventoryIcon,
     coverImage: devventoryCover,
   },

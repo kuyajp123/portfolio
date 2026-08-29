@@ -140,14 +140,12 @@ export const GithubRecentGraph = ({
       {(title || showSubpageLink) && (
         <div className="flex items-center justify-between">
           {title && (
-            <h4 className="font-mono text-xs uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">
-              {title}
-            </h4>
+            <h4 className="font-mono text-xs uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">{title}</h4>
           )}
           {showSubpageLink && (
             <Link
               to="/github-graphs"
-              className="inline-flex items-center gap-1 font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+              className="inline-flex items-center gap-1 font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
             >
               <span>View GitHub Activity & Statistics</span>
               <FiArrowUpRight size={13} />

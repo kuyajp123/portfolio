@@ -22,8 +22,29 @@ export const ProjectsPage = () => {
 
         <div className="flex flex-col divide-y divide-black/8 dark:divide-white/8">
           {projectDetails.map(project => (
-            <article key={project.key} id={project.key} className="py-7 first:pt-2 last:pb-2 group transition-colors">
-              <div className="flex flex-col gap-3">
+            <article
+              key={project.key}
+              id={project.key}
+              className="py-7 first:pt-2 last:pb-2 group transition-colors relative overflow-hidden"
+            >
+              {/* Ambient App Icon in Background (Main Projects only) */}
+              {project.isMainProject && project.icon && (
+                <>
+                  <div className="absolute -right-6 -bottom-6 sm:-right-8 sm:-bottom-8 w-56 h-56 sm:w-72 sm:h-72 pointer-events-none select-none overflow-hidden rounded-3xl opacity-35 dark:opacity-25">
+                    <img
+                      src={project.icon}
+                      alt=""
+                      aria-hidden="true"
+                      className="w-full h-full object-cover blur-[0.5px]"
+                    />
+                  </div>
+                  {/* Hard Theme-Adaptive Backdrop Overlay (White in Light Mode, Black in Dark Mode) */}
+                  <div className="absolute inset-0 bg-white/60 dark:bg-[#0b0d10]/70 backdrop-blur-xs pointer-events-none transition-colors" />
+                </>
+              )}
+
+              {/* Foreground Content */}
+              <div className="relative z-10 flex flex-col gap-3">
                 {/* Header: Title, Award & Date */}
                 <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
                   <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
@@ -58,7 +79,9 @@ export const ProjectsPage = () => {
                     )}
                   </div>
 
-                  <span className="font-mono text-xs text-gray-400 dark:text-gray-500 shrink-0">{project.date}</span>
+                  <span className="font-mono text-xs text-gray-400 dark:text-gray-500 shrink-0">
+                    {project.date}
+                  </span>
                 </div>
 
                 {/* Subtitle / Description */}

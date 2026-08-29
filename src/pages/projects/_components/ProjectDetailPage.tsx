@@ -61,7 +61,7 @@ export const ProjectDetailPage = () => {
                   <img
                     src={project.icon}
                     alt={`${project.title} icon`}
-                    className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl object-cover bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/15 shadow-sm shrink-0"
+                    className="w-9 h-9 sm:w-11 sm:h-11 shadow-sm shrink-0"
                   />
                 )}
 

@@ -247,7 +247,7 @@ export const LeaveNoteModal = ({
                   <button
                     type="submit"
                     disabled={!message.trim() || isSubmitting}
-                    className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-sans text-sm font-bold shadow-lg transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:scale-101"
+                    className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-900 font-sans text-sm font-bold shadow-lg transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:scale-101"
                   >
                     {isSubmitting
                       ? 'Securing Spot...'
