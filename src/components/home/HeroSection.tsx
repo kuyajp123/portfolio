@@ -79,12 +79,12 @@ export const HeroSection = () => {
           </p>
 
           {/* Social Links Row */}
-          <div className="flex flex-wrap items-center gap-4 pt-1 text-xs font-mono text-gray-500 dark:text-gray-400">
+          <div className="flex flex-wrap items-center gap-4 pt-1 text-xs font-mono text-gray-700 dark:text-gray-400 font-medium">
             <a
               href="https://github.com/kuyajp123"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 hover:text-gray-900 dark:hover:text-white transition-colors"
+              className="inline-flex items-center gap-1 hover:text-gray-950 dark:hover:text-white transition-colors"
             >
               <FaGithub size={13} />
               <span>github</span>
@@ -94,7 +94,7 @@ export const HeroSection = () => {
               href="https://www.linkedin.com/in/john-paul-naag-40129b3a8"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 hover:text-gray-900 dark:hover:text-white transition-colors"
+              className="inline-flex items-center gap-1 hover:text-gray-950 dark:hover:text-white transition-colors"
             >
               <FaLinkedin size={13} />
               <span>linkedin</span>
@@ -102,7 +102,7 @@ export const HeroSection = () => {
             </a>
             <a
               href="mailto:johnpaulnaag10@gmail.com"
-              className="inline-flex items-center gap-1 hover:text-gray-900 dark:hover:text-white transition-colors"
+              className="inline-flex items-center gap-1 hover:text-gray-950 dark:hover:text-white transition-colors"
             >
               <MdEmail size={14} />
               <span>email</span>
@@ -116,28 +116,28 @@ export const HeroSection = () => {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-10 pt-6 border-t border-black/8 dark:border-white/10">
         <div className="flex flex-col">
           <span className="font-mono text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">1st Place</span>
-          <span className="font-mono text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 mt-0.5">
+          <span className="font-mono text-[10px] uppercase tracking-wider text-gray-600 dark:text-gray-500 font-medium mt-0.5">
             Best Research Paper
           </span>
         </div>
 
         <div className="flex flex-col">
           <span className="font-mono text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">Top 30</span>
-          <span className="font-mono text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 mt-0.5">
+          <span className="font-mono text-[10px] uppercase tracking-wider text-gray-600 dark:text-gray-500 font-medium mt-0.5">
             Hackathon Finalist
           </span>
         </div>
 
         <div className="flex flex-col">
           <span className="font-mono text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">Full Stack</span>
-          <span className="font-mono text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 mt-0.5">
+          <span className="font-mono text-[10px] uppercase tracking-wider text-gray-600 dark:text-gray-500 font-medium mt-0.5">
             React & Node.js
           </span>
         </div>
 
         <div className="flex flex-col">
           <span className="font-mono text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">BSIT '26</span>
-          <span className="font-mono text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 mt-0.5">
+          <span className="font-mono text-[10px] uppercase tracking-wider text-gray-600 dark:text-gray-500 font-medium mt-0.5">
             CVSU Graduate
           </span>
         </div>

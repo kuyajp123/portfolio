@@ -30,12 +30,12 @@ export const AboutSection = () => {
       {/* Experience Milestone Timeline */}
       <div className="mt-8 pt-6 border-t border-black/8 dark:border-white/8">
         <div className="flex items-center justify-between mb-4">
-          <h4 className="font-mono text-xs uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">
+          <h4 className="font-mono text-xs uppercase tracking-[0.2em] text-gray-600 dark:text-gray-500 font-semibold">
             Journey & Milestones
           </h4>
           <Link
             to="/tech-stack"
-            className="inline-flex items-center gap-1 font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+            className="inline-flex items-center gap-1 font-mono text-xs text-gray-700 dark:text-gray-400 hover:text-gray-950 dark:hover:text-gray-200 font-medium transition-colors"
           >
             <span>Tech Taxonomy</span>
             <FiArrowUpRight size={13} />
@@ -50,10 +50,10 @@ export const AboutSection = () => {
             >
               <div className="flex flex-col">
                 <span className="font-sans text-sm font-semibold text-gray-900 dark:text-gray-100">{item.role}</span>
-                <span className="font-mono text-xs text-gray-500 dark:text-gray-400">{item.organization}</span>
+                <span className="font-mono text-xs text-gray-600 dark:text-gray-400 font-medium">{item.organization}</span>
               </div>
 
-              <span className="font-mono text-xs text-gray-400 dark:text-gray-500 mt-1 sm:mt-0">{item.period}</span>
+              <span className="font-mono text-xs text-gray-600 dark:text-gray-500 font-medium mt-1 sm:mt-0">{item.period}</span>
             </div>
           ))}
         </div>

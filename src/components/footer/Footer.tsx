@@ -7,13 +7,13 @@ export const Footer = () => {
   return (
     <footer className="w-full max-w-3xl mx-auto px-4 sm:px-6 py-10 mt-8 border-t border-black/8 dark:border-white/10">
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-xs font-mono text-gray-500 dark:text-gray-400">
+        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-xs font-mono text-gray-700 dark:text-gray-400 font-medium">
           <span>(c) {currentYear} John Paul Naag</span>
-          <span className="hidden sm:inline text-gray-300 dark:text-gray-700">/</span>
+          <span className="hidden sm:inline text-gray-400 dark:text-gray-700">/</span>
           <span>Cavite, Philippines</span>
         </div>
 
-        <div className="flex items-center gap-4 text-xs font-mono text-gray-500 dark:text-gray-400">
+        <div className="flex items-center gap-4 text-xs font-mono text-gray-700 dark:text-gray-400">
           <a
             href="https://github.com/kuyajp123"
             target="_blank"

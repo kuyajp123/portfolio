@@ -19,8 +19,8 @@ export const SectionHeader = ({ number, title, subtitle, viewAllLink }: SectionH
           <span className="font-mono text-xs font-semibold text-sky-600 dark:text-sky-400">
             {number}
           </span>
-          <span className="font-mono text-xs text-gray-400 dark:text-gray-600">/</span>
-          <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400 font-semibold">
+          <span className="font-mono text-xs text-gray-500 dark:text-gray-600 font-medium">/</span>
+          <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-gray-700 dark:text-gray-400 font-semibold">
             {title}
           </h2>
         </div>
@@ -29,7 +29,7 @@ export const SectionHeader = ({ number, title, subtitle, viewAllLink }: SectionH
           viewAllLink.href.startsWith('/') ? (
             <Link
               to={viewAllLink.href}
-              className="inline-flex items-center gap-1 font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+              className="inline-flex items-center gap-1 font-mono text-xs text-gray-700 dark:text-gray-400 hover:text-gray-950 dark:hover:text-white font-medium transition-colors"
             >
               <span>{viewAllLink.label}</span>
               <FiArrowUpRight size={13} />
@@ -39,7 +39,7 @@ export const SectionHeader = ({ number, title, subtitle, viewAllLink }: SectionH
               href={viewAllLink.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+              className="inline-flex items-center gap-1 font-mono text-xs text-gray-700 dark:text-gray-400 hover:text-gray-950 dark:hover:text-white font-medium transition-colors"
             >
               <span>{viewAllLink.label}</span>
               <FiArrowUpRight size={13} />
@@ -49,7 +49,7 @@ export const SectionHeader = ({ number, title, subtitle, viewAllLink }: SectionH
       </div>
 
       {subtitle && (
-        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 max-w-xl">
+        <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 max-w-xl font-normal">
           {subtitle}
         </p>
       )}

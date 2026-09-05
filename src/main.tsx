@@ -7,6 +7,7 @@ import { Router } from './routes.tsx'
 import { ScrollToTop } from './components/ScrollToTop.tsx'
 
 import { ThemeProvider } from './providers/ThemeProvider.tsx';
+import { WindowShadowOverlay } from './components/ui/WindowShadowOverlay';
 
 const rootElement = document.getElementById('root');
 
@@ -19,6 +20,7 @@ createRoot(rootElement).render(
     <ThemeProvider>
       <BrowserRouter>
         <ScrollToTop />
+        <WindowShadowOverlay />
         <Router />
       </BrowserRouter>
     </ThemeProvider>

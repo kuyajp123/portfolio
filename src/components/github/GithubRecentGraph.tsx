@@ -27,7 +27,7 @@ interface GithubRecentGraphProps {
 
 const COLOR_SCALE = {
   light: [
-    'rgba(0, 0, 0, 0.06)', // Level 0
+    'rgba(0, 0, 0, 0.09)', // Level 0
     '#d1d5db',             // Level 1 (gray-300)
     '#9ca3af',             // Level 2 (gray-400)
     '#4b5563',             // Level 3 (gray-600)
@@ -140,12 +140,12 @@ export const GithubRecentGraph = ({
       {(title || showSubpageLink) && (
         <div className="flex items-center justify-between">
           {title && (
-            <h4 className="font-mono text-xs uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">{title}</h4>
+            <h4 className="font-mono text-xs uppercase tracking-[0.2em] text-gray-600 dark:text-gray-500 font-semibold">{title}</h4>
           )}
           {showSubpageLink && (
             <Link
               to="/github-graphs"
-              className="inline-flex items-center gap-1 font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+              className="inline-flex items-center gap-1 font-mono text-xs text-gray-700 dark:text-gray-400 hover:text-gray-950 dark:hover:text-gray-200 font-medium transition-colors"
             >
               <span>View GitHub Activity & Statistics</span>
               <FiArrowUpRight size={13} />

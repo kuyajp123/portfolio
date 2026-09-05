@@ -144,10 +144,10 @@ export const NavigationDrawer = ({
               {/* Top: Outside the IDE Individual Navigation Buttons */}
               <div className="mt-6 flex flex-col gap-2">
                 <div className="flex items-center justify-between mb-1">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-gray-400 dark:text-gray-500 font-semibold">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-gray-600 dark:text-gray-500 font-semibold">
                     Outside the IDE
                   </span>
-                  <span className="font-mono text-[10px] text-gray-400 dark:text-gray-500">Spaces</span>
+                  <span className="font-mono text-[10px] text-gray-600 dark:text-gray-500 font-medium">Spaces</span>
                 </div>
 
                 {outsideIdeSections.map(item => {
@@ -164,7 +164,7 @@ export const NavigationDrawer = ({
                         </span>
                       </div>
 
-                      <span className="font-mono text-xs text-gray-400 dark:text-gray-500 group-hover:text-sky-500 transition-colors ml-2 shrink-0 flex items-center gap-0.5">
+                      <span className="font-mono text-xs text-gray-500 dark:text-gray-500 group-hover:text-sky-500 transition-colors ml-2 shrink-0 flex items-center gap-0.5 font-medium">
                         <span>{item.num}</span>
                         <FiArrowUpRight size={13} />
                       </span>
@@ -178,7 +178,7 @@ export const NavigationDrawer = ({
 
               {/* Bottom: Dedicated Directories */}
               <div className="flex flex-col gap-1.5">
-                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-gray-400 dark:text-gray-500 mb-1">
+                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-gray-600 dark:text-gray-500 font-semibold mb-1">
                   Dedicated Directories
                 </p>
                 {dedicatedDirectories.map(page => (
@@ -191,7 +191,7 @@ export const NavigationDrawer = ({
                     <span className="font-mono text-xs font-semibold group-hover:text-sky-500 dark:group-hover:text-sky-400 transition-colors">
                       {page.label}
                     </span>
-                    <span className="font-mono text-xs text-gray-400 dark:text-gray-500 group-hover:text-sky-500 transition-colors flex items-center gap-1">
+                    <span className="font-mono text-xs text-gray-500 dark:text-gray-500 group-hover:text-sky-500 transition-colors flex items-center gap-1 font-medium">
                       <span>{page.num}</span>
                       <FiArrowUpRight size={12} />
                     </span>
@@ -202,7 +202,7 @@ export const NavigationDrawer = ({
 
             {/* Footer with contacts */}
             <div className="pt-6 mt-6 border-t border-black/8 dark:border-white/10 flex flex-col gap-3">
-              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-gray-400 dark:text-gray-500">
+              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-gray-600 dark:text-gray-500 font-semibold">
                 Connect
               </p>
               <div className="grid grid-cols-2 gap-2">

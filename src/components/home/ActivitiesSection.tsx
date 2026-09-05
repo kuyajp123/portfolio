@@ -42,7 +42,7 @@ export const ActivitiesSection = () => {
                   </Badge>
                 </div>
 
-                <div className="flex items-center gap-3 font-mono text-xs text-gray-400 dark:text-gray-500 shrink-0">
+                <div className="flex items-center gap-3 font-mono text-xs text-gray-600 dark:text-gray-500 font-medium shrink-0">
                   <span className="inline-flex items-center gap-1">
                     <FiMapPin size={11} />
                     {activity.location}
