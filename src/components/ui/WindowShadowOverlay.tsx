@@ -17,7 +17,7 @@ export const WindowShadowOverlay: FC<WindowShadowOverlayProps> = ({ className = 
     <div
       aria-hidden="true"
       role="presentation"
-      className={`fixed inset-0 pointer-events-none select-none z-0 overflow-hidden ${className}`}
+      className={`fixed -top-48 -bottom-48 -left-8 -right-8 pointer-events-none select-none z-0 overflow-hidden ${className}`}
     >
       {/* Light Mode: Natural Soft Window Mullion Shadow Overlay */}
       <img
@@ -26,7 +26,7 @@ export const WindowShadowOverlay: FC<WindowShadowOverlayProps> = ({ className = 
         draggable={false}
         loading="eager"
         decoding="async"
-        className="absolute -inset-3 w-[calc(100%+1.5rem)] h-[calc(100%+1.5rem)] object-cover object-center opacity-24 dark:opacity-0 blur-[6px] transition-opacity duration-700 ease-in-out transform-gpu"
+        className="absolute inset-0 w-full h-full object-cover object-center opacity-24 dark:opacity-0 transition-opacity duration-700 ease-in-out"
       />
 
       {/* Dark Mode: Ambient Moonlight / Soft Window Beam Overlay */}
@@ -36,7 +36,7 @@ export const WindowShadowOverlay: FC<WindowShadowOverlayProps> = ({ className = 
         draggable={false}
         loading="eager"
         decoding="async"
-        className="absolute -inset-3 w-[calc(100%+1.5rem)] h-[calc(100%+1.5rem)] object-cover object-center opacity-0 dark:opacity-12 blur-[6px] transition-opacity duration-700 ease-in-out transform-gpu"
+        className="absolute inset-0 w-full h-full object-cover object-center opacity-0 dark:opacity-12 transition-opacity duration-700 ease-in-out"
       />
     </div>
   );

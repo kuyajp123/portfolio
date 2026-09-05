@@ -31,23 +31,25 @@ export const ScrollToTop = () => {
     currentPathRef.current = pathname;
   }, [pathname]);
 
-  // Continuously record scroll position for the current page
+  // Record scroll position for the current page (debounced to eliminate main-thread scroll jank)
   useEffect(() => {
-    let ticking = false;
+    let timeoutId: number | undefined;
 
     const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          saveScrollPosition(currentPathRef.current, window.scrollY);
-          ticking = false;
-        });
-        ticking = true;
+      if (timeoutId) {
+        window.clearTimeout(timeoutId);
       }
+      timeoutId = window.setTimeout(() => {
+        saveScrollPosition(currentPathRef.current, window.scrollY);
+      }, 150);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
+      if (timeoutId) {
+        window.clearTimeout(timeoutId);
+      }
       saveScrollPosition(currentPathRef.current, window.scrollY);
       window.removeEventListener('scroll', handleScroll);
     };

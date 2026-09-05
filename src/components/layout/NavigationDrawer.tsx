@@ -115,6 +115,7 @@ export const NavigationDrawer = ({
             role="dialog"
             aria-modal="true"
             aria-label="Navigation Menu"
+            data-lenis-prevent
           >
             {/* Header & Navigation */}
             <div>

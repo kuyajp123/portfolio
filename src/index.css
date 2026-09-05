@@ -35,12 +35,23 @@
   --dot-color: rgba(255, 255, 255, 0.04);
 }
 
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+html.lenis {
+  overscroll-behavior-y: none;
+}
+
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 body {
   background-color: var(--bg-canvas);
+  background-image: radial-gradient(var(--dot-color) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
   color: var(--text-primary);
   font-family: var(--font-sans);
   min-height: 100dvh;

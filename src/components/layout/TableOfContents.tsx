@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { useLenis } from 'lenis/react';
 
 interface SectionItem {
   id: string;
@@ -17,8 +18,16 @@ const sections: SectionItem[] = [
 
 export const TableOfContents = () => {
   const [activeId, setActiveId] = useState<string>('intro');
+  const isClickingRef = useRef<string | null>(null);
+  const clickTimeoutRef = useRef<number | undefined>(undefined);
 
   const updateActiveSection = useCallback(() => {
+    // If user clicked a TOC link and smooth scroll is animating to it, preserve that selection
+    if (isClickingRef.current) {
+      setActiveId(isClickingRef.current);
+      return;
+    }
+
     // If at the very top of the page
     if (window.scrollY < 80) {
       setActiveId(sections[0].id);
@@ -33,8 +42,8 @@ export const TableOfContents = () => {
       return;
     }
 
-    // Header offset threshold (accounting for sticky header ~60px + scroll-mt-24 margin)
-    const threshold = 160;
+    // Header offset threshold (accounting for sticky header ~76px + scroll-mt-24 margin of 96px)
+    const threshold = 180;
     let currentId = sections[0].id;
 
     for (const section of sections) {
@@ -52,9 +61,13 @@ export const TableOfContents = () => {
 
   useEffect(() => {
     let ticking = false;
+    let lastTime = 0;
 
     const handleScroll = () => {
-      if (!ticking) {
+      const now = performance.now();
+      // Throttle getBoundingClientRect calls to ~60ms for silky 60fps/120fps scrolling
+      if (now - lastTime > 60 && !ticking) {
+        lastTime = now;
         window.requestAnimationFrame(() => {
           updateActiveSection();
           ticking = false;
@@ -71,16 +84,57 @@ export const TableOfContents = () => {
 
     return () => {
       clearTimeout(timer);
+      if (clickTimeoutRef.current) {
+        window.clearTimeout(clickTimeoutRef.current);
+      }
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
     };
   }, [updateActiveSection]);
 
+  const lenis = useLenis();
+
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Immediately lock and highlight the clicked section
+      isClickingRef.current = id;
+      if (clickTimeoutRef.current) {
+        window.clearTimeout(clickTimeoutRef.current);
+      }
+      clickTimeoutRef.current = window.setTimeout(() => {
+        isClickingRef.current = null;
+      }, 800);
+
       setActiveId(id);
+
+      if (id === 'intro') {
+        if (lenis) {
+          lenis.scrollTo(0, {
+            lerp: 0.075,
+            onComplete: () => {
+              isClickingRef.current = null;
+            },
+          });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        return;
+      }
+
+      if (lenis) {
+        // Since sections have CSS scroll-margin-top: 6rem (scroll-mt-24 = 96px),
+        // Lenis automatically deducts that 96px so offset: 0 aligns the section perfectly beneath the header.
+        lenis.scrollTo(el, {
+          offset: 0,
+          lerp: 0.075,
+          onComplete: () => {
+            isClickingRef.current = null;
+          },
+        });
+      } else {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
   };
 

@@ -1,6 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
+import { ReactLenis } from 'lenis/react'
+import 'lenis/dist/lenis.css'
 
 import './index.css'
 import { Router } from './routes.tsx'
@@ -18,11 +20,22 @@ if (!rootElement) {
 createRoot(rootElement).render(
   <StrictMode>
     <ThemeProvider>
-      <BrowserRouter>
-        <ScrollToTop />
-        <WindowShadowOverlay />
-        <Router />
-      </BrowserRouter>
+      <ReactLenis
+        root
+        options={{
+          lerp: 0.075,
+          wheelMultiplier: 1.15,
+          smoothWheel: true,
+          stopInertiaOnNavigate: true,
+          respectReducedMotion: true,
+        }}
+      >
+        <BrowserRouter>
+          <ScrollToTop />
+          <WindowShadowOverlay />
+          <Router />
+        </BrowserRouter>
+      </ReactLenis>
     </ThemeProvider>
   </StrictMode>
 );
