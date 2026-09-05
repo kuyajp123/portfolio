@@ -5,11 +5,14 @@ import { FaFacebook, FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import { FiArrowUpRight, FiCompass, FiDownload, FiHeadphones, FiSliders } from 'react-icons/fi';
 import { HiX } from 'react-icons/hi';
 import { MdEmail } from 'react-icons/md';
+import { SiBuymeacoffee } from 'react-icons/si';
 import { Link } from 'react-router-dom';
 
 interface NavigationDrawerProps {
   isOpen: boolean;
   onClose: () => void;
+  onNavigate?: () => void;
+  shouldAnimate?: boolean;
 }
 
 const outsideIdeSections = [
@@ -45,7 +48,12 @@ const dedicatedDirectories = [
   { num: '06', label: 'Notes', href: '/notes' },
 ];
 
-export const NavigationDrawer = ({ isOpen, onClose }: NavigationDrawerProps) => {
+export const NavigationDrawer = ({
+  isOpen,
+  onClose,
+  onNavigate,
+  shouldAnimate = true,
+}: NavigationDrawerProps) => {
   const drawerRef = useRef<HTMLDivElement>(null);
 
   // Close on Escape key
@@ -73,16 +81,24 @@ export const NavigationDrawer = ({ isOpen, onClose }: NavigationDrawerProps) => 
     };
   }, [isOpen]);
 
+  const springTransition = shouldAnimate
+    ? { type: 'spring' as const, stiffness: 280, damping: 30, mass: 0.8 }
+    : { duration: 0 };
+
+  const backdropTransition = shouldAnimate
+    ? { duration: 0.25 }
+    : { duration: 0 };
+
   return (
-    <AnimatePresence>
+    <AnimatePresence initial={false}>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex justify-end">
           {/* Backdrop with soft tint */}
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={shouldAnimate ? { opacity: 0 } : false}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            transition={backdropTransition}
             onClick={onClose}
             className="fixed inset-0 bg-black/25 dark:bg-black/45 backdrop-blur-[2px]"
             aria-hidden="true"
@@ -91,10 +107,10 @@ export const NavigationDrawer = ({ isOpen, onClose }: NavigationDrawerProps) => 
           {/* Drawer panel */}
           <motion.aside
             ref={drawerRef}
-            initial={{ x: '100%' }}
+            initial={shouldAnimate ? { x: '100%' } : false}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
-            transition={{ type: 'spring', stiffness: 280, damping: 30, mass: 0.8 }}
+            transition={springTransition}
             className="relative z-10 w-full max-w-md h-full bg-[#f6f7f9]/95 dark:bg-[#0e1116]/95 backdrop-blur-xl border-l border-black/8 dark:border-white/10 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto shadow-2xl"
             role="dialog"
             aria-modal="true"
@@ -139,7 +155,7 @@ export const NavigationDrawer = ({ isOpen, onClose }: NavigationDrawerProps) => 
                     <Link
                       key={item.label}
                       to={item.href}
-                      onClick={onClose}
+                      onClick={onNavigate ?? onClose}
                       className="group p-2 flex items-center justify-between"
                     >
                       <div className="flex flex-col min-w-0">
@@ -169,7 +185,7 @@ export const NavigationDrawer = ({ isOpen, onClose }: NavigationDrawerProps) => 
                   <Link
                     key={page.label}
                     to={page.href}
-                    onClick={onClose}
+                    onClick={onNavigate ?? onClose}
                     className="group flex items-center justify-between py-2 px-3"
                   >
                     <span className="font-mono text-xs font-semibold group-hover:text-sky-500 dark:group-hover:text-sky-400 transition-colors">
@@ -241,8 +257,24 @@ export const NavigationDrawer = ({ isOpen, onClose }: NavigationDrawerProps) => 
                   <FiDownload size={14} />
                   <span>Resume</span>
                 </a>
-                
               </div>
+
+              <a
+                href="https://buymeacoffee.com/yajeyps"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center justify-between p-2 rounded-lg border border-black/8 dark:border-white/8 text-xs font-mono text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-sky-500"
+                aria-label="Buy me a coffee"
+              >
+                <span className="flex items-center gap-2">
+                  <SiBuymeacoffee size={14} className="text-amber-500 dark:text-amber-400" />
+                  <span>Buy Me a Coffee</span>
+                </span>
+                <span className="flex items-center gap-1 text-[10px] text-gray-400 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                  <span>Support</span>
+                  <FiArrowUpRight size={12} />
+                </span>
+              </a>
 
               <div className="flex items-center justify-between text-[10px] font-mono text-gray-400 dark:text-gray-500 pt-1">
                 <span>Cavite, Philippines</span>

@@ -3,7 +3,7 @@ import { SubpageHeader } from '@/components/layout/SubpageHeader';
 import { Badge } from '@/components/ui/Badge';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { projectDetails } from '@/constant/projectDetails';
-import { FiArrowUpRight, FiAward, FiDownload, FiExternalLink, FiGithub } from 'react-icons/fi';
+import { FiActivity, FiArrowUpRight, FiAward, FiDownload, FiExternalLink, FiGithub } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 
 export const ProjectsPage = () => {
@@ -44,7 +44,7 @@ export const ProjectsPage = () => {
               )}
 
               {/* Foreground Content */}
-              <div className="relative z-10 flex flex-col gap-3">
+              <div className="relative z-10 flex flex-col gap-3 px-2">
                 {/* Header: Title, Award & Date */}
                 <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
                   <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
@@ -62,12 +62,25 @@ export const ProjectsPage = () => {
                       </Link>
                     )}
 
-                    <Link
-                      to={`/projects/${project.key}`}
-                      className="font-sans text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors"
-                    >
-                      {project.title}
-                    </Link>
+                    {project.hasCaseStudy !== false ? (
+                      <Link
+                        to={`/projects/${project.key}`}
+                        className="font-sans text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors"
+                      >
+                        {project.title}
+                      </Link>
+                    ) : project.internalLink ? (
+                      <Link
+                        to={project.internalLink}
+                        className="font-sans text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors inline-flex items-center gap-1.5"
+                      >
+                        <span>{project.title}</span>
+                      </Link>
+                    ) : (
+                      <h3 className="font-sans text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100">
+                        {project.title}
+                      </h3>
+                    )}
 
                     {project.award && (
                       <Link to={project.awardLink ?? '/certificates/best-paper'}>
@@ -98,6 +111,19 @@ export const ProjectsPage = () => {
 
                 {/* Action Links Row (Consistently Below Tags) */}
                 <div className="flex flex-wrap items-center gap-4 text-xs font-mono pt-1">
+                  {project.githubUrl && (
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                    >
+                      <FiGithub size={13} />
+                      <span>Source</span>
+                      <FiArrowUpRight size={12} />
+                    </a>
+                  )}
+
                   {project.liveUrl && (
                     <a
                       href={project.liveUrl}
@@ -111,17 +137,15 @@ export const ProjectsPage = () => {
                     </a>
                   )}
 
-                  {project.githubUrl && (
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                  {project.internalLink && (
+                    <Link
+                      to={project.internalLink}
                       className="inline-flex items-center gap-1 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                     >
-                      <FiGithub size={13} />
-                      <span>Source</span>
-                      <FiArrowUpRight size={12} />
-                    </a>
+                      <FiActivity size={13} />
+                      <span>Hackathon Details</span>
+                      <FiArrowUpRight size={11} />
+                    </Link>
                   )}
 
                   {project.downloadUrl && (

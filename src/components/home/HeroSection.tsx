@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
 import profile from '@/assets/profile.jpg';
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
-import { MdEmail } from 'react-icons/md';
-import { FiArrowUpRight } from 'react-icons/fi';
 import { getProfileStatus, SESSION_PROFILE_STATUS_KEY } from '@/services/communityNotes';
 import { getSessionCache } from '@/utils/sessionCache';
+import { motion } from 'motion/react';
+import { useEffect, useState } from 'react';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { FiArrowUpRight } from 'react-icons/fi';
+import { MdEmail } from 'react-icons/md';
 
 export const HeroSection = () => {
   const [status, setStatus] = useState<string>(() => {
@@ -56,7 +56,10 @@ export const HeroSection = () => {
               loading="eager"
             />
           </div>
-          <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 ring-4 ring-[#f6f7f9] dark:ring-[#0b0d10]" title="Available for opportunities" />
+          <div
+            className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 ring-4 ring-[#f6f7f9] dark:ring-[#0b0d10]"
+            title="Available for opportunities"
+          />
         </div>
 
         {/* Narrative & Name */}
@@ -71,7 +74,8 @@ export const HeroSection = () => {
           </div>
 
           <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed font-normal">
-            Information Technology graduate passionate about building thoughtful, reliable web and mobile applications. Focused on React, TypeScript, Node.js, and modern interface engineering.
+            Information Technology graduate passionate about building thoughtful, reliable web and mobile applications.
+            Focused on React, TypeScript, Node.js, and modern interface engineering.
           </p>
 
           {/* Social Links Row */}
@@ -111,36 +115,28 @@ export const HeroSection = () => {
       {/* 4-Column Key Metrics Strip */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-10 pt-6 border-t border-black/8 dark:border-white/10">
         <div className="flex flex-col">
-          <span className="font-mono text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">
-            1st Place
-          </span>
+          <span className="font-mono text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">1st Place</span>
           <span className="font-mono text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 mt-0.5">
             Best Research Paper
           </span>
         </div>
 
         <div className="flex flex-col">
-          <span className="font-mono text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">
-            Full Stack
+          <span className="font-mono text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">Top 30</span>
+          <span className="font-mono text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 mt-0.5">
+            Hackathon Finalist
           </span>
+        </div>
+
+        <div className="flex flex-col">
+          <span className="font-mono text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">Full Stack</span>
           <span className="font-mono text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 mt-0.5">
             React & Node.js
           </span>
         </div>
 
         <div className="flex flex-col">
-          <span className="font-mono text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">
-            Freelance
-          </span>
-          <span className="font-mono text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 mt-0.5">
-            Developer Alum
-          </span>
-        </div>
-
-        <div className="flex flex-col">
-          <span className="font-mono text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">
-            BSIT '26
-          </span>
+          <span className="font-mono text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">BSIT '26</span>
           <span className="font-mono text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 mt-0.5">
             CVSU Graduate
           </span>

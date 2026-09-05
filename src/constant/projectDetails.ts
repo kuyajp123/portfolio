@@ -38,6 +38,9 @@ export interface ProjectDetail {
   subtitle: string;
   icon?: string;
   isMainProject?: boolean;
+  hasCaseStudy?: boolean;
+  internalLink?: string;
+  role?: string;
   description: string[];
   architectureNote?: string;
   award?: string;
@@ -317,5 +320,116 @@ export const projectDetails: ProjectDetail[] = [
         aspect: 'landscape',
       },
     ],
+  },
+  {
+    key: 'egov-ai',
+    title: 'eGovAI',
+    subtitle:
+      'Top 30 Finalist hackathon project integrating the national eGov API to innovate government service delivery for Filipino citizens. Engineered agentic AI workflows that move beyond passive chatbots to autonomously assist users, process document requirements, and streamline public administrative procedures.',
+    award: 'Top 30 Finalist (eGov Hackathon)',
+    awardLink: '/activities#egov-hackathon',
+    internalLink: '/activities#egov-hackathon',
+    isMainProject: false,
+    hasCaseStudy: false,
+    date: 'July 21 - 22, 2026',
+    tags: ['eGov API', 'Agentic AI', 'Workflow Automation', 'React.js', 'TypeScript', 'Tailwind CSS'],
+    liveUrl: 'https://e-gov-ai.vercel.app/',
+    githubUrl: 'https://github.com/hiroqt/eGovAI',
+    description: [
+      'Developed during the eGov Hackathon in BGC Taguig, placing in the Top 30 among 137 participating teams.',
+      'Integrated the official eGov API to elevate the capabilities of the national eGov platform, making government assistance and informational processing faster and more reliable.',
+      'Engineered an agentic AI architecture designed to autonomously validate requirements, navigate complex government procedures, and provide proactive guidance to citizens.',
+    ],
+    features: [
+      {
+        title: 'Agentic AI System',
+        description:
+          'Transitions beyond conventional conversational chatbots into goal-driven, multi-step agentic execution for government workflows.',
+      },
+      {
+        title: 'eGov API Integration',
+        description:
+          'Connects directly with eGov API endpoints to retrieve, process, and present real-time public service data securely.',
+      },
+      {
+        title: 'Citizen Process Automation',
+        description:
+          'Streamlines document requirements, procedural steps, and application validation for Filipino citizens.',
+      },
+    ],
+    images: [],
+  },
+  {
+    key: 'projek',
+    title: 'Projek',
+    subtitle:
+      'Enterprise task management platform built for project managers and teams using Laravel, React, and Tailwind CSS. Contributed to authentication, authorization, debugging, CI/CD pipelines, and DevOps workflows. Implemented OpenAI integration for intelligent chatbots and project delivery recommendations, alongside Google Workspace connectivity for Google Meet and Google Drive team storage.',
+    isMainProject: false,
+    hasCaseStudy: false,
+    date: '2026',
+    tags: ['Laravel', 'React', 'Tailwind CSS', 'OpenAI', 'Google Workspace', 'CI/CD', 'DevOps'],
+    liveUrl: 'https://projek.com.ph/',
+    description: [
+      'Contributed to the development of Projek, an enterprise task and workflow management system built with Laravel, React, and Tailwind CSS.',
+      'Configured authentication, authorization policies, debugging, and automated CI/CD pipelines for production deployments.',
+      'Implemented OpenAI integration for AI chatbots and delivery suggestions, as well as Google Workspace connectivity for Google Meet and Google Drive storage.',
+    ],
+    features: [
+      {
+        title: 'AI Delivery Intelligence',
+        description:
+          'OpenAI-powered conversational chatbot providing project managers with task delivery recommendations and automated summaries.',
+      },
+      {
+        title: 'Google Workspace Connectivity',
+        description:
+          'Embedded Google Meet for scheduled team syncs and Google Drive for collaborative asset and file storage.',
+      },
+      {
+        title: 'Enterprise Task Management',
+        description:
+          'Multi-team workflow orchestration, sprint tracking, and role-based permissions designed for enterprise companies.',
+      },
+      {
+        title: 'DevOps & CI/CD Pipelines',
+        description:
+          'Automated deployment cycles, system debugging, and reliable production hosting infrastructure.',
+      },
+    ],
+    images: [],
+  },
+  {
+    key: 'affordamart-pos',
+    title: 'Affordamart POS',
+    subtitle:
+      'Served as Lead Developer for this point-of-sale and retail management platform built with Laravel and React. Implemented role-based access control (RBAC) to manage authorization, end-to-end testing, automated CI/CD pipelines, DevOps workflows, and production hosting deployments.',
+    isMainProject: false,
+    hasCaseStudy: false,
+    date: '2026',
+    tags: ['Laravel', 'React', 'TypeScript', 'RBAC', 'DevOps', 'CI/CD'],
+    liveUrl: 'https://affordamart.com/',
+    description: [
+      'Contributed as Lead Developer to design and implement the point-of-sale (POS) and inventory platform for Affordamart using a Laravel and React stack.',
+      'Architected and implemented a comprehensive Role-Based Access Control (RBAC) authorization matrix to manage permissions across cashiers, supervisors, and administrative staff.',
+      'Managed end-to-end testing, automated CI/CD release pipelines, DevOps workflows, and production hosting infrastructure.',
+    ],
+    features: [
+      {
+        title: 'Role-Based Access Control (RBAC)',
+        description:
+          'Granular authorization engine managing cashier checkout capabilities, supervisor overrides, and admin operations.',
+      },
+      {
+        title: 'CI/CD & DevOps Automation',
+        description:
+          'Automated deployment pipelines and testing workflows ensuring stable updates and continuous cloud uptime.',
+      },
+      {
+        title: 'Full-Stack Architecture',
+        description:
+          'Responsive React client for point-of-sale transactions powered by a robust Laravel API backend.',
+      },
+    ],
+    images: [],
   },
 ];

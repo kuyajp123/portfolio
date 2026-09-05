@@ -30,8 +30,6 @@ export const achievements = [
 ];
 
 export const USERNAME = 'kuyajp123';
-export const STATS_BASE_URL = 'https://github-readme-stats-gamma-blush-51.vercel.app';
-export const ACTIVITY_BASE_URL = 'https://github-readme-activity-graph.vercel.app/graph';
 
 export interface LanguageStat {
   name: string;

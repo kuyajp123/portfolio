@@ -45,7 +45,7 @@ export const FeaturedProjects = () => {
                   <img
                     src={project.icon}
                     alt={`${project.title} icon`}
-                    className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl object-cover shadow-md border border-black/10 dark:border-white/10 shrink-0"
+                    className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl object-cover shrink-0"
                     loading="lazy"
                   />
                 )}

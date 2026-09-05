@@ -23,11 +23,12 @@ export const ProjectDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const [activeImageIndex, setActiveImageIndex] = useState(-1);
 
-  const currentIndex = projectDetails.findIndex(p => p.key === id);
-  const project = currentIndex >= 0 ? projectDetails[currentIndex] : projectDetails[0];
+  const caseStudyProjects = projectDetails.filter(p => p.hasCaseStudy !== false);
+  const currentIndex = caseStudyProjects.findIndex(p => p.key === id);
+  const project = currentIndex >= 0 ? caseStudyProjects[currentIndex] : caseStudyProjects[0];
 
-  const prevProject = currentIndex > 0 ? projectDetails[currentIndex - 1] : null;
-  const nextProject = currentIndex < projectDetails.length - 1 ? projectDetails[currentIndex + 1] : null;
+  const prevProject = currentIndex > 0 ? caseStudyProjects[currentIndex - 1] : null;
+  const nextProject = currentIndex < caseStudyProjects.length - 1 ? caseStudyProjects[currentIndex + 1] : null;
 
   const viewerItems: ViewerItem[] = project.images.map(img => ({
     src: img.src,
@@ -206,19 +207,6 @@ export const ProjectDetailPage = () => {
           {/* External Links & App Builders PH Embed */}
           <div className="flex flex-col gap-4 pt-2 border-t border-black/8 dark:border-white/8">
             <div className="flex flex-wrap items-center gap-4 text-xs font-mono">
-              {project.liveUrl && (
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-semibold"
-                >
-                  <FiExternalLink size={13} />
-                  <span>Visit Live Application</span>
-                  <FiArrowUpRight size={12} />
-                </a>
-              )}
-
               {project.githubUrl && (
                 <a
                   href={project.githubUrl}
@@ -228,6 +216,19 @@ export const ProjectDetailPage = () => {
                 >
                   <FiGithub size={13} />
                   <span>GitHub Repository</span>
+                  <FiArrowUpRight size={12} />
+                </a>
+              )}
+
+              {project.liveUrl && (
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-semibold"
+                >
+                  <FiExternalLink size={13} />
+                  <span>Visit Live Application</span>
                   <FiArrowUpRight size={12} />
                 </a>
               )}
