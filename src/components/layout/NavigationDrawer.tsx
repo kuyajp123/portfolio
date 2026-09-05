@@ -260,7 +260,7 @@ export const NavigationDrawer = ({
               </div>
 
               <a
-                href="https://buymeacoffee.com/yajeyps"
+                href={`https://buymeacoffee.com/${atob('eWFqZXlwcw==')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center justify-between p-2 rounded-lg border border-black/8 dark:border-white/8 text-xs font-mono text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-sky-500"
@@ -270,13 +270,13 @@ export const NavigationDrawer = ({
                   <SiBuymeacoffee size={14} className="text-amber-500 dark:text-amber-400" />
                   <span>Buy Me a Coffee</span>
                 </span>
-                <span className="flex items-center gap-1 text-[10px] text-gray-400 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                <span className="flex items-center gap-1 text-[10px] text-gray-600 dark:text-gray-500 group-hover:text-gray-900 dark:group-hover:text-gray-300 font-medium transition-colors">
                   <span>Support</span>
                   <FiArrowUpRight size={12} />
                 </span>
               </a>
 
-              <div className="flex items-center justify-between text-[10px] font-mono text-gray-400 dark:text-gray-500 pt-1">
+              <div className="flex items-center justify-between text-[10px] font-mono text-gray-600 dark:text-gray-500 font-medium pt-1">
                 <span>Cavite, Philippines</span>
                 <span>Esc to close</span>
               </div>
