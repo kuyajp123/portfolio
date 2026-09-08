@@ -5,21 +5,41 @@ import { SectionHeader } from '@/components/ui/SectionHeader';
 import {
   AITechStack,
   backendTechStack,
+  mobileDevTechStack,
   developmentTools,
   devOpsAndCloudTechStack,
   frontendTechStack,
-  networkingAndVirtualization,
 } from '@/pages/techStack/_components/constant';
 
 export const TechStack = () => {
 
   const categories = [
-    { title: 'Frontend Architecture', subtitle: 'Modern user interfaces, type safety & reactive state', items: frontendTechStack },
+    {
+      title: 'Frontend Architecture',
+      subtitle: 'Modern user interfaces, type safety & reactive state',
+      items: frontendTechStack,
+    },
     { title: 'Backend & APIs', subtitle: 'Server runtimes, databases & real-time protocols', items: backendTechStack },
-    { title: 'DevOps & Cloud', subtitle: 'Deployment environments, hosting & cloud platforms', items: devOpsAndCloudTechStack },
-    { title: 'AI & Machine Intelligence', subtitle: 'LLM APIs, developer agents & assistive tooling', items: AITechStack },
-    { title: 'Engineering & Design Tooling', subtitle: 'Editor tooling, API clients & workflow applications', items: developmentTools },
-    { title: 'Networking & Systems', subtitle: 'Virtualization, network protocols & infrastructure', items: networkingAndVirtualization },
+    {
+      title: 'Mobile Development',
+      subtitle: 'Android/mobile technologies',
+      items: mobileDevTechStack,
+    },
+    {
+      title: 'DevOps & Cloud',
+      subtitle: 'Deployment environments, hosting & cloud platforms',
+      items: devOpsAndCloudTechStack,
+    },
+    {
+      title: 'AI & Machine Intelligence',
+      subtitle: 'LLM APIs, developer agents & assistive tooling',
+      items: AITechStack,
+    },
+    {
+      title: 'Engineering & Design Tooling',
+      subtitle: 'Editor tooling, API clients & workflow applications',
+      items: developmentTools,
+    }
   ];
 
   return (

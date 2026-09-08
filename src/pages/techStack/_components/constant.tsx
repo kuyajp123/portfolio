@@ -4,7 +4,6 @@ export const frontendTechStack = [
   'JavaScript',
   'TypeScript',
   'React',
-  'React Native',
   'Next.js',
   'Tailwind CSS',
   'Bootstrap',
@@ -26,7 +25,9 @@ export const backendTechStack = [
   'Rust',
 ];
 
-export const devOpsAndCloudTechStack = ['Vercel', 'Netlify', 'Render', 'Railway', 'Hostinger', 'Google Cloud', 'Expo'];
+export const mobileDevTechStack = ['Java', 'Android', 'React Native', 'Expo'];
+
+export const devOpsAndCloudTechStack = ['Vercel', 'Netlify', 'Render', 'Railway', 'Hostinger', 'Google Cloud'];
 
 export const AITechStack = ['Google AI Studio', 'openAI', 'Codex', 'claude', 'Github Copilot'];
 
@@ -36,6 +37,7 @@ export const developmentTools = [
   'GitHub',
   'Github Desktop',
   'Android Studio',
+  'Intellij IDEA',
   'Figma',
   'Postman',
   'Laragon',

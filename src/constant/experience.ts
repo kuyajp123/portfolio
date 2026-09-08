@@ -10,10 +10,19 @@ export interface ExperienceItem {
 
 export const experiences: ExperienceItem[] = [
   {
+    id: 'android-dev',
+    role: 'Android Developer Associate',
+    organization: 'Easybus PH Inc.',
+    period: 'Present',
+    description:
+      'Currently working as an Android Developer Associate, focusing on building and maintaining mobile applications to deliver a application platform that enhances transportaion services and user experiences.',
+    type: 'work',
+  },
+  {
     id: 'freelance',
     role: 'Freelance Web Developer',
     organization: 'Self-Employed',
-    period: '2026 - Present',
+    period: 'Aug 2026',
     description:
       'Provided custom web development services, collaborating with clients to design and implement barangay document management system that streamlined the processing, tracking, and management of government-related documents and requests.',
     type: 'work',
@@ -31,7 +40,7 @@ export const experiences: ExperienceItem[] = [
     id: 'startuplab',
     role: 'Full Stack Web Developer',
     organization: 'Startuplab Business Center',
-    period: '2026',
+    period: 'Feb - Apr 2026',
     description:
       'Engineered web applications and client platforms with React, Node.js, and modern full-stack workflows.',
     type: 'work',

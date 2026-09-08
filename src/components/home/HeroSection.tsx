@@ -69,7 +69,7 @@ export const HeroSection = () => {
               John Paul Naag
             </h1>
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-sky-600 dark:text-sky-400 mt-0.5">
-              Full Stack Developer
+              Full Stack Developer • <span>Android Developer</span>
             </p>
           </div>
 
