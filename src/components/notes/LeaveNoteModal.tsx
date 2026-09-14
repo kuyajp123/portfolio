@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { FiX, FiCheck } from 'react-icons/fi';
 import { CommunityCard } from '@/components/notes/CommunityCard';
@@ -106,10 +107,12 @@ export const LeaveNoteModal = ({
     }
   };
 
-  return (
+  if (typeof document === 'undefined') return null;
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto" data-lenis-prevent>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto" data-lenis-prevent>
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -271,6 +274,7 @@ export const LeaveNoteModal = ({
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };

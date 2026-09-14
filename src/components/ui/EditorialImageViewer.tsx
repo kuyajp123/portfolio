@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { FiArrowLeft, FiArrowRight, FiX } from 'react-icons/fi';
 
@@ -65,10 +66,12 @@ export const EditorialImageViewer = ({
 
   const isVideo = Boolean(currentItem && (currentItem.type === 'video' || currentItem.src.endsWith('.mp4')));
 
-  return (
+  if (typeof document === 'undefined') return null;
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && currentItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center" data-lenis-prevent>
           {/* Deep Frosted Atmospheric Backdrop - Clicking outside closes viewer */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -239,6 +242,7 @@ export const EditorialImageViewer = ({
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };

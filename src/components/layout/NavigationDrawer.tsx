@@ -1,6 +1,8 @@
 import { ThemeToggle } from '@/components/button/Theme';
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
+import { useLenis } from 'lenis/react';
 import { FaFacebook, FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import { FiArrowUpRight, FiCompass, FiDownload, FiHeadphones, FiSliders } from 'react-icons/fi';
 import { HiX } from 'react-icons/hi';
@@ -55,12 +57,24 @@ export const NavigationDrawer = ({
   shouldAnimate = true,
 }: NavigationDrawerProps) => {
   const drawerRef = useRef<HTMLDivElement>(null);
+  const lenis = useLenis();
 
-  // Close on Escape key
+  // Keyboard navigation & escape listener: close on Escape, prevent page scroll keys when drawer is open
   useEffect(() => {
+    if (!isOpen) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
+      if (e.key === 'Escape') {
         onClose();
+        return;
+      }
+      const scrollKeys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '];
+      if (
+        scrollKeys.includes(e.key) &&
+        drawerRef.current &&
+        !drawerRef.current.contains(document.activeElement)
+      ) {
+        e.preventDefault();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -69,17 +83,23 @@ export const NavigationDrawer = ({
     };
   }, [isOpen, onClose]);
 
-  // Lock body scroll when drawer is open
+  // Lock body, html, and Lenis smooth scroll when drawer is open
   useEffect(() => {
     if (isOpen) {
+      lenis?.stop();
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
     } else {
+      lenis?.start();
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     }
     return () => {
+      lenis?.start();
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
-  }, [isOpen]);
+  }, [isOpen, lenis]);
 
   const springTransition = shouldAnimate
     ? { type: 'spring' as const, stiffness: 280, damping: 30, mass: 0.8 }
@@ -89,7 +109,9 @@ export const NavigationDrawer = ({
     ? { duration: 0.25 }
     : { duration: 0 };
 
-  return (
+  if (typeof document === 'undefined') return null;
+
+  return createPortal(
     <AnimatePresence initial={false}>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex justify-end">
@@ -100,7 +122,7 @@ export const NavigationDrawer = ({
             exit={{ opacity: 0 }}
             transition={backdropTransition}
             onClick={onClose}
-            className="fixed inset-0 bg-black/25 dark:bg-black/45 backdrop-blur-[2px]"
+            className="fixed inset-0 bg-black/25 dark:bg-black/45 backdrop-blur-[2px] touch-none"
             aria-hidden="true"
           />
 
@@ -111,7 +133,7 @@ export const NavigationDrawer = ({
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={springTransition}
-            className="relative z-10 w-full max-w-md h-full bg-[#f6f7f9]/95 dark:bg-[#0e1116]/95 backdrop-blur-xl border-l border-black/8 dark:border-white/10 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto shadow-2xl"
+            className="relative z-10 w-full max-w-md h-full bg-[#f6f7f9]/95 dark:bg-[#0e1116]/95 backdrop-blur-xl border-l border-black/8 dark:border-white/10 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto overscroll-contain shadow-2xl"
             role="dialog"
             aria-modal="true"
             aria-label="Navigation Menu"
@@ -285,6 +307,7 @@ export const NavigationDrawer = ({
           </motion.aside>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };
