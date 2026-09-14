@@ -14,6 +14,7 @@ export interface ProjectItem {
   description?: string;
   award?: string;
   awardLink?: string;
+  awardNewsLink?: string;
   date: string;
   tags: string[];
   link?: string;
@@ -31,6 +32,7 @@ export const projects: ProjectItem[] = [
     subtitle: 'Disaster risk management platform connecting community members with real-time emergency dispatch and response.',
     award: 'Best Research Paper Award (EMPIRE 2026)',
     awardLink: '/certificates/best-paper',
+    awardNewsLink: 'https://trece.cvsu.edu.ph/news-and-events/news-updates/12',
     date: '2025 - 2026',
     tags: ['React Native', 'React.js', 'Express', 'Firebase', 'Typescript'],
     featured: true,

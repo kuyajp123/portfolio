@@ -62,7 +62,7 @@ export const ProjectDetailPage = () => {
                   <img
                     src={project.icon}
                     alt={`${project.title} icon`}
-                    className="w-9 h-9 sm:w-11 sm:h-11 shadow-sm shrink-0"
+                    className="w-9 h-9 sm:w-11 sm:h-11 rounded-lg shrink-0"
                   />
                 )}
 
@@ -71,12 +71,28 @@ export const ProjectDetailPage = () => {
                 </h1>
 
                 {project.award && (
-                  <Link to={project.awardLink ?? '/certificates/best-paper'}>
-                    <Badge variant="award">
-                      <FiAward size={12} className="shrink-0" />
-                      <span>{project.award}</span>
-                    </Badge>
-                  </Link>
+                  project.awardLink?.startsWith('http') ? (
+                    <a
+                      href={project.awardLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:opacity-85 transition-opacity"
+                      title="View official award / news coverage"
+                    >
+                      <Badge variant="award">
+                        <FiAward size={12} className="shrink-0" />
+                        <span>{project.award}</span>
+                        <FiArrowUpRight size={11} className="shrink-0 opacity-75" />
+                      </Badge>
+                    </a>
+                  ) : (
+                    <Link to={project.awardLink ?? '/certificates/best-paper'} className="hover:opacity-85 transition-opacity">
+                      <Badge variant="award">
+                        <FiAward size={12} className="shrink-0" />
+                        <span>{project.award}</span>
+                      </Badge>
+                    </Link>
+                  )
                 )}
               </div>
 
@@ -122,7 +138,7 @@ export const ProjectDetailPage = () => {
             <div className="flex gap-3.5 overflow-x-auto pb-3 pt-1 scrollbar-thin scroll-smooth snap-x snap-mandatory">
               {project.images.map((img, imgIdx) => (
                 <div
-                  key={img.title}
+                  key={`${img.title}-${String(imgIdx)}`}
                   onClick={() => {
                     setActiveImageIndex(imgIdx);
                   }}
@@ -247,14 +263,40 @@ export const ProjectDetailPage = () => {
               )}
 
               {project.awardLink && (
-                <Link
-                  to={project.awardLink}
+                project.awardLink.startsWith('http') ? (
+                  <a
+                    href={project.awardLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-amber-600 dark:text-amber-400 hover:underline"
+                  >
+                    <FiAward size={13} />
+                    <span>View Award / News Coverage</span>
+                    <FiArrowUpRight size={12} />
+                  </a>
+                ) : (
+                  <Link
+                    to={project.awardLink}
+                    className="inline-flex items-center gap-1.5 text-amber-600 dark:text-amber-400 hover:underline"
+                  >
+                    <FiAward size={13} />
+                    <span>View Research Paper Award</span>
+                    <FiArrowUpRight size={12} />
+                  </Link>
+                )
+              )}
+
+              {project.awardNewsLink && (
+                <a
+                  href={project.awardNewsLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-amber-600 dark:text-amber-400 hover:underline"
                 >
                   <FiAward size={13} />
-                  <span>View Research Paper Award</span>
+                  <span>CvSU News Feature</span>
                   <FiArrowUpRight size={12} />
-                </Link>
+                </a>
               )}
             </div>
 

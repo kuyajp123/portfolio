@@ -45,6 +45,7 @@ export interface ProjectDetail {
   architectureNote?: string;
   award?: string;
   awardLink?: string;
+  awardNewsLink?: string;
   date: string;
   tags: string[];
   liveUrl?: string;
@@ -79,6 +80,7 @@ export const projectDetails: ProjectDetail[] = [
       'Rescuenect consists of a native mobile application for community residents and a centralized administrative web dashboard for barangay officials and emergency dispatchers.',
     award: 'Best Research Paper - Developmental Category (EMPIRE 2026)',
     awardLink: '/certificates/best-paper',
+    awardNewsLink: 'https://trece.cvsu.edu.ph/news-and-events/news-updates/12',
     date: '2025 - 2026',
     tags: ['React Native', 'React.js', 'Express', 'Firebase', 'Typescript', 'Tailwind CSS'],
     liveUrl: 'https://rescuenect.vercel.app/home',
@@ -327,7 +329,7 @@ export const projectDetails: ProjectDetail[] = [
     subtitle:
       'Top 30 Finalist hackathon project integrating the national eGov API to innovate government service delivery for Filipino citizens. Engineered agentic AI workflows that move beyond passive chatbots to autonomously assist users, process document requirements, and streamline public administrative procedures.',
     award: 'Top 30 Finalist (eGov Hackathon)',
-    awardLink: '/activities#egov-hackathon',
+    awardLink: 'https://trece.cvsu.edu.ph/news-and-events/news-updates/20',
     internalLink: '/activities#egov-hackathon',
     isMainProject: false,
     hasCaseStudy: false,

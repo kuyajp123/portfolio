@@ -60,10 +60,26 @@ export const CertificateDetailsPage = () => {
               {certificate.name}
             </h1>
             {certificate.award && (
-              <Badge variant="award">
-                <FiAward size={12} />
-                <span>{certificate.award}</span>
-              </Badge>
+              certificate.newsUrl ? (
+                <a
+                  href={certificate.newsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:opacity-85 transition-opacity"
+                  title="View official CvSU news feature"
+                >
+                  <Badge variant="award">
+                    <FiAward size={12} />
+                    <span>{certificate.award}</span>
+                    <FiArrowUpRight size={11} className="opacity-75 ml-0.5" />
+                  </Badge>
+                </a>
+              ) : (
+                <Badge variant="award">
+                  <FiAward size={12} />
+                  <span>{certificate.award}</span>
+                </Badge>
+              )
             )}
           </div>
 
@@ -123,21 +139,38 @@ export const CertificateDetailsPage = () => {
           </div>
         )}
 
-        {/* External URL Reference */}
-        {certificate.url && (
-          <div className="pt-2">
-            <a
-              href={certificate.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 p-3.5 rounded-xl border border-black/8 dark:border-white/10 bg-black/2 dark:bg-white/3 hover:bg-black/5 dark:hover:bg-white/6 text-xs font-mono text-gray-700 dark:text-gray-300 transition-colors w-full justify-between group"
-            >
-              <div className="flex items-center gap-2.5">
-                <FaFacebook size={16} className="text-[#1877F2]" />
-                <span>Conference Proceedings & Verification Post</span>
-              </div>
-              <FiArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </a>
+        {/* External URL References */}
+        {(certificate.newsUrl ?? certificate.url) && (
+          <div className="flex flex-col gap-2.5 pt-2">
+            {certificate.newsUrl && (
+              <a
+                href={certificate.newsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 p-3.5 rounded-xl border border-amber-500/20 dark:border-amber-400/20 bg-amber-500/5 dark:bg-amber-400/5 hover:bg-amber-500/10 dark:hover:bg-amber-400/10 text-xs font-mono text-amber-800 dark:text-amber-300 transition-colors w-full justify-between group"
+              >
+                <div className="flex items-center gap-2.5">
+                  <FiAward size={16} className="text-amber-600 dark:text-amber-400 shrink-0" />
+                  <span>CvSU News Feature: EMPIRE 2026 Conference & Award</span>
+                </div>
+                <FiArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
+            )}
+
+            {certificate.url && (
+              <a
+                href={certificate.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 p-3.5 rounded-xl border border-black/8 dark:border-white/10 bg-black/2 dark:bg-white/3 hover:bg-black/5 dark:hover:bg-white/6 text-xs font-mono text-gray-700 dark:text-gray-300 transition-colors w-full justify-between group"
+              >
+                <div className="flex items-center gap-2.5">
+                  <FaFacebook size={16} className="text-[#1877F2]" />
+                  <span>Conference Proceedings & Verification Post</span>
+                </div>
+                <FiArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
+            )}
           </div>
         )}
       </main>

@@ -60,6 +60,10 @@ export const TableOfContents = () => {
   }, []);
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 1280) {
+      return;
+    }
+
     let ticking = false;
     let lastTime = 0;
 

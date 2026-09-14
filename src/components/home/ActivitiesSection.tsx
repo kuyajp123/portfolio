@@ -31,10 +31,35 @@ export const ActivitiesSection = () => {
                   </Link>
 
                   {activity.roleOrAward && (
-                    <Badge variant="award">
-                      <FiAward size={12} className="shrink-0" />
-                      <span>{activity.roleOrAward}</span>
-                    </Badge>
+                    activity.awardLink ? (
+                      activity.awardLink.startsWith('http') ? (
+                        <a
+                          href={activity.awardLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:opacity-85 transition-opacity"
+                          title="View official award / news coverage"
+                        >
+                          <Badge variant="award">
+                            <FiAward size={12} className="shrink-0" />
+                            <span>{activity.roleOrAward}</span>
+                            <FiArrowUpRight size={11} className="shrink-0 opacity-75" />
+                          </Badge>
+                        </a>
+                      ) : (
+                        <Link to={activity.awardLink} className="hover:opacity-85 transition-opacity">
+                          <Badge variant="award">
+                            <FiAward size={12} className="shrink-0" />
+                            <span>{activity.roleOrAward}</span>
+                          </Badge>
+                        </Link>
+                      )
+                    ) : (
+                      <Badge variant="award">
+                        <FiAward size={12} className="shrink-0" />
+                        <span>{activity.roleOrAward}</span>
+                      </Badge>
+                    )
                   )}
 
                   <Badge variant="accent">

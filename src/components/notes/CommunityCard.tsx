@@ -1,5 +1,5 @@
 import type { CardColor, CommunityNote } from '@/services/communityNotes';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 interface CommunityCardProps {
   note: CommunityNote;
@@ -57,8 +57,7 @@ export const CommunityCard = ({
   onClick,
 }: CommunityCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [rotate, setRotate] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
+  const rafId = useRef<number | null>(null);
 
   const theme = colorThemeMap[note.color];
 
@@ -74,17 +73,30 @@ export const CommunityCard = ({
     const rotateX = ((y - centerY) / centerY) * -12;
     const rotateY = ((x - centerX) / centerX) * 12;
 
-    setRotate({ x: rotateX, y: rotateY });
+    if (rafId.current) cancelAnimationFrame(rafId.current);
+    rafId.current = requestAnimationFrame(() => {
+      if (cardRef.current) {
+        cardRef.current.style.transform = `rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+      }
+    });
   };
 
   const handleMouseEnterCard = () => {
-    setIsHovered(true);
+    if (cardRef.current) {
+      cardRef.current.style.transition = 'transform 0.1s ease-out';
+    }
     onMouseEnter?.();
   };
 
   const handleMouseLeaveCard = () => {
-    setIsHovered(false);
-    setRotate({ x: 0, y: 0 });
+    if (rafId.current) {
+      cancelAnimationFrame(rafId.current);
+      rafId.current = null;
+    }
+    if (cardRef.current) {
+      cardRef.current.style.transition = 'transform 0.5s ease-out';
+      cardRef.current.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    }
     onMouseLeave?.();
   };
 
@@ -100,11 +112,8 @@ export const CommunityCard = ({
         onMouseEnter={handleMouseEnterCard}
         onMouseLeave={handleMouseLeaveCard}
         style={{
-          transform:
-            isInteractive && isHovered
-              ? `rotateX(${String(rotate.x)}deg) rotateY(${String(rotate.y)}deg) scale3d(1.02, 1.02, 1.02)`
-              : 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)',
-          transition: isHovered ? 'transform 0.1s ease-out' : 'transform 0.5s ease-out',
+          transform: 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)',
+          transition: 'transform 0.5s ease-out',
           transformStyle: 'preserve-3d',
         }}
         className={`relative w-full max-w-full min-w-0 min-h-[380px] sm:min-h-[415px] aspect-[1/1.42] rounded-[28px] p-6 sm:p-7 flex flex-col justify-between overflow-hidden shadow-2xl border ${theme.bg}`}

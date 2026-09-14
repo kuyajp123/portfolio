@@ -5,7 +5,7 @@ export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full max-w-3xl mx-auto px-4 sm:px-6 py-10 mt-8 border-t border-black/8 dark:border-white/10">
+    <footer className="relative z-10 w-full max-w-3xl mx-auto px-4 sm:px-6 py-10 mt-8 border-t border-black/8 dark:border-white/10">
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-xs font-mono text-gray-700 dark:text-gray-400 font-medium">
           <span>(c) {currentYear} John Paul Naag</span>

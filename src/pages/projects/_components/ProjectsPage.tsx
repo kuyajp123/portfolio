@@ -82,19 +82,26 @@ export const ProjectsPage = () => {
                       </h3>
                     )}
 
-                    {project.award && (
-                      <Link to={project.awardLink ?? '/certificates/best-paper'}>
+                    {project.award &&
+                      (project.awardLink?.startsWith('http') ? (
                         <Badge variant="award">
                           <FiAward size={12} className="shrink-0" />
-                          <span>{project.award}</span>
+                          <span>{project.award}</span>{' '}
                         </Badge>
-                      </Link>
-                    )}
+                      ) : (
+                        <Link
+                          to={project.awardLink ?? '/certificates/best-paper'}
+                          className="hover:opacity-85 transition-opacity"
+                        >
+                          <Badge variant="award">
+                            <FiAward size={12} className="shrink-0" />
+                            <span>{project.award}</span>
+                          </Badge>
+                        </Link>
+                      ))}
                   </div>
 
-                  <span className="font-mono text-xs text-gray-400 dark:text-gray-500 shrink-0">
-                    {project.date}
-                  </span>
+                  <span className="font-mono text-xs text-gray-400 dark:text-gray-500 shrink-0">{project.date}</span>
                 </div>
 
                 {/* Subtitle / Description */}
@@ -146,6 +153,19 @@ export const ProjectsPage = () => {
                       <span>Hackathon Details</span>
                       <FiArrowUpRight size={11} />
                     </Link>
+                  )}
+
+                  {(project.awardLink?.startsWith('http') ? project.awardLink : project.awardNewsLink) && (
+                    <a
+                      href={project.awardLink?.startsWith('http') ? project.awardLink : project.awardNewsLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition-colors"
+                    >
+                      <FiAward size={13} />
+                      <span>CvSU News Feature</span>
+                      <FiArrowUpRight size={11} />
+                    </a>
                   )}
 
                   {project.downloadUrl && (

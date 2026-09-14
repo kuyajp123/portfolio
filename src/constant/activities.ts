@@ -14,6 +14,7 @@ export interface ActivityItem {
   title: string;
   summary: string;
   roleOrAward?: string;
+  awardLink?: string;
   type: 'Hackathon' | 'Workshop' | 'Conference';
   location: string;
   date: string;
@@ -29,6 +30,7 @@ export const activities: ActivityItem[] = [
     summary:
       'Built an AI agent automating government document processing and workflow pipelines using the eGov API, placing Top 30 among 137 teams.',
     roleOrAward: 'Top 30 Finalist (137 Teams)',
+    awardLink: 'https://trece.cvsu.edu.ph/news-and-events/news-updates/20',
     type: 'Hackathon',
     location: 'BGC Taguig',
     date: 'July 21 - 22, 2026',

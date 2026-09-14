@@ -125,7 +125,7 @@ export const GallerySection = () => {
       <div className="columns-1 sm:columns-2 lg:columns-3 gap-3.5 [column-fill:_balance]">
         {moments.map((item, idx) => (
           <div
-            key={item.title}
+            key={`${item.title}-${String(idx)}`}
             onClick={() => {
               setActiveViewerIndex(idx);
             }}

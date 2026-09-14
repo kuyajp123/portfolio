@@ -13,6 +13,7 @@ interface Certification {
   paperTitle?: string;
   award?: string;
   url?: string;
+  newsUrl?: string;
 }
 
 export const certifications: Certification[] = [
@@ -28,6 +29,7 @@ export const certifications: Certification[] = [
     description:
       'Intellectual synergy took center stage at the Education, Management, Psychology, Information Technology Research Conference (EMPIRE) 2026! This premier event brought together the faculty, and student researchers to present groundbreaking studies across diverse disciplines.',
     url: 'https://www.facebook.com/share/p/17he5pgX2K/',
+    newsUrl: 'https://trece.cvsu.edu.ph/news-and-events/news-updates/12',
   },
   {
     id: 'startuplab',

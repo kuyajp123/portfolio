@@ -17,7 +17,7 @@ export const WindowShadowOverlay: FC<WindowShadowOverlayProps> = ({ className = 
     <div
       aria-hidden="true"
       role="presentation"
-      className={`fixed -top-48 -bottom-48 -left-8 -right-8 pointer-events-none select-none z-0 overflow-hidden ${className}`}
+      className={`fixed -top-48 -bottom-48 -left-8 -right-8 pointer-events-none select-none z-0 overflow-hidden transform-gpu ${className}`}
     >
       {/* Light Mode: Natural Soft Window Mullion Shadow Overlay */}
       <img

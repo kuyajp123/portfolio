@@ -114,19 +114,37 @@ export const HeroSection = () => {
 
       {/* 4-Column Key Metrics Strip */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-10 pt-6 border-t border-black/8 dark:border-white/10">
-        <div className="flex flex-col">
-          <span className="font-mono text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">1st Place</span>
+        <a
+          href="https://trece.cvsu.edu.ph/news-and-events/news-updates/12"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex flex-col group/metric hover:opacity-85 transition-opacity"
+          title="View official CvSU news feature: Best Research Paper (EMPIRE 2026)"
+        >
+          <span className="font-mono text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100 group-hover/metric:text-sky-600 dark:group-hover/metric:text-sky-400 transition-colors inline-flex items-center gap-1">
+            <span>1st Place</span>
+            <FiArrowUpRight size={12} className="opacity-0 group-hover/metric:opacity-100 transition-opacity text-sky-500" />
+          </span>
           <span className="font-mono text-[10px] uppercase tracking-wider text-gray-600 dark:text-gray-500 font-medium mt-0.5">
             Best Research Paper
           </span>
-        </div>
+        </a>
 
-        <div className="flex flex-col">
-          <span className="font-mono text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">Top 30</span>
+        <a
+          href="https://trece.cvsu.edu.ph/news-and-events/news-updates/20"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex flex-col group/metric hover:opacity-85 transition-opacity"
+          title="View official CvSU news feature: Top 30 Finalist in eGov Hackathon"
+        >
+          <span className="font-mono text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100 group-hover/metric:text-sky-600 dark:group-hover/metric:text-sky-400 transition-colors inline-flex items-center gap-1">
+            <span>Top 30</span>
+            <FiArrowUpRight size={12} className="opacity-0 group-hover/metric:opacity-100 transition-opacity text-sky-500" />
+          </span>
           <span className="font-mono text-[10px] uppercase tracking-wider text-gray-600 dark:text-gray-500 font-medium mt-0.5">
             Hackathon Finalist
           </span>
-        </div>
+        </a>
 
         <div className="flex flex-col">
           <span className="font-mono text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">Full Stack</span>
