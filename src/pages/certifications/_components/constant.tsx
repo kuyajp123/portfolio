@@ -1,5 +1,5 @@
-import bestPaperImg from '@/assets/best-paper.png';
-import empireImg from '@/assets/empire-2026.png';
+import bestPaperImg from '@/assets/best-paper.webp';
+import empireImg from '@/assets/empire-2026.webp';
 
 interface Certification {
   id: string;

@@ -3,18 +3,18 @@ import { SectionHeader } from '@/components/ui/SectionHeader';
 import { useState } from 'react';
 import { FiMaximize2 } from 'react-icons/fi';
 
-import awsWorkshopImg from '@/assets/AWS-workshop.png';
-import clientMeeting from '@/assets/client-meeting.jpg';
-import egovBossRodImg from '@/assets/egov-boss-rod.jpg';
-import egovBrylImg from '@/assets/egov-bryl.jpg';
-import egovHackathonImg from '@/assets/egov-hackathon.jpg';
-import egovTop5Img from '@/assets/egov_top_5.jpg';
-import empireImg from '@/assets/empire.png';
-import graduation from '@/assets/graduation.jpg';
-import meImg from '@/assets/me.jpg';
-import performingTask from '@/assets/performing-task.jpg';
-import symposiumImg from '@/assets/symposium.png';
-import teamCollaboration from '@/assets/team-collaboration.jpg';
+import awsWorkshopImg from '@/assets/AWS-workshop.webp';
+import clientMeeting from '@/assets/client-meeting.webp';
+import egovBossRodImg from '@/assets/egov-boss-rod.webp';
+import egovBrylImg from '@/assets/egov-bryl.webp';
+import egovHackathonImg from '@/assets/egov-hackathon.webp';
+import egovTop5Img from '@/assets/egov_top_5.webp';
+import empireImg from '@/assets/empire.webp';
+import graduation from '@/assets/graduation.webp';
+import meImg from '@/assets/me.webp';
+import performingTask from '@/assets/performing-task.webp';
+import symposiumImg from '@/assets/symposium.webp';
+import teamCollaboration from '@/assets/team-collaboration.webp';
 
 const moments: ViewerItem[] = [
   {

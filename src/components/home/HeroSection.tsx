@@ -1,4 +1,4 @@
-import profile from '@/assets/profile.jpg';
+import profile from '@/assets/profile.webp';
 import { getProfileStatus, SESSION_PROFILE_STATUS_KEY } from '@/services/communityNotes';
 import { getSessionCache } from '@/utils/sessionCache';
 import { motion } from 'motion/react';

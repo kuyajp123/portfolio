@@ -1,30 +1,30 @@
 // App Icons
-import rescuenectIcon from '@/assets/rescuenect/rescuenect-app-icon.png';
-import likhadocsIcon from '@/assets/likhadocs/likhadocs-app-icon.png';
-import devventoryIcon from '@/assets/devventory/devventory-app-icon.png';
+import rescuenectIcon from '@/assets/rescuenect/rescuenect-app-icon.webp';
+import likhadocsIcon from '@/assets/likhadocs/likhadocs-app-icon.webp';
+import devventoryIcon from '@/assets/devventory/devventory-app-icon.webp';
 
 // Rescuenect Images
-import rescuenectAnalytics from '@/assets/rescuenect/analytics.png';
-import rescuenectCommunity from '@/assets/rescuenect/community.png';
-import rescuenectNavigation from '@/assets/rescuenect/navigation.png';
-import rescuenectDark from '@/assets/rescuenect/playstore dark.png';
-import rescuenectWelcome from '@/assets/rescuenect/playstore welcome.png';
-import rescuenectPlaystore from '@/assets/rescuenect/playstore.png';
+import rescuenectAnalytics from '@/assets/rescuenect/analytics.webp';
+import rescuenectCommunity from '@/assets/rescuenect/community.webp';
+import rescuenectNavigation from '@/assets/rescuenect/navigation.webp';
+import rescuenectDark from '@/assets/rescuenect/playstore dark.webp';
+import rescuenectWelcome from '@/assets/rescuenect/playstore welcome.webp';
+import rescuenectPlaystore from '@/assets/rescuenect/playstore.webp';
 
 // LikhaDocs Images
-import likhadocsFb from '@/assets/likhadocs/likhadocs_facebook_ad.png';
-import likhadocsOutro from '@/assets/likhadocs/likhadocs_outro_ad.png';
-import likhadocsSmartResearch from '@/assets/likhadocs/smart_research_ad.png';
-import likhadocsWorkspace from '@/assets/likhadocs/weekly_report_workspace_ad.png';
+import likhadocsFb from '@/assets/likhadocs/likhadocs_facebook_ad.webp';
+import likhadocsOutro from '@/assets/likhadocs/likhadocs_outro_ad.webp';
+import likhadocsSmartResearch from '@/assets/likhadocs/smart_research_ad.webp';
+import likhadocsWorkspace from '@/assets/likhadocs/weekly_report_workspace_ad.webp';
 
 // Devventory Images
-import devventoryAgents from '@/assets/devventory/agent-usage.png';
-import devventoryDashboard from '@/assets/devventory/dashboard.png';
-import devventoryEnv from '@/assets/devventory/environment-tracker.png';
-import devventoryFiles from '@/assets/devventory/file-inventory.png';
+import devventoryAgents from '@/assets/devventory/agent-usage.webp';
+import devventoryDashboard from '@/assets/devventory/dashboard.webp';
+import devventoryEnv from '@/assets/devventory/environment-tracker.webp';
+import devventoryFiles from '@/assets/devventory/file-inventory.webp';
 
 // eGov Hackathon Images
-import egovTop5Img from '@/assets/egov_top_5.jpg';
+import egovTop5Img from '@/assets/egov_top_5.webp';
 
 export interface ProjectImage {
   src: string;

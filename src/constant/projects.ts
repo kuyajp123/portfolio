@@ -1,11 +1,11 @@
-import rescuenectIcon from '@/assets/rescuenect/rescuenect-app-icon.png';
-import rescuenectCover from '@/assets/rescuenect/navigation.png';
+import rescuenectIcon from '@/assets/rescuenect/rescuenect-app-icon.webp';
+import rescuenectCover from '@/assets/rescuenect/navigation.webp';
 
-import likhadocsIcon from '@/assets/likhadocs/likhadocs-app-icon.png';
-import likhadocsCover from '@/assets/likhadocs/likhadocs_facebook_ad.png';
+import likhadocsIcon from '@/assets/likhadocs/likhadocs-app-icon.webp';
+import likhadocsCover from '@/assets/likhadocs/likhadocs_facebook_ad.webp';
 
-import devventoryIcon from '@/assets/devventory/devventory-app-icon.png';
-import devventoryCover from '@/assets/devventory/dashboard.png';
+import devventoryIcon from '@/assets/devventory/devventory-app-icon.webp';
+import devventoryCover from '@/assets/devventory/dashboard.webp';
 
 export interface ProjectItem {
   key: string;

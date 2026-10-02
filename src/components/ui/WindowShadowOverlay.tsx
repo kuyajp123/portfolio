@@ -21,7 +21,7 @@ export const WindowShadowOverlay: FC<WindowShadowOverlayProps> = ({ className = 
     >
       {/* Light Mode: Natural Soft Window Mullion Shadow Overlay */}
       <img
-        src="/window-shadow.png"
+        src="/window-shadow.webp"
         alt=""
         draggable={false}
         loading="eager"
@@ -31,7 +31,7 @@ export const WindowShadowOverlay: FC<WindowShadowOverlayProps> = ({ className = 
 
       {/* Dark Mode: Ambient Moonlight / Soft Window Beam Overlay */}
       <img
-        src="/window-light.png"
+        src="/window-light.webp"
         alt=""
         draggable={false}
         loading="eager"

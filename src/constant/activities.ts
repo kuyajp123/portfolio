@@ -1,8 +1,8 @@
-import awsWorkshopImg from '@/assets/AWS-workshop.png';
-import egovBossRodImg from '@/assets/egov-boss-rod.jpg';
-import egovBrylImg from '@/assets/egov-bryl.jpg';
-import egovHackathonImg from '@/assets/egov-hackathon.jpg';
-import egovTop5Img from '@/assets/egov_top_5.jpg';
+import awsWorkshopImg from '@/assets/AWS-workshop.webp';
+import egovBossRodImg from '@/assets/egov-boss-rod.webp';
+import egovBrylImg from '@/assets/egov-bryl.webp';
+import egovHackathonImg from '@/assets/egov-hackathon.webp';
+import egovTop5Img from '@/assets/egov_top_5.webp';
 
 export interface ActivityImage {
   src: string;
