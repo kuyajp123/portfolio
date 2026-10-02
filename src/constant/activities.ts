@@ -2,6 +2,7 @@ import awsWorkshopImg from '@/assets/AWS-workshop.png';
 import egovBossRodImg from '@/assets/egov-boss-rod.jpg';
 import egovBrylImg from '@/assets/egov-bryl.jpg';
 import egovHackathonImg from '@/assets/egov-hackathon.jpg';
+import egovTop5Img from '@/assets/egov_top_5.jpg';
 
 export interface ActivityImage {
   src: string;
@@ -28,24 +29,29 @@ export const activities: ActivityItem[] = [
     id: 'egov-hackathon',
     title: 'eGov Hackathon',
     summary:
-      'Built an AI agent automating government document processing and workflow pipelines using the eGov API, placing Top 30 among 137 teams.',
-    roleOrAward: 'Top 30 Finalist (137 Teams)',
-    awardLink: 'https://trece.cvsu.edu.ph/news-and-events/news-updates/20',
+      'Built an AI agent automating government document processing and workflow pipelines using the eGov API, placing Top 5 Finalist among 137 teams.',
+    roleOrAward: 'Top 5 Finalist (137 Teams)',
+    awardLink: 'https://www.facebook.com/photo/?fbid=122197980854835230&set=pcb.122197981904835230',
     type: 'Hackathon',
     location: 'BGC Taguig',
     date: 'July 21 - 22, 2026',
     highlights: [
       'Developed an AI agent for automating document processing and government-related workflows using the eGov API.',
       'Integrated the eGov API to enable the application to interact with government services and process relevant data.',
-      'Presented the application and defended its technical implementation during Q&A, placing in the Top 30 among 137 participating teams.',
+      'Presented the application and defended its technical implementation during Q&A, placing in the Top 5 Finalists among 137 participating teams.',
     ],
     tags: ['eGov API', 'AI Agent', 'Workflow Automation', 'React.js', 'Typescript'],
     images: [
       {
+        src: egovTop5Img,
+        title: 'eGov Hackathon Top 5 Finalist',
+        caption: 'Team DevOops awarded as Top 5 Finalist out of 137 participating teams in the eGov Hackathon.',
+      },
+      {
         src: egovHackathonImg,
         title: 'eGov Hackathon Technical Pitch',
         caption:
-          'Team DevOops dominated the Technical Pitch Round with a fully functional prototype and seamless API integration, earning a spot among the Top 30 finalists out of 137 participating teams.',
+          'Team DevOops dominated the Technical Pitch Round with a fully functional prototype and seamless API integration, earning a spot among the Top 5 finalists out of 137 participating teams.',
       },
       {
         src: egovBrylImg,

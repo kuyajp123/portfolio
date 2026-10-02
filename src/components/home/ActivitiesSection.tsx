@@ -11,6 +11,10 @@ export const ActivitiesSection = () => {
         number="02"
         title="Activities & Hackathons"
         subtitle="Competitive engineering hackathons, industry workshops, and hands-on developer sprints."
+        viewAllLink={{
+          label: 'All Activities',
+          href: '/activities',
+        }}
       />
 
       <div className="flex flex-col divide-y divide-black/8 dark:divide-white/8">
@@ -84,6 +88,39 @@ export const ActivitiesSection = () => {
               <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed font-normal">
                 {activity.summary}
               </p>
+
+              {/* Featured Award Visual Card */}
+              {activity.images.length > 0 && activity.roleOrAward && (
+                <Link
+                  to={`/activities#${activity.id}`}
+                  className="group/award-card relative my-2 overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 block aspect-[16/9] sm:aspect-[21/9] shadow-sm hover:shadow-lg transition-all duration-300 hover:border-black/20 dark:hover:border-white/20"
+                >
+                  <img
+                    src={activity.images[0].src}
+                    alt={activity.images[0].title}
+                    className="w-full h-full object-cover grayscale group-hover/award-card:grayscale-0 group-hover/award-card:scale-102 transition-all duration-500 ease-out"
+                    loading="lazy"
+                  />
+                  {/* Frosted Atmospheric Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/10 p-3.5 sm:p-5 flex flex-col justify-between">
+                    {/* Top Row: Award Badge */}
+                    <div className="flex items-center justify-between">
+                    </div>
+
+                    {/* Bottom Row: Title, Caption & Action Hint */}
+                    <div className="flex items-end justify-between gap-3 text-white">
+                      <div className="flex flex-col min-w-0">
+                        <span className="font-sans text-sm sm:text-base font-semibold text-white drop-shadow-sm truncate">
+                          {activity.images[0].title}
+                        </span>
+                        <span className="font-mono text-xs text-gray-300 line-clamp-1 mt-0.5">
+                          {activity.images[0].caption}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              )}
 
               {/* Tech Tags & Link */}
               <div className="flex flex-wrap items-center justify-between gap-3 pt-1">

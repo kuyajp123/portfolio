@@ -8,13 +8,13 @@ import clientMeeting from '@/assets/client-meeting.jpg';
 import egovBossRodImg from '@/assets/egov-boss-rod.jpg';
 import egovBrylImg from '@/assets/egov-bryl.jpg';
 import egovHackathonImg from '@/assets/egov-hackathon.jpg';
+import egovTop5Img from '@/assets/egov_top_5.jpg';
 import empireImg from '@/assets/empire.png';
-import laptopImg from '@/assets/laptop.jpg';
+import graduation from '@/assets/graduation.jpg';
 import meImg from '@/assets/me.jpg';
 import performingTask from '@/assets/performing-task.jpg';
 import symposiumImg from '@/assets/symposium.png';
 import teamCollaboration from '@/assets/team-collaboration.jpg';
-import graduation from '@/assets/graduation.jpg';
 
 const moments: ViewerItem[] = [
   {
@@ -49,18 +49,17 @@ const moments: ViewerItem[] = [
   },
 
   {
-    src: awsWorkshopImg,
-    title: 'AWS Workshop: Amazon Q',
-    caption:
-      'Hands-on technical workshop exploring Amazon Q generative developer tooling and cloud pipelines in BGC Taguig.',
-    category: 'Workshop',
-    date: 'August 2026',
-  },
-  {
     src: egovHackathonImg,
     title: 'eGov Hackathon Team DevOops',
     caption:
-      'Team DevOops dominated the Technical Pitch Round with a fully functional prototype and seamless API integration, earning a spot among the Top 30 finalists out of 137 participating teams.',
+      'Team DevOops dominated the Technical Pitch Round with a fully functional prototype and seamless API integration, earning a spot among the Top 5 finalists out of 137 participating teams.',
+    category: 'Hackathon',
+    date: 'July 2026',
+  },
+  {
+    src: egovTop5Img,
+    title: 'eGov Hackathon Top 5 Finalist',
+    caption: 'Team DevOops awarded as Top 5 Finalists out of 137 participating teams in the eGov Hackathon.',
     category: 'Hackathon',
     date: 'July 2026',
   },
@@ -72,11 +71,12 @@ const moments: ViewerItem[] = [
     date: '2026',
   },
   {
-    src: laptopImg,
-    title: 'Development Flow',
-    caption: 'Late-night interface architecture, systems modeling, and debugging workflow.',
-    category: 'Workspace',
-    date: '2026',
+    src: awsWorkshopImg,
+    title: 'AWS Workshop: Amazon Q',
+    caption:
+      'Hands-on technical workshop exploring Amazon Q generative developer tooling and cloud pipelines in BGC Taguig.',
+    category: 'Workshop',
+    date: 'August 2026',
   },
   {
     src: egovBossRodImg,

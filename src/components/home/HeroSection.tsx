@@ -131,14 +131,14 @@ export const HeroSection = () => {
         </a>
 
         <a
-          href="https://trece.cvsu.edu.ph/news-and-events/news-updates/20"
+          href="https://www.facebook.com/permalink.php?story_fbid=pfbid0VuM8vtyxVFqR1bZfqq96a62b4CBkE3oGE8zpy7GdUHBPpfVpx5ZYXgZTohXb4vNZl&id=61575056920740"
           target="_blank"
           rel="noopener noreferrer"
           className="flex flex-col group/metric hover:opacity-85 transition-opacity"
-          title="View official CvSU news feature: Top 30 Finalist in eGov Hackathon"
+          title="View official announcement: Top 5 Finalist in eGov Hackathon"
         >
           <span className="font-mono text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100 group-hover/metric:text-sky-600 dark:group-hover/metric:text-sky-400 transition-colors inline-flex items-center gap-1">
-            <span>Top 30</span>
+            <span>Top 5</span>
             <FiArrowUpRight size={12} className="opacity-0 group-hover/metric:opacity-100 transition-opacity text-sky-500" />
           </span>
           <span className="font-mono text-[10px] uppercase tracking-wider text-gray-600 dark:text-gray-500 font-medium mt-0.5">

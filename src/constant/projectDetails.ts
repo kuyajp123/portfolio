@@ -23,6 +23,9 @@ import devventoryDashboard from '@/assets/devventory/dashboard.png';
 import devventoryEnv from '@/assets/devventory/environment-tracker.png';
 import devventoryFiles from '@/assets/devventory/file-inventory.png';
 
+// eGov Hackathon Images
+import egovTop5Img from '@/assets/egov_top_5.jpg';
+
 export interface ProjectImage {
   src: string;
   title: string;
@@ -327,9 +330,9 @@ export const projectDetails: ProjectDetail[] = [
     key: 'egov-ai',
     title: 'eGovAI',
     subtitle:
-      'Top 30 Finalist hackathon project integrating the national eGov API to innovate government service delivery for Filipino citizens. Engineered agentic AI workflows that move beyond passive chatbots to autonomously assist users, process document requirements, and streamline public administrative procedures.',
-    award: 'Top 30 Finalist (eGov Hackathon)',
-    awardLink: 'https://trece.cvsu.edu.ph/news-and-events/news-updates/20',
+      'Top 5 Finalist hackathon project integrating the national eGov API to innovate government service delivery for Filipino citizens. Engineered agentic AI workflows that move beyond passive chatbots to autonomously assist users, process document requirements, and streamline public administrative procedures.',
+    award: 'Top 5 Finalist (eGov Hackathon)',
+    awardLink: 'https://www.facebook.com/photo/?fbid=122197980854835230&set=pcb.122197981904835230',
     internalLink: '/activities#egov-hackathon',
     isMainProject: false,
     hasCaseStudy: false,
@@ -338,7 +341,7 @@ export const projectDetails: ProjectDetail[] = [
     liveUrl: 'https://e-gov-ai.vercel.app/',
     githubUrl: 'https://github.com/hiroqt/eGovAI',
     description: [
-      'Developed during the eGov Hackathon in BGC Taguig, placing in the Top 30 among 137 participating teams.',
+      'Developed during the eGov Hackathon in BGC Taguig, placing in the Top 5 among 137 participating teams.',
       'Integrated the official eGov API to elevate the capabilities of the national eGov platform, making government assistance and informational processing faster and more reliable.',
       'Engineered an agentic AI architecture designed to autonomously validate requirements, navigate complex government procedures, and provide proactive guidance to citizens.',
     ],
@@ -359,7 +362,14 @@ export const projectDetails: ProjectDetail[] = [
           'Streamlines document requirements, procedural steps, and application validation for Filipino citizens.',
       },
     ],
-    images: [],
+    images: [
+      {
+        src: egovTop5Img,
+        title: 'eGov Hackathon Top 5 Finalist',
+        caption: 'Team DevOops awarded as Top 5 Finalist out of 137 participating teams at the eGov Hackathon.',
+        aspect: 'landscape',
+      },
+    ],
   },
   {
     key: 'projek',
@@ -394,8 +404,7 @@ export const projectDetails: ProjectDetail[] = [
       },
       {
         title: 'DevOps & CI/CD Pipelines',
-        description:
-          'Automated deployment cycles, system debugging, and reliable production hosting infrastructure.',
+        description: 'Automated deployment cycles, system debugging, and reliable production hosting infrastructure.',
       },
     ],
     images: [],
@@ -428,8 +437,7 @@ export const projectDetails: ProjectDetail[] = [
       },
       {
         title: 'Full-Stack Architecture',
-        description:
-          'Responsive React client for point-of-sale transactions powered by a robust Laravel API backend.',
+        description: 'Responsive React client for point-of-sale transactions powered by a robust Laravel API backend.',
       },
     ],
     images: [],

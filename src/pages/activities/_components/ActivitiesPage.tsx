@@ -141,6 +141,18 @@ export const ActivitiesPage = () => {
                       <Badge key={tag}>{tag}</Badge>
                     ))}
                   </div>
+
+                  {activity.awardLink && (
+                    <a
+                      href="https://trece.cvsu.edu.ph/news-and-events/news-updates/20"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-mono text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-medium transition-colors"
+                    >
+                      <span>{activity.awardLink.includes('facebook') ? 'CvSU News' : 'Official Coverage'}</span>
+                      <FiArrowUpRight size={12} />
+                    </a>
+                  )}
                 </div>
 
                 {/* Multi-Image Gallery Row */}
@@ -155,7 +167,9 @@ export const ActivitiesPage = () => {
                           ? 'grid-cols-1 sm:grid-cols-2'
                           : activity.images.length === 2
                             ? 'grid-cols-1 sm:grid-cols-2'
-                            : 'grid-cols-1 sm:grid-cols-3'
+                            : activity.images.length === 4
+                              ? 'grid-cols-2 sm:grid-cols-4'
+                              : 'grid-cols-1 sm:grid-cols-3'
                       }`}
                     >
                       {activity.images.map((img, imgIdx) => (
